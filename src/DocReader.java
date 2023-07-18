@@ -8,16 +8,15 @@ import java.util.HashMap;
 
 public class DocReader {
 
+    private final String regex = "\\P{Alpha}+"; //todo: does it need to have a class to store string terms?
     private final String filesPath;
-    private final int model;
     private final HashMap<String, ArrayList<String>> words;
-    private String regex;
 
+    
 
     //todo: call createMapOfWords in constructor?
-    public DocReader(String filesPath, int model) {
+    public DocReader(String filesPath) {
         this.filesPath = filesPath;
-        this.model = model;
         words = new HashMap<>();
     }
 
@@ -39,19 +38,7 @@ public class DocReader {
         return words;
     }
 
-    //todo: does it need to have a class to store string terms?
-    private void setRegex() {
-        switch (model) {
-            case 1:
-                regex = "\\P{Alpha}+";
-                break;
-            case 2:
-                regex = "(\\-|\\+)?[a-zA-Z]+";
-        }
-    }
-
     public HashMap<String, ArrayList<String>> createMapOfWords() throws IOException {
-        setRegex();
         for (File file : getFiles())
             words.put(file.getName(), getFileWords(file));
         return getWords();
