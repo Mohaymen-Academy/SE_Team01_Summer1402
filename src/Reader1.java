@@ -4,27 +4,60 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 public class Reader1 {
 
     private final String filesPath;
+    private final int model;
+    private final HashMap<String, ArrayList<String>> words;
+    private String regex;
 
-    public Reader1(String filesPath) {
+
+    //todo: call createMapOfWords in constructor?
+    public Reader1(String filesPath, int model) {
         this.filesPath = filesPath;
+        this.model = model;
+        words = new HashMap<>();
+        try {
+            createMapOfWords();
+        } catch (IOException e) {
+            System.out.println("Exception in reading files"); //todo: create an error string
+        }
     }
 
-    public File[] getFiles() {
+    public HashMap<String, ArrayList<String>> getWords() {
+        return words;
+    }
+
+    private File[] getFiles() {
         File directoryPath = new File(filesPath);
         return directoryPath.listFiles();
     }
 
-    public ArrayList<String> getFileWords(File file) throws IOException {
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        String str;
+    private ArrayList<String> getFileWords(File file) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+        String line;
         ArrayList<String> words = new ArrayList<>();
-        while ((str = br.readLine()) != null)
-            words.addAll(Arrays.asList(str.split("\\P{Alpha}+")));
+        while ((line = bufferedReader.readLine()) != null)
+            words.addAll(Arrays.asList(line.split(regex)));
         return words;
+    }
+
+    private void setRegex() {
+        switch (model) {
+            case 1:
+                regex = "\\P{Alpha}+";;
+                break;
+            case 2:
+                regex = "(\\-|\\+)?[a-zA-Z]+";
+        }
+    }
+
+    private void createMapOfWords() throws IOException {
+        setRegex();
+        for (File file : getFiles())
+            words.put(file.getName(), getFileWords(file));
     }
 
 }
