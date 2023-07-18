@@ -50,7 +50,7 @@ public class DocReader {
         }
     }
 
-    private HashMap<String, ArrayList<String>> createMapOfWords() throws IOException {
+    public HashMap<String, ArrayList<String>> createMapOfWords() throws IOException {
         setRegex();
         for (File file : getFiles())
             words.put(file.getName(), getFileWords(file));
