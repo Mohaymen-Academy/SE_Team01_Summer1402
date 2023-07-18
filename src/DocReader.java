@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class Reader1 {
+public class DocReader {
 
     private final String filesPath;
     private final int model;
@@ -15,7 +15,7 @@ public class Reader1 {
 
 
     //todo: call createMapOfWords in constructor?
-    public Reader1(String filesPath, int model) {
+    public DocReader(String filesPath, int model) {
         this.filesPath = filesPath;
         this.model = model;
         words = new HashMap<>();
