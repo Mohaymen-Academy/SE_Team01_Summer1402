@@ -19,11 +19,6 @@ public class Reader1 {
         this.filesPath = filesPath;
         this.model = model;
         words = new HashMap<>();
-        try {
-            createMapOfWords();
-        } catch (IOException e) {
-            System.out.println("Exception in reading files"); //todo: create an error string
-        }
     }
 
     public HashMap<String, ArrayList<String>> getWords() {
@@ -44,20 +39,22 @@ public class Reader1 {
         return words;
     }
 
+    //todo: does it need to have a class to store string terms?
     private void setRegex() {
         switch (model) {
             case 1:
-                regex = "\\P{Alpha}+";;
+                regex = "\\P{Alpha}+";
                 break;
             case 2:
                 regex = "(\\-|\\+)?[a-zA-Z]+";
         }
     }
 
-    private void createMapOfWords() throws IOException {
+    private HashMap<String, ArrayList<String>> createMapOfWords() throws IOException {
         setRegex();
         for (File file : getFiles())
             words.put(file.getName(), getFileWords(file));
+        return getWords();
     }
 
 }
