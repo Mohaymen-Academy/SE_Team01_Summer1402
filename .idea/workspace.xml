@@ -4,9 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="defe06c3-0e95-480d-bbfb-aac52cf09162" name="Changes" comment="change reader to get all words as a map">
+    <list default="true" id="defe06c3-0e95-480d-bbfb-aac52cf09162" name="Changes" comment="ckangr createMapOfWords method to return map">
+      <change afterPath="$PROJECT_DIR$/src/searchMode/ListType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Reader1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Reader1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DocReader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/InvertedIndex.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/InvertedIndex1.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DS/InvertedIndex1.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Reader.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Stemmer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/filter/stemmer/Stemmer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/textFiles/Coders At Work.txt" beforeDir="false" afterPath="$PROJECT_DIR$/textFiles/Coders At Work.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/textFiles/Patterns Of Enterprise Applications.txt" beforeDir="false" afterPath="$PROJECT_DIR$/textFiles/Patterns Of Enterprise Applications.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/textFiles/The Pragmatic Programmer.txt" beforeDir="false" afterPath="$PROJECT_DIR$/textFiles/The Pragmatic Programmer.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/textFiles/design data intensive applications.txt" beforeDir="false" afterPath="$PROJECT_DIR$/textFiles/design data intensive applications.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -16,7 +26,9 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -38,6 +50,20 @@
     "last_opened_file_path": "E:/mohaymen/phase01/SE_Team01_Summer1402"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="SE_Team01_Summer1402" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -54,7 +80,14 @@
       <option name="project" value="LOCAL" />
       <updated>1689661196422</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="ckangr createMapOfWords method to return map">
+      <created>1689661663550</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1689661663550</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -71,6 +104,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="add InvertedIndex data structure" />
     <MESSAGE value="change reader to get all words as a map" />
-    <option name="LAST_COMMIT_MESSAGE" value="change reader to get all words as a map" />
+    <MESSAGE value="ckangr createMapOfWords method to return map" />
+    <option name="LAST_COMMIT_MESSAGE" value="ckangr createMapOfWords method to return map" />
   </component>
 </project>

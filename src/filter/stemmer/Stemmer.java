@@ -1,15 +1,14 @@
-
-import java.io.*;
+package filter.stemmer;
 
 /**
- * Stemmer, implementing the Porter Stemming Algorithm
+ * Stemmer.Stemmer, implementing the Porter Stemming Algorithm
  * <p>
- * The Stemmer class transforms a word into its root form.  The input
+ * The Stemmer.Stemmer class transforms a word into its root form.  The input
  * word can be provided a character at time (by calling add()), or at once
  * by calling one of the various stem(something) methods.
  */
 
-class Stemmer {
+public class Stemmer {
     private char[] b;
     private int i,     /* offset into b */
             i_end, /* offset to end of stemmed word */
@@ -464,7 +463,7 @@ class Stemmer {
     }
 
     /**
-     * Stem the word placed into the Stemmer buffer through calls to add().
+     * Stem the word placed into the Stemmer.Stemmer buffer through calls to add().
      * Returns true if the stemming process resulted in a word different
      * from the input.  You can retrieve the result with
      * getResultLength()/getResultBuffer() or toString().
@@ -481,6 +480,13 @@ class Stemmer {
         }
         i_end = k + 1;
         i = 0;
+    }
+
+
+    public String getWordRoot(String word) {
+        add(word.toCharArray(), word.length());
+        stem();
+        return toString();
     }
 
 }

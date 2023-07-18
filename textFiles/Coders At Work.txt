@@ -151,7 +151,7 @@ big rewrite.
 **Eich:** There was an imperative from Netscape to make the acquisition that
 waved the *Design Patterns* book around feel like they were winners by using
 their new rendering engine,  which was like *My First Object-Oriented
-Rendering Engine*. From a high level it sounded good; it used C++ and design
+Rendering searchMode.NormalSearch*. From a high level it sounded good; it used C++ and design
 patterns. But it had a lot of problems.
 
 **Seibel:** When you read a big piece of code, how do you get into it?

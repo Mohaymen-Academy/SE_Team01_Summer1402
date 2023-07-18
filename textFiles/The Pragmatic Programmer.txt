@@ -558,7 +558,7 @@ With Blackboard systems, you can store active objects—not just data—on the b
 
 Functions that a Blackboard system should have:
 
-    read Search for and retrieve data from the space.
+    read searchMode.NormalSearch for and retrieve data from the space.
     write Put an item into the space.
     take Similar to read, but removes the item from the space as well.
     notify Set up a notification to occur whenever an object is written that matches the template.
@@ -846,7 +846,7 @@ It is a mistake to think that the activities of a project—analysis, design, co
 
 Tip 60: Organize Around Functionality, Not Job Functions
 
-    Split teams by functionally. Database, UI, API
+    Split teams by functionally. DS.FileManager, UI, API
     Let the teams organize themselves internally
     Each team has responsibilities to others in the project (defined by their agreed-upon commitments)
     We're looking for cohesive, largely self-contained teams of people
