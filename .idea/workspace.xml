@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="defe06c3-0e95-480d-bbfb-aac52cf09162" name="Changes" comment="ckangr createMapOfWords method to return map" />
+    <list default="true" id="defe06c3-0e95-480d-bbfb-aac52cf09162" name="Changes" comment="ckangr createMapOfWords method to return map">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -38,16 +41,9 @@
     &quot;last_opened_file_path&quot;: &quot;E:/mohaymen/phase01/SE_Team01_Summer1402&quot;
   }
 }</component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="Main" />
-      <module name="SE_Team01_Summer1402" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="tmp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="tmp" />
       <module name="SE_Team01_Summer1402" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -56,7 +52,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
-        <item itemvalue="Application.tmp" />
       </list>
     </recent_temporary>
   </component>

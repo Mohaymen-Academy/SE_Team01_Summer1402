@@ -1,6 +1,5 @@
 import filter.WordValidator;
 import filter.normalizer.LoweCaseNormalizer;
-import searchMode.NormalSearch;
 import searchMode.Search;
 import filter.tokenizer.SplitTokenizer;
 import searchMode.advancedSearch.AdvancedSearch;
