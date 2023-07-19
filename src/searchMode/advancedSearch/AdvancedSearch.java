@@ -29,7 +29,6 @@ public class AdvancedSearch extends Search {
         }
         switch (type) {
             case ESSENTIAL:
-                System.out.println(files.isEmpty());
                 listCategory.addToEssentialFile(files);
                 break;
             case FORBIDDEN:

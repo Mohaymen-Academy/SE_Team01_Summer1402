@@ -34,7 +34,8 @@ public class ListCategory {
     }
     public Set<String> intersectFiles() {
         Set<String> finalFiles = essentialFiles;
-        finalFiles.retainAll(optionalFiles);
+        if (!optionalFiles.isEmpty())
+            finalFiles.retainAll(optionalFiles);
         finalFiles.removeAll(forbiddenFiles);
         return finalFiles;
     }
