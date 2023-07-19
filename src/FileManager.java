@@ -58,7 +58,7 @@ public class FileManager {
 
     public void setDefaultFilters() {
         invertedIndex.setDoStem(true);
-        invertedIndex.setWordValidator(new WordValidator(normalizer));
+        invertedIndex.setWordValidator(new WordValidator());
     }
 
     public void createDatabase() {

@@ -1,7 +1,5 @@
 package filter;
 
-import filter.normalizer.Normalizer;
-
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,17 +7,15 @@ import java.util.Set;
 public class WordValidator {
     private final boolean calledForValidator;
 
-    public WordValidator(Normalizer normalizer) {
+    public WordValidator() {
         calledForValidator = false;
-        stopWords = normalizer.normalize(new HashSet<>(stopWords));
     }
 
-    public WordValidator(Normalizer normalizer, boolean called) {
+    public WordValidator(boolean called) {
         this.calledForValidator = called;
-        stopWords = normalizer.normalize(new HashSet<>(stopWords));
     }
 
-    private Set<String> stopWords =
+    private final Set<String> stopWords =
             new HashSet<>(Arrays.asList("as", "of", "from", "at", "ago",
                     "before", "by", "during", "for", "the", "until", "a", "an",
                     "to", "in", "on", "over", "though", "with", "or",

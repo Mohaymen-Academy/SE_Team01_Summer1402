@@ -2,7 +2,6 @@ package searchMode.advancedSearch;
 
 import dataStructures.InvertedIndex;
 import dataStructures.ListCategory;
-import filter.stemmer.Stemmer;
 import searchMode.Search;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -23,8 +22,7 @@ public class AdvancedSearch extends Search {
     public void addToListCategory(String word, ListType type) {
         if (!database.getWordValidator().isAcceptable(word))
             return;
-        String stemmedWord = database.doStem() ?
-                new Stemmer().getWordRoot(word) : word;
+        String stemmedWord = database.getWordRoot(word);
         Set<String> files = new HashSet<>();
         if (database.getEngine().containsKey(stemmedWord)) {
             files = database.getEngine().get(stemmedWord);

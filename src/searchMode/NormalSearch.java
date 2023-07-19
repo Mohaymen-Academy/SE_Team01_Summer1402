@@ -1,7 +1,6 @@
 package searchMode;
 
 import dataStructures.InvertedIndex;
-import filter.stemmer.Stemmer;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -26,7 +25,7 @@ public class NormalSearch extends Search {
         queryWords = database.getNormalizer().normalize(queryWords);
         for (String word : queryWords) {
             if (database.getWordValidator().isAcceptable(word)) {
-                word = database.doStem() ? new Stemmer().getWordRoot(word) : word;
+                word = database.getWordRoot(word);
                 if (database.getEngine().containsKey(word)) {
                     files.addAll(database.getEngine().get(word));
                 }

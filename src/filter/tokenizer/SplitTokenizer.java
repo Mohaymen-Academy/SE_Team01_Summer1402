@@ -16,7 +16,6 @@ public class SplitTokenizer implements Tokenizer {
     public SplitTokenizer(String regex) {
         List<String> splitMarks = new ArrayList<>(Arrays.asList(regex.split("")));
         this.regex = "[" + String.join("", splitMarks) + "]";
-        // this.regex = regex;
     }
 
     @Override

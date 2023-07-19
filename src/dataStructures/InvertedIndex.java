@@ -31,10 +31,6 @@ public class InvertedIndex {
         this.wordValidator = validator;
     }
 
-    public boolean doStem() {
-        return doStem;
-    }
-
     public WordValidator getWordValidator() {
         return wordValidator;
     }
@@ -50,7 +46,7 @@ public class InvertedIndex {
         engine.get(root).add(fileName);
     }
 
-    private String getWordRoot(String word) {
+    public String getWordRoot(String word) {
         return doStem ? new Stemmer().getWordRoot(word) : word;
     }
 

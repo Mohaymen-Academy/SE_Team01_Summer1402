@@ -1,6 +1,5 @@
 import filter.WordValidator;
 import filter.normalizer.LoweCaseNormalizer;
-import filter.normalizer.Normalizer;
 import searchMode.Search;
 import filter.tokenizer.SplitTokenizer;
 import searchMode.advancedSearch.AdvancedSearch;
@@ -13,10 +12,9 @@ public class Main {
     public static final String path = "./textFiles";
 
     public static void main(String[] args) throws IOException {
-        Normalizer normalizer = new LoweCaseNormalizer();
         FileManager fileManager = new FileManager
-                (new SplitTokenizer(), normalizer, path);
-        fileManager.setValidator(new WordValidator(normalizer, true));
+                (new SplitTokenizer(), new LoweCaseNormalizer(), path);
+        fileManager.setValidator(new WordValidator(true));
         fileManager.setDoStem(true);
         fileManager.createDatabase();
         String query = getQuery();
