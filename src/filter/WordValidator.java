@@ -8,11 +8,11 @@ public class WordValidator {
     private final boolean calledForValidator;
 
     public WordValidator() {
-        calledForValidator=false;
+        calledForValidator = false;
     }
 
     public WordValidator(boolean called) {
-        this.calledForValidator=called;
+        this.calledForValidator = called;
     }
 
     private final Set<String> stopWords =
@@ -23,7 +23,7 @@ public class WordValidator {
                     "we", "it", "they", "me", "his", "her", "their", "till"));
 
     public boolean isAcceptable(String word) {
-
+        if (!calledForValidator) return true;
         return !stopWords.contains(word.trim().toLowerCase()) && word.length() > 2;
     }
 }

@@ -1,13 +1,13 @@
 package searchMode;
 
-import java.util.Map;
+import DS.InvertedIndex;
 import java.util.Set;
 
 public abstract class Search {
     protected final String query;
-    protected Map<String, Set<String>> database;
+    protected InvertedIndex database;
 
-    public Search(Map<String, Set<String>> database, String query) {
+    public Search(InvertedIndex database, String query) {
         this.query = query;
         this.database = database;
     }

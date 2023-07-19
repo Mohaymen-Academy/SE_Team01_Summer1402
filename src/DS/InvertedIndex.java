@@ -14,23 +14,48 @@ public class InvertedIndex {
     private final Map<String, Set<String>> engine;
     private final Normalizer normalizer;
     private final Tokenizer tokenizer;
-    private final WordValidator wordValidator;
+    private WordValidator wordValidator;
+    private boolean doStem;
+    private boolean checkStopWords;
 
     public InvertedIndex(Tokenizer tokenizer, Normalizer normalizer) {
         this.engine = new HashMap<>();
         this.tokenizer = tokenizer;
         this.normalizer = normalizer;
-        wordValidator = new WordValidator();
     }
 
-    private void add_word_to_engine(String root, String fileName) {
+    public void setDoStem(boolean doStem) {
+        this.doStem = doStem;
+    }
+
+    public void setCheckStopWords(boolean checkStopWords) {
+        this.checkStopWords = checkStopWords;
+    }
+
+    public void setWordValidator(WordValidator validator) {
+        this.wordValidator = validator;
+    }
+
+    public boolean doStem() {
+        return doStem;
+    }
+
+    public WordValidator getWordValidator() {
+        return wordValidator;
+    }
+
+    public Normalizer getNormalizer() {
+        return normalizer;
+    }
+
+    private void addWordToEngine(String root, String fileName) {
         if (!engine.containsKey(root)) {
             engine.put(root, new HashSet<>());
         }
         engine.get(root).add(fileName);
     }
 
-    private String get_word_root(String word) {
+    private String getWordRoot(String word) {
         return new Stemmer().getWordRoot(word);
     }
 
@@ -39,9 +64,8 @@ public class InvertedIndex {
         Set<String> normalizedWords = normalizer.normalize(tokenizedWords);
         Set<String> finalSetOfWords = new HashSet<>();
         for (String word : normalizedWords) {
-            if (wordValidator.isAcceptable(word)) {
-                finalSetOfWords.add(get_word_root(word));
-            }
+            if (wordValidator.isAcceptable(word))
+                finalSetOfWords.add(doStem ? getWordRoot(word) : word);
         }
         return finalSetOfWords;
     }
@@ -49,7 +73,7 @@ public class InvertedIndex {
 
     protected void addFile(String title, StringBuilder fileText) {
         for (String word : manipulateFile(fileText.toString())) {
-            add_word_to_engine(word, title);
+            addWordToEngine(word, title);
         }
     }
 

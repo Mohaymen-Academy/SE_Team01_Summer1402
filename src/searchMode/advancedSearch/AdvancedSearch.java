@@ -1,7 +1,9 @@
-package searchMode;
+package searchMode.advancedSearch;
 
+import DS.InvertedIndex;
 import DS.ListCategory;
 import filter.stemmer.Stemmer;
+import searchMode.Search;
 
 import java.util.*;
 import java.util.regex.Matcher;
@@ -10,10 +12,10 @@ import java.util.regex.Pattern;
 public class AdvancedSearch extends Search {
     private final String regex = "(\\-|\\+)?[a-zA-Z]+";
     List<String> queryWords;
-    private ListCategory lists;
+    private final ListCategory lists;
 
 
-    public AdvancedSearch(Map<String, Set<String>> database, String query) {
+    public AdvancedSearch(InvertedIndex database, String query) {
         super(database, query);
         queryWords = new ArrayList<>();
         lists = new ListCategory();
@@ -25,8 +27,8 @@ public class AdvancedSearch extends Search {
             return;
         String stemmedWord = new Stemmer().getWordRoot(word);
         Set<String> files = new HashSet<>();
-        if (database.containsKey(stemmedWord))
-            files = database.get(stemmedWord);
+        if (database.getEngine().containsKey(stemmedWord))
+            files = database.getEngine().get(stemmedWord);
         switch (type) {
             case ESSENTIAL:
                 lists.addToEssentialFile(files);

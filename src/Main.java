@@ -1,4 +1,5 @@
 import DS.FileManager;
+import filter.WordValidator;
 import filter.normalizer.UpperCaseNormalizer;
 import searchMode.NormalSearch;
 import searchMode.Search;
@@ -6,27 +7,28 @@ import filter.tokenizer.SplitTokenizer;
 
 import java.io.*;
 import java.util.*;
+
 public class Main {
 
+    public static final String path = "./textFiles";
+
     public static void main(String[] args) throws IOException {
-        FileManager fileManager = new FileManager(new SplitTokenizer(), new UpperCaseNormalizer());
+        FileManager fileManager = new FileManager
+                (new SplitTokenizer(), new UpperCaseNormalizer(), path);
+        fileManager.setValidator(new WordValidator(true));
+        fileManager.setDoStem(true);
         fileManager.createDatabase();
-        String sample_query="LEGACY";
-        Search search=new NormalSearch(fileManager.getInvertedIndex().getEngine(),sample_query);
-        Set<String>res=search.geAllDocuments();
-        for(String tt:res){
-            System.out.println(tt);
-        }
+        String query = getQuery();
+        Search search = new NormalSearch(fileManager.getInvertedIndex(), query);
+        Set<String> result = search.geAllDocuments();
+        for (String title : result)
+            System.out.println(title);
     }
 
-    private static void TestModel() {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("Choose splitter:\n1) Non alphabetic\n2) write any character sequence");
-        System.out.println("Choose Normalizer:\n1) Upper\n2) Lower");
-        System.out.println("Choose:\n1) Normal search\n2) Advanced search");
-        int searchMode = Integer.parseInt(sc.nextLine());
-        String query = sc.nextLine();
-
+    private static String getQuery() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter query: ");
+        return scanner.nextLine();
     }
 
 }

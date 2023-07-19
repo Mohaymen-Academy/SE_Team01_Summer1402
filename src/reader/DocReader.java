@@ -42,7 +42,8 @@ public class DocReader {
     public Map<String, StringBuilder> GetMapDocuments() {
         for (File file : getFiles()) {
             StringBuilder fileWords = getFileLines(file);
-            files_texts.put(file.getName(), fileWords);
+            if (fileWords != null)
+                files_texts.put(file.getName(), fileWords);
         }
         return gettext();
     }
