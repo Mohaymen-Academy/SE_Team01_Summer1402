@@ -1,30 +1,48 @@
 package DS;
 
-import DS.InvertedIndex1;
-import filter.normalizer.NormalizerI;
+import filter.normalizer.Normalizer;
+import filter.normalizer.UpperCaseNormalizer;
+import filter.tokenizer.SplitTokenizer;
 import reader.DocReader;
-import filter.tokenizer.TokenizerI;
+import filter.tokenizer.Tokenizer;
 
 import java.io.IOException;
 import java.util.Map;
 
 public class FileManager {
-    private final InvertedIndex1 invertedIndex;
 
-    public FileManager(TokenizerI tokenizer, NormalizerI normalizer) {
-        this.invertedIndex = new InvertedIndex1(tokenizer, normalizer);
+    private final static String filesPath = "./textFiles";
+    private final InvertedIndex invertedIndex;
+
+    //if there was no specific tokenizer then we use the default splitTokenizer
+    //if there was no specific normalizer we use the lowercase normalizer as a default normalizer
+    public FileManager() {
+        this.invertedIndex = new InvertedIndex(new SplitTokenizer(), new UpperCaseNormalizer());
+    }
+
+    public FileManager(Tokenizer tokenizer) {
+        this.invertedIndex = new InvertedIndex(tokenizer, new UpperCaseNormalizer());
 
     }
 
-    public InvertedIndex1 getInvertedIndex() {
+    public FileManager(Normalizer normalizer) {
+        this.invertedIndex = new InvertedIndex(new SplitTokenizer(), normalizer);
+
+    }
+
+    public FileManager(Tokenizer tokenizer, Normalizer normalizer) {
+        this.invertedIndex = new InvertedIndex(tokenizer, normalizer);
+
+    }
+
+    public InvertedIndex getInvertedIndex() {
         return invertedIndex;
     }
 
-    private final static String filesPath = "./textFiles";
 
     public void createDatabase() throws IOException {
         DocReader reader = new DocReader(filesPath);
-        Map<String, StringBuilder> file_texts = reader.createMapOfDoc();
+        Map<String, StringBuilder> file_texts = reader.GetMapDocuments();
         fillInvertedIndex(file_texts);
     }
 

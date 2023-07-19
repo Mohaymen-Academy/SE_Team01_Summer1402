@@ -1,35 +1,36 @@
 package DS;
 
 import filter.WordValidator;
-import filter.normalizer.NormalizerI;
+import filter.normalizer.Normalizer;
 import filter.stemmer.Stemmer;
-import filter.tokenizer.TokenizerI;
+import filter.tokenizer.Tokenizer;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
-public class InvertedIndex1 {
-    private final HashMap<String, HashSet<String>> engine;
-    private final NormalizerI normalizer;
-    private final TokenizerI tokenizer;
+public class InvertedIndex {
+    private final Map<String, Set<String>> engine;
+    private final Normalizer normalizer;
+    private final Tokenizer tokenizer;
     private final WordValidator wordValidator;
 
-    public InvertedIndex1(TokenizerI tokenizer, NormalizerI normalizer) {
+    public InvertedIndex(Tokenizer tokenizer, Normalizer normalizer) {
         this.engine = new HashMap<>();
         this.tokenizer = tokenizer;
         this.normalizer = normalizer;
         wordValidator = new WordValidator();
     }
 
-    public void add_word_to_engine(String root, String fileName) {
+    private void add_word_to_engine(String root, String fileName) {
         if (!engine.containsKey(root)) {
             engine.put(root, new HashSet<>());
         }
         engine.get(root).add(fileName);
     }
 
-    private String getRoot(String word) {
+    private String get_word_root(String word) {
         return new Stemmer().getWordRoot(word);
     }
 
@@ -39,22 +40,20 @@ public class InvertedIndex1 {
         Set<String> finalSetOfWords = new HashSet<>();
         for (String word : normalizedWords) {
             if (wordValidator.isAcceptable(word)) {
-                finalSetOfWords.add(getRoot(word));
+                finalSetOfWords.add(get_word_root(word));
             }
         }
         return finalSetOfWords;
     }
 
-//    public HashSet<String> getFiles(String root) {
-//        if (!engine.containsKey(root)) return new HashSet<>();
-//        return engine.get(root);
-//    }
 
-    public void addFile(String title, StringBuilder fileText) {
+    protected void addFile(String title, StringBuilder fileText) {
         for (String word : manipulateFile(fileText.toString())) {
             add_word_to_engine(word, title);
         }
     }
 
-
+    public Map<String, Set<String>> getEngine() {
+        return engine;
+    }
 }

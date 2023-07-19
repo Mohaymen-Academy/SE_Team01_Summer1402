@@ -12,5 +12,5 @@ public abstract class Search {
         this.database = database;
     }
 
-    abstract Set<String> tokenizer();
+    public abstract Set<String> geAllDocuments();
 }

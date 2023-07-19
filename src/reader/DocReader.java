@@ -1,9 +1,6 @@
 package reader;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 public class DocReader {
@@ -17,7 +14,7 @@ public class DocReader {
     }
 
     public Map<String, StringBuilder> gettext() {
-        return (HashMap<String, StringBuilder>) files_texts;
+        return  files_texts;
     }
 
     private File[] getFiles() {
@@ -25,16 +22,24 @@ public class DocReader {
         return directoryPath.listFiles();
     }
 
-    private StringBuilder getFileLines(File file) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-        StringBuilder text = new StringBuilder();
-        String line;
-        while ((line = bufferedReader.readLine()) != null)
-            text.append("\n").append(line);
+    private StringBuilder getFileLines(File file) {
+        BufferedReader bufferedReader ;
+        StringBuilder text = null;
+        try {
+            bufferedReader = new BufferedReader(new FileReader(file));
+            text = new StringBuilder();
+            String line;
+            while ((line = bufferedReader.readLine()) != null)
+                text.append("\n").append(line);
+        } catch (FileNotFoundException e) {
+            System.out.println("file not found.");
+        } catch (IOException e) {
+            System.out.println("invalid file");
+        }
         return text;
     }
 
-    public Map<String, StringBuilder> createMapOfDoc() throws IOException {
+    public Map<String, StringBuilder> GetMapDocuments() {
         for (File file : getFiles()) {
             StringBuilder fileWords = getFileLines(file);
             files_texts.put(file.getName(), fileWords);

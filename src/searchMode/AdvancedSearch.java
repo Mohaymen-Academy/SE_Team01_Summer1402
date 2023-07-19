@@ -20,13 +20,13 @@ public class AdvancedSearch extends Search {
     }
 
 
-    public void categorizeFiles(String word, ListType type) {
-        filter.WordValidator validator = new filter.WordValidator();
-        if (!validator.isAcceptable(word)) return;
+    public void categorizeWord(String word, ListType type) {
+        if (!new filter.WordValidator().isAcceptable(word))
+            return;
         String stemmedWord = new Stemmer().getWordRoot(word);
         Set<String> files = new HashSet<>();
         if (database.containsKey(stemmedWord))
-            files = database.get(word);
+            files = database.get(stemmedWord);
         switch (type) {
             case ESSENTIAL:
                 lists.addToEssentialFile(files);
@@ -45,22 +45,21 @@ public class AdvancedSearch extends Search {
         for (String word : queryWords) {
             switch (word.charAt(0)) {
                 case '+':
-                    categorizeFiles(word.substring(1), ListType.OPTIONAL);
+                    categorizeWord(word.substring(1), ListType.OPTIONAL);
                     break;
                 case '-':
-                    categorizeFiles(word.substring(1), ListType.FORBIDDEN);
+                    categorizeWord(word.substring(1), ListType.FORBIDDEN);
                     break;
                 default:
-                    categorizeFiles(word, ListType.ESSENTIAL);
+                    categorizeWord(word, ListType.ESSENTIAL);
                     break;
             }
         }
-        lists.intersectFiles();
     }
 
 
     @Override
-    Set<String> tokenizer() {
+    public Set<String> geAllDocuments() {
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(query);
         while (m.find()) {

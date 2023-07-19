@@ -2,7 +2,8 @@ package filter.normalizer;
 
 import java.util.Set;
 
-public interface NormalizerI {
+public interface Normalizer {
+
 
     Set<String> normalize(Set<String> words);
 

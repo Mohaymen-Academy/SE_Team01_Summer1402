@@ -5,6 +5,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class WordValidator {
+    private final boolean calledForValidator;
+
+    public WordValidator() {
+        calledForValidator=false;
+    }
+
+    public WordValidator(boolean called) {
+        this.calledForValidator=called;
+    }
 
     private final Set<String> stopWords =
             new HashSet<>(Arrays.asList("as", "of", "from", "at", "ago",
@@ -14,6 +23,7 @@ public class WordValidator {
                     "we", "it", "they", "me", "his", "her", "their", "till"));
 
     public boolean isAcceptable(String word) {
+
         return !stopWords.contains(word.trim().toLowerCase()) && word.length() > 2;
     }
 }

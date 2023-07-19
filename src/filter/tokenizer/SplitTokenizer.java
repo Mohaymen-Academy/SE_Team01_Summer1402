@@ -1,17 +1,27 @@
 package filter.tokenizer;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
-public class SplitTokenizer implements TokenizerI{
+public class SplitTokenizer implements Tokenizer {
     private final String regex;
+    private List<String> splitMarks;
+
+    /**
+     * if there was an instance of splitTokenizer class with any argument,then by default,
+     * it separates the sentences in non-alphabetic order
+     */
+    public SplitTokenizer() {
+        this.regex = "\\P{Alpha}+";
+    }
 
     public SplitTokenizer(String regex) {
-        this.regex = regex;
+        splitMarks = new ArrayList<>(Arrays.asList(regex.split("")));
+        this.regex = "[" + String.join("", splitMarks) + "]";
+        // this.regex = regex;
     }
 
     @Override
-    public List<String> tokenize(String line) {
-        return Arrays.asList(line.split(regex));
+    public Set<String> tokenize(String line) {
+        return new HashSet<>(Arrays.asList(line.split(regex)));
     }
 }
