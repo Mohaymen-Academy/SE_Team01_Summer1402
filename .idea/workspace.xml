@@ -5,17 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="defe06c3-0e95-480d-bbfb-aac52cf09162" name="Changes" comment="ckangr createMapOfWords method to return map">
-      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/DS/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DS/FileManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DS/FileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/FileManager.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DS/InvertedIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DS/InvertedIndex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/DS/ListCategory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DS/ListCategory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/filter/WordValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/filter/WordValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/reader/DocReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/reader/DocReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/searchMode/AdvancedSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/searchMode/advancedSearch/AdvancedSearch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/searchMode/ListType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/searchMode/advancedSearch/ListType.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/searchMode/NormalSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/searchMode/NormalSearch.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/searchMode/Search.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/searchMode/Search.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/searchMode/advancedSearch/AdvancedSearch.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/searchMode/advancedSearch/AdvancedSearch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/tmp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/tmp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/textFiles/Patterns Of Enterprise Applications.txt" beforeDir="false" afterPath="$PROJECT_DIR$/textFiles/Patterns Of Enterprise Applications.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/textFiles/The Pragmatic Programmer.txt" beforeDir="false" afterPath="$PROJECT_DIR$/textFiles/The Pragmatic Programmer.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/textFiles/design data intensive applications.txt" beforeDir="false" afterPath="$PROJECT_DIR$/textFiles/design data intensive applications.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

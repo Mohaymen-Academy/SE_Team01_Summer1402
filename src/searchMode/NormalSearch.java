@@ -1,6 +1,6 @@
 package searchMode;
 
-import DS.InvertedIndex;
+import dataStructures.InvertedIndex;
 import filter.stemmer.Stemmer;
 
 import java.util.Arrays;
@@ -9,7 +9,7 @@ import java.util.Set;
 
 public class NormalSearch extends Search {
     private final String splitter = "\\P{Alpha}+";
-    Set<String> queryWords;
+    private Set<String> queryWords;
 
     public NormalSearch(InvertedIndex database, String query) {
         super(database, query);

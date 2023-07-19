@@ -1,7 +1,7 @@
 package searchMode.advancedSearch;
 
-import DS.InvertedIndex;
-import DS.ListCategory;
+import dataStructures.InvertedIndex;
+import dataStructures.ListCategory;
 import filter.stemmer.Stemmer;
 import searchMode.Search;
 
@@ -11,49 +11,54 @@ import java.util.regex.Pattern;
 
 public class AdvancedSearch extends Search {
     private final String regex = "(\\-|\\+)?[a-zA-Z]+";
-    List<String> queryWords;
-    private final ListCategory lists;
+    private Set<String> queryWords;
+    private final ListCategory listCategory;
 
 
     public AdvancedSearch(InvertedIndex database, String query) {
         super(database, query);
-        queryWords = new ArrayList<>();
-        lists = new ListCategory();
+        queryWords = new HashSet<>();
+        listCategory = new ListCategory();
     }
 
 
-    public void categorizeWord(String word, ListType type) {
-        if (!new filter.WordValidator().isAcceptable(word))
+    public void addToListCategory(String word, ListType type) {
+        if (!database.getWordValidator().isAcceptable(word))
             return;
-        String stemmedWord = new Stemmer().getWordRoot(word);
+        String stemmedWord = database.doStem() ?
+                new Stemmer().getWordRoot(word) : word;
         Set<String> files = new HashSet<>();
-        if (database.getEngine().containsKey(stemmedWord))
+        if (database.getEngine().containsKey(stemmedWord)) {
             files = database.getEngine().get(stemmedWord);
+        }
         switch (type) {
             case ESSENTIAL:
-                lists.addToEssentialFile(files);
+                System.out.println(files.isEmpty());
+                listCategory.addToEssentialFile(files);
                 break;
             case FORBIDDEN:
-                lists.addToForbiddenFile(files);
+                listCategory.addToForbiddenFile(files);
                 break;
             case OPTIONAL:
-                lists.addToOptionalFile(files);
+                listCategory.addToOptionalFile(files);
                 break;
         }
 
     }
 
-    private void getDocs() {
-        for (String word : queryWords) {
+    private void categorizeWords() {
+        Set<String> normalizedWords =
+                database.getNormalizer().normalize(new HashSet<>(queryWords));
+        for (String word : normalizedWords) {
             switch (word.charAt(0)) {
                 case '+':
-                    categorizeWord(word.substring(1), ListType.OPTIONAL);
+                    addToListCategory(word.substring(1), ListType.OPTIONAL);
                     break;
                 case '-':
-                    categorizeWord(word.substring(1), ListType.FORBIDDEN);
+                    addToListCategory(word.substring(1), ListType.FORBIDDEN);
                     break;
                 default:
-                    categorizeWord(word, ListType.ESSENTIAL);
+                    addToListCategory(word, ListType.ESSENTIAL);
                     break;
             }
         }
@@ -67,7 +72,7 @@ public class AdvancedSearch extends Search {
         while (m.find()) {
             queryWords.add(m.group());
         }
-        getDocs();
-        return lists.intersectFiles();
+        categorizeWords();
+        return listCategory.intersectFiles();
     }
 }

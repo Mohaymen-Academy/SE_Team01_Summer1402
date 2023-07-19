@@ -1,4 +1,4 @@
-package DS;
+package dataStructures;
 
 import filter.WordValidator;
 import filter.normalizer.Normalizer;
@@ -16,7 +16,6 @@ public class InvertedIndex {
     private final Tokenizer tokenizer;
     private WordValidator wordValidator;
     private boolean doStem;
-    private boolean checkStopWords;
 
     public InvertedIndex(Tokenizer tokenizer, Normalizer normalizer) {
         this.engine = new HashMap<>();
@@ -26,10 +25,6 @@ public class InvertedIndex {
 
     public void setDoStem(boolean doStem) {
         this.doStem = doStem;
-    }
-
-    public void setCheckStopWords(boolean checkStopWords) {
-        this.checkStopWords = checkStopWords;
     }
 
     public void setWordValidator(WordValidator validator) {
@@ -71,7 +66,7 @@ public class InvertedIndex {
     }
 
 
-    protected void addFile(String title, StringBuilder fileText) {
+    public void addFile(String title, StringBuilder fileText) {
         for (String word : manipulateFile(fileText.toString())) {
             addWordToEngine(word, title);
         }

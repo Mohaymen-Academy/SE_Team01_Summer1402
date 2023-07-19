@@ -13,7 +13,7 @@ public class DocReader {
         files_texts = new HashMap<>();
     }
 
-    public Map<String, StringBuilder> gettext() {
+    public Map<String, StringBuilder> getFilesText() {
         return  files_texts;
     }
 
@@ -45,7 +45,7 @@ public class DocReader {
             if (fileWords != null)
                 files_texts.put(file.getName(), fileWords);
         }
-        return gettext();
+        return getFilesText();
     }
 
 }

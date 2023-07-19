@@ -75,7 +75,7 @@ If you employ a method of pulling in linked objects from the database, such as O
 ### Structural Mapping Patterns
 
 #### Mapping Relationships
-Relationships between object in the database are inherently represented backwards from the way they are represented in memory. DS.FileManager: foreign key column holds a key, and only one of them. Memory: object holds the actual linked object, not just a key; object can hold an array of them, not just one.
+Relationships between object in the database are inherently represented backwards from the way they are represented in memory. FileManager: foreign key column holds a key, and only one of them. Memory: object holds the actual linked object, not just a key; object can hold an array of them, not just one.
 
 Solutions:
    * Identity Field
@@ -148,9 +148,9 @@ State affects *isolation*. A state may pull persistent information (e.g. user's 
  - Be concerned about security; unless encrypted, the user can get his hands on this data and edit it.
  - Pro: If there are lots of users that simply disappear in the middle of a session without letting you know, server resources have not been sacrificed. (But this is easily fixed with a session timeout.)
 2. **Server Session State** (Holding state in memory on the server; local filesystem, in database as serialized object.)
- - Better performance than DS.FileManager Session State if there are lots of active users.
+ - Better performance than FileManager Session State if there are lots of active users.
  - Pro: Usually requires less development time than the other two because the session object does not need rebuilt from pieces; it's serialized.
-3. **DS.FileManager Session State** (State exists in database, but not just as serialized object; there is a schema for holding the data.)
+3. **FileManager Session State** (State exists in database, but not just as serialized object; there is a schema for holding the data.)
  - Good for when most users are idle. (Doesn't require much in the way of DB resources.)
 
 **Session migration:** Dispersing a session to all redundant servers in case the user accesses a different one next request.

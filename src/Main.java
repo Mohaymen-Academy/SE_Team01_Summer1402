@@ -1,9 +1,12 @@
-import DS.FileManager;
 import filter.WordValidator;
+import filter.normalizer.LoweCaseNormalizer;
+import filter.normalizer.Normalizer;
 import filter.normalizer.UpperCaseNormalizer;
+import filter.stemmer.Stemmer;
 import searchMode.NormalSearch;
 import searchMode.Search;
 import filter.tokenizer.SplitTokenizer;
+import searchMode.advancedSearch.AdvancedSearch;
 
 import java.io.*;
 import java.util.*;
@@ -13,16 +16,15 @@ public class Main {
     public static final String path = "./textFiles";
 
     public static void main(String[] args) throws IOException {
+        Normalizer normalizer = new LoweCaseNormalizer();
         FileManager fileManager = new FileManager
-                (new SplitTokenizer(), new UpperCaseNormalizer(), path);
-        fileManager.setValidator(new WordValidator(true));
+                (new SplitTokenizer(), normalizer, path);
+        fileManager.setValidator(new WordValidator(normalizer, true));
         fileManager.setDoStem(true);
         fileManager.createDatabase();
         String query = getQuery();
-        Search search = new NormalSearch(fileManager.getInvertedIndex(), query);
-        Set<String> result = search.geAllDocuments();
-        for (String title : result)
-            System.out.println(title);
+        Search search = new AdvancedSearch(fileManager.getInvertedIndex(), query);
+        search.printDocuments(search.geAllDocuments());
     }
 
     private static String getQuery() {

@@ -1,4 +1,4 @@
-package DS;
+package dataStructures;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -9,11 +9,13 @@ public class ListCategory {
     private final Set<String> optionalFiles;
     private final Set<String> forbiddenFiles;
     private Set<String> finalFiles;
+    private boolean isFirstTime;
 
     public ListCategory() {
         essentialFiles = new HashSet<>();
         optionalFiles = new HashSet<>();
         forbiddenFiles = new HashSet<>();
+        isFirstTime = true;
     }
 
     public Set<String> getEssentialFiles() {
@@ -31,7 +33,11 @@ public class ListCategory {
     public Set<String> getFinalFiles() {return finalFiles;}
 
     public void addToEssentialFile(Set<String> files) {
-        essentialFiles.retainAll(files);
+        if (isFirstTime) {
+            essentialFiles.addAll(files);
+            isFirstTime = false;
+        }
+        else essentialFiles.retainAll(files);
     }
 
     public void addToOptionalFile(Set<String> files) {
