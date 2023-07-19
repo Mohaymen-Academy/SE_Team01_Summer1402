@@ -4,14 +4,12 @@ import dataStructures.InvertedIndex;
 import dataStructures.ListCategory;
 import filter.stemmer.Stemmer;
 import searchMode.Search;
-
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class AdvancedSearch extends Search {
-    private final String regex = "(\\-|\\+)?[a-zA-Z]+";
-    private Set<String> queryWords;
+    private final Set<String> queryWords;
     private final ListCategory listCategory;
 
 
@@ -67,6 +65,7 @@ public class AdvancedSearch extends Search {
 
     @Override
     public Set<String> geAllDocuments() {
+        String regex = "(\\-|\\+)?[a-zA-Z]+";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(query);
         while (m.find()) {

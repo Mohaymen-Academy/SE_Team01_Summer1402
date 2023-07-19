@@ -8,7 +8,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class NormalSearch extends Search {
-    private final String splitter = "\\P{Alpha}+";
     private Set<String> queryWords;
 
     public NormalSearch(InvertedIndex database, String query) {
@@ -17,6 +16,7 @@ public class NormalSearch extends Search {
 
     @Override
     public Set<String> geAllDocuments() {
+        String splitter = "\\P{Alpha}+";
         queryWords =  new HashSet<>(Arrays.asList(query.split(splitter)));
         return getNames();
     }

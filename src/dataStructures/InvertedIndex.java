@@ -51,7 +51,7 @@ public class InvertedIndex {
     }
 
     private String getWordRoot(String word) {
-        return new Stemmer().getWordRoot(word);
+        return doStem ? new Stemmer().getWordRoot(word) : word;
     }
 
     private Set<String> manipulateFile(String fileText) {
@@ -60,7 +60,7 @@ public class InvertedIndex {
         Set<String> finalSetOfWords = new HashSet<>();
         for (String word : normalizedWords) {
             if (wordValidator.isAcceptable(word))
-                finalSetOfWords.add(doStem ? getWordRoot(word) : word);
+                finalSetOfWords.add(getWordRoot(word));
         }
         return finalSetOfWords;
     }

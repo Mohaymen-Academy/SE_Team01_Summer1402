@@ -8,7 +8,6 @@ public class ListCategory {
     private final Set<String> essentialFiles;
     private final Set<String> optionalFiles;
     private final Set<String> forbiddenFiles;
-    private Set<String> finalFiles;
     private boolean isFirstTime;
 
     public ListCategory() {
@@ -17,20 +16,6 @@ public class ListCategory {
         forbiddenFiles = new HashSet<>();
         isFirstTime = true;
     }
-
-    public Set<String> getEssentialFiles() {
-        return essentialFiles;
-    }
-
-    public Set<String> getOptionalFiles() {
-        return optionalFiles;
-    }
-
-    public Set<String> getForbiddenFiles() {
-        return forbiddenFiles;
-    }
-
-    public Set<String> getFinalFiles() {return finalFiles;}
 
     public void addToEssentialFile(Set<String> files) {
         if (isFirstTime) {
@@ -48,7 +33,7 @@ public class ListCategory {
         forbiddenFiles.addAll(files);
     }
     public Set<String> intersectFiles() {
-        finalFiles = essentialFiles;
+        Set<String> finalFiles = essentialFiles;
         finalFiles.retainAll(optionalFiles);
         finalFiles.removeAll(forbiddenFiles);
         return finalFiles;

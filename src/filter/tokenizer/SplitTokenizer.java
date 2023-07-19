@@ -4,7 +4,6 @@ import java.util.*;
 
 public class SplitTokenizer implements Tokenizer {
     private final String regex;
-    private List<String> splitMarks;
 
     /**
      * if there was an instance of splitTokenizer class with any argument,then by default,
@@ -15,7 +14,7 @@ public class SplitTokenizer implements Tokenizer {
     }
 
     public SplitTokenizer(String regex) {
-        splitMarks = new ArrayList<>(Arrays.asList(regex.split("")));
+        List<String> splitMarks = new ArrayList<>(Arrays.asList(regex.split("")));
         this.regex = "[" + String.join("", splitMarks) + "]";
         // this.regex = regex;
     }

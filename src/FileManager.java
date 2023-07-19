@@ -12,7 +12,7 @@ public class FileManager {
 
     private final String filesPath;
     private final InvertedIndex invertedIndex;
-    private Normalizer normalizer;
+    private final Normalizer normalizer;
 
     //if there was no specific tokenizer then we use the default splitTokenizer
     //if there was no specific normalizer we use the lowercase normalizer as a default normalizer

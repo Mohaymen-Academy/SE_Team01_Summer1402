@@ -1,9 +1,6 @@
 import filter.WordValidator;
 import filter.normalizer.LoweCaseNormalizer;
 import filter.normalizer.Normalizer;
-import filter.normalizer.UpperCaseNormalizer;
-import filter.stemmer.Stemmer;
-import searchMode.NormalSearch;
 import searchMode.Search;
 import filter.tokenizer.SplitTokenizer;
 import searchMode.advancedSearch.AdvancedSearch;
