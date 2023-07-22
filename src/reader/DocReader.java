@@ -3,18 +3,13 @@ package reader;
 import java.io.*;
 import java.util.*;
 
-public class DocReader {
+public class DocReader extends IReader {
 
     private final String filesPath;
-    private final Map<String, StringBuilder> files_texts;
 
     public DocReader(String filesPath) {
+        super();
         this.filesPath = filesPath;
-        files_texts = new HashMap<>();
-    }
-
-    public Map<String, StringBuilder> getFilesText() {
-        return  files_texts;
     }
 
     private File[] getFiles() {
@@ -23,7 +18,7 @@ public class DocReader {
     }
 
     private StringBuilder getFileLines(File file) {
-        BufferedReader bufferedReader ;
+        BufferedReader bufferedReader;
         StringBuilder text = null;
         try {
             bufferedReader = new BufferedReader(new FileReader(file));
@@ -39,6 +34,7 @@ public class DocReader {
         return text;
     }
 
+    @Override
     public Map<String, StringBuilder> GetMapDocuments() {
         for (File file : getFiles()) {
             StringBuilder fileWords = getFileLines(file);
