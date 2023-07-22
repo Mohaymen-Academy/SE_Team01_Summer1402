@@ -52,9 +52,9 @@ public class InvertedIndex {
 
     private Set<String> manipulateFile(String fileText) {
         Set<String> tokenizedWords = new HashSet<>(tokenizer.tokenize(fileText));
-        Set<String> normalizedWords = normalizer.normalize(tokenizedWords);
         Set<String> finalSetOfWords = new HashSet<>();
-        for (String word : normalizedWords) {
+        for (String word : tokenizedWords) {
+            word = normalizer.normalize(word);
             if (wordValidator.isAcceptable(word))
                 finalSetOfWords.add(getWordRoot(word));
         }

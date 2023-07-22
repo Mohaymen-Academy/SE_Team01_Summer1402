@@ -1,7 +1,6 @@
 import filter.WordValidator;
 import filter.normalizer.LoweCaseNormalizer;
 import reader.DocReader;
-import reader.IReader;
 import searchMode.Search;
 import filter.tokenizer.SplitTokenizer;
 import searchMode.advancedSearch.AdvancedSearch;
@@ -14,14 +13,14 @@ public class Main {
     public static final String path = "./textFiles";
 
     public static void main(String[] args) throws IOException {
-        FileManager fileManager = new FileManager
+        DataManager fileManager = new DataManager
                 (new SplitTokenizer(), new LoweCaseNormalizer());
         fileManager.setValidator(new WordValidator(true));
         fileManager.setDoStem(true);
         fileManager.createDatabase(new DocReader(path));
         String query = getQuery();
         Search search = new AdvancedSearch(fileManager.getInvertedIndex(), query);
-        search.printDocuments(search.geAllDocuments());
+        search.printDocuments(search.getAllDocuments());
     }
 
     private static String getQuery() {

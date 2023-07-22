@@ -846,7 +846,7 @@ It is a mistake to think that the activities of a project—analysis, design, co
 
 Tip 60: Organize Around Functionality, Not Job Functions
 
-    Split teams by functionally. FileManager, UI, API
+    Split teams by functionally. DataManager, UI, API
     Let the teams organize themselves internally
     Each team has responsibilities to others in the project (defined by their agreed-upon commitments)
     We're looking for cohesive, largely self-contained teams of people

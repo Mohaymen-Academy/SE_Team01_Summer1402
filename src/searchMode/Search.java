@@ -5,11 +5,11 @@ import java.util.Set;
 
 public abstract class Search {
     protected final String query;
-    protected InvertedIndex database;
+    protected InvertedIndex invertedIndex;
 
     public Search(InvertedIndex database, String query) {
         this.query = query;
-        this.database = database;
+        this.invertedIndex = database;
     }
 
     public void printDocuments(Set<String> documentTitles) {
@@ -17,7 +17,7 @@ public abstract class Search {
         for (String title : documentTitles) System.out.println(title);
     }
 
-    public abstract Set<String> geAllDocuments();
+    public abstract Set<String> getAllDocuments();
 
 
 }

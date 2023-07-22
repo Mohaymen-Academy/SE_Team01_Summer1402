@@ -115,7 +115,7 @@ application code.
 Problems with document model: you can not access nested object directly you need to use access path, also it is not
 performing well in many-to-many relationships.
 
-FileManager schema can be compared to languages: relational - compiled language with static typing, document - dynamic (
+DataManager schema can be compared to languages: relational - compiled language with static typing, document - dynamic (
 runtime) type checking - schema on read.
 
 Data locality - because document databases store document as a string continuous string - JSON, XML, ... - often access
@@ -165,7 +165,7 @@ statements: `(subject, predicate, object)`, e.g. `(Jim, likes, bananas)`.
 In order to tune a storage engine to perform well on your kind of workload, you need to have a rough idea of what the
 storage engine is doing under the hood.
 
-*Data Structures That Power Your FileManager*
+*Data Structures That Power Your DataManager*
 
 Hash Indexes. For example: Key and offset pairs. SSTable - Sorted String Table.
 
@@ -575,7 +575,7 @@ FOR UPDATE tells the database to lock all rows returned by this query.
 
 Serialisable isolation is usually regarded as the strongest isolation level. It guarantees that even though transactions
 may execute in parallel, the end result is the same as if they had executed one at a time, serially, without any
-currency. FileManager prevents all possible race conditions.
+currency. DataManager prevents all possible race conditions.
 
 The simplest way of avoiding concurrency problems is to remove the concurrency entirely - one transaction at a time, in
 serial order or a single thread.

@@ -12,20 +12,20 @@ public class AdvancedSearch extends Search {
     private final ListCategory listCategory;
 
 
-    public AdvancedSearch(InvertedIndex database, String query) {
-        super(database, query);
+    public AdvancedSearch(InvertedIndex invertedIndex, String query) {
+        super(invertedIndex, query);
         queryWords = new HashSet<>();
         listCategory = new ListCategory();
     }
 
 
     public void addToListCategory(String word, ListType type) {
-        if (!database.getWordValidator().isAcceptable(word))
+        if (!invertedIndex.getWordValidator().isAcceptable(word))
             return;
-        String stemmedWord = database.getWordRoot(word);
+        String stemmedWord = invertedIndex.getWordRoot(word);
         Set<String> files = new HashSet<>();
-        if (database.getEngine().containsKey(stemmedWord)) {
-            files = database.getEngine().get(stemmedWord);
+        if (invertedIndex.getEngine().containsKey(stemmedWord)) {
+            files = invertedIndex.getEngine().get(stemmedWord);
         }
         switch (type) {
             case ESSENTIAL:
@@ -42,9 +42,8 @@ public class AdvancedSearch extends Search {
     }
 
     private void categorizeWords() {
-        Set<String> normalizedWords =
-                database.getNormalizer().normalize(new HashSet<>(queryWords));
-        for (String word : normalizedWords) {
+        for (String word : queryWords) {
+            word = invertedIndex.getNormalizer().normalize(word);
             switch (word.charAt(0)) {
                 case '+':
                     addToListCategory(word.substring(1), ListType.OPTIONAL);
@@ -61,7 +60,7 @@ public class AdvancedSearch extends Search {
 
 
     @Override
-    public Set<String> geAllDocuments() {
+    public Set<String> getAllDocuments() {
         String regex = "(\\-|\\+)?[a-zA-Z]+";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(query);

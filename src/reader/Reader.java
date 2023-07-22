@@ -3,11 +3,11 @@ package reader;
 import java.util.HashMap;
 import java.util.Map;
 
-public abstract class IReader {
+public abstract class Reader {
 
     protected final Map<String, StringBuilder> files_texts;
 
-    public IReader() {
+    public Reader() {
         files_texts = new HashMap<>();
     }
 
@@ -15,6 +15,6 @@ public abstract class IReader {
         return files_texts;
     }
 
-    public abstract Map<String, StringBuilder> GetMapDocuments();
+    public abstract Map<String, StringBuilder> getMapDocuments();
 
 }

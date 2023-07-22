@@ -3,7 +3,7 @@ package reader;
 import java.io.*;
 import java.util.*;
 
-public class DocReader extends IReader {
+public class DocReader extends Reader {
 
     private final String filesPath;
 
@@ -35,7 +35,7 @@ public class DocReader extends IReader {
     }
 
     @Override
-    public Map<String, StringBuilder> GetMapDocuments() {
+    public Map<String, StringBuilder> getMapDocuments() {
         for (File file : getFiles()) {
             StringBuilder fileWords = getFileLines(file);
             if (fileWords != null)
