@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class NormalSearch extends Search {
+    
     private Set<String> queryWords;
 
     public NormalSearch(InvertedIndex invertedIndex, String query) {

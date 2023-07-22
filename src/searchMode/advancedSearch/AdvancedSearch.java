@@ -11,11 +11,16 @@ public class AdvancedSearch extends Search {
     private final Set<String> queryWords;
     private final ListCategory listCategory;
 
-
     public AdvancedSearch(InvertedIndex invertedIndex, String query) {
         super(invertedIndex, query);
         queryWords = new HashSet<>();
-        listCategory = new ListCategory();
+        listCategory = new ListCategory(getAllFiles(invertedIndex.getEngine()));
+    }
+
+    public Set<String> getAllFiles(Map<String, Set<String>> engine) {
+        Set<String> allFiles = new HashSet<>();
+        for (String word : engine.keySet()) allFiles.addAll(engine.get(word));
+        return allFiles;
     }
 
 

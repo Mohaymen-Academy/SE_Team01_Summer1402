@@ -3,11 +3,11 @@ package reader;
 import java.io.*;
 import java.util.*;
 
-public class DocReader extends Reader {
+public class TXTReader extends Reader {
 
     private final String filesPath;
 
-    public DocReader(String filesPath) {
+    public TXTReader(String filesPath) {
         super();
         this.filesPath = filesPath;
     }
@@ -34,9 +34,15 @@ public class DocReader extends Reader {
         return text;
     }
 
+    private boolean fileIsValid(String fileName) {
+        String[] splitName = fileName.split(".");
+        return splitName[splitName.length - 1].equals("txt");
+    }
+
     @Override
     public Map<String, StringBuilder> getMapDocuments() {
         for (File file : getFiles()) {
+            if (!fileIsValid(file.getName())) continue;
             StringBuilder fileWords = getFileLines(file);
             if (fileWords != null)
                 files_texts.put(file.getName(), fileWords);

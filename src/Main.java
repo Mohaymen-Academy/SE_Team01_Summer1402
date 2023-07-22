@@ -1,6 +1,6 @@
 import filter.WordValidator;
 import filter.normalizer.LoweCaseNormalizer;
-import reader.DocReader;
+import reader.TXTReader;
 import searchMode.Search;
 import filter.tokenizer.SplitTokenizer;
 import searchMode.advancedSearch.AdvancedSearch;
@@ -17,7 +17,7 @@ public class Main {
                 (new SplitTokenizer(), new LoweCaseNormalizer());
         fileManager.setValidator(new WordValidator(true));
         fileManager.setDoStem(true);
-        fileManager.createDatabase(new DocReader(path));
+        fileManager.createDatabase(new TXTReader(path));
         String query = getQuery();
         Search search = new AdvancedSearch(fileManager.getInvertedIndex(), query);
         search.printDocuments(search.getAllDocuments());
