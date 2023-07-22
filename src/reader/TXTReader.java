@@ -36,7 +36,8 @@ public class TXTReader extends Reader {
 
     private boolean fileIsValid(String fileName) {
         String[] splitName = fileName.split(".");
-        return splitName[splitName.length - 1].equals("txt");
+        return splitName.length > 0 &&
+                splitName[splitName.length - 1].equals("txt");
     }
 
     @Override
