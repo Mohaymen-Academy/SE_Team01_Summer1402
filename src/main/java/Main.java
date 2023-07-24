@@ -14,11 +14,10 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         InvertedIndex invertedIndex = InvertedIndex.builder().
-                tokenizer(new NGramTokenizer(3, 5, "[^\\da-zA-Z]+")).
+//                tokenizer(new NGramTokenizer(3, 5, "[^\\da-zA-Z]+")).
                 normalizer(new UpperCaseNormalizer()).
                 doStem(true).
                 wordValidator(new WordValidator(true)).
-                engine(new HashMap<>()).
                 build();
         DataManager dataManager = new DataManager(invertedIndex);
         dataManager.createDatabase(new TXTReader(path));

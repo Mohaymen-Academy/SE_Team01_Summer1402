@@ -42,9 +42,15 @@ public class AdvancedSearch extends Search {
     private void categorizeWords() {
         for (String word : queryWords) {
             switch (word.charAt(0)) {
-                case '+' -> addToListCategory(word.substring(1), ListType.OPTIONAL);
+                case '+' -> {
+                    addToListCategory(word.substring(1), ListType.OPTIONAL);
+                    listCategory.setHasOptionalWords(true);
+                }
                 case '-' -> addToListCategory(word.substring(1), ListType.FORBIDDEN);
-                default -> addToListCategory(word, ListType.ESSENTIAL);
+                default -> {
+                    addToListCategory(word, ListType.ESSENTIAL);
+                    listCategory.setHasEssentialWords(true);
+                }
             }
         }
     }

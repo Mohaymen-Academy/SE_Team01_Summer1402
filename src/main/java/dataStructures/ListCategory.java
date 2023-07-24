@@ -1,8 +1,11 @@
 package dataStructures;
 
+import lombok.Setter;
+
 import java.util.HashSet;
 import java.util.Set;
 
+@Setter
 public class ListCategory {
 
     private final Set<String> allFiles;
@@ -22,7 +25,6 @@ public class ListCategory {
     }
 
     public void addToEssentialFile(Set<String> files) {
-        hasEssentialWords = true;
         if (isFirstTime) {
             essentialFiles.addAll(files);
             isFirstTime = false;
@@ -31,7 +33,6 @@ public class ListCategory {
     }
 
     public void addToOptionalFile(Set<String> files) {
-        hasOptionalWords = true;
         optionalFiles.addAll(files);
     }
 

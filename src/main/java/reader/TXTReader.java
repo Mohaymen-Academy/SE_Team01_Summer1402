@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import java.io.*;
 import java.util.*;
 
-
 @RequiredArgsConstructor
 public class TXTReader extends Reader {
 

@@ -5,9 +5,9 @@ import filter.normalizer.Normalizer;
 import filter.normalizer.UpperCaseNormalizer;
 import filter.tokenizer.SplitTokenizer;
 import filter.tokenizer.Tokenizer;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.util.HashMap;
@@ -16,25 +16,28 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Builder @Getter @AllArgsConstructor
+@Builder
+@Getter
+@Setter
 public class InvertedIndex {
-    private final Map<String, Set<String>> engine;
-    private Normalizer normalizer;
-    private Tokenizer tokenizer;
-    private WordValidator wordValidator;
-    private boolean doStem;
 
-    public InvertedIndex() {
-        this.engine = new HashMap<>();
-        setDefaultFilters();
+    private final Map<String, Set<String>> engine = new HashMap<>();
+    @Builder.Default
+    private Normalizer normalizer = new UpperCaseNormalizer();
+    @Builder.Default
+    private Tokenizer tokenizer = new SplitTokenizer("[^\\da-zA-Z]+");
+    @Builder.Default
+    private WordValidator wordValidator = new WordValidator(true);
+    @Builder.Default
+    private boolean doStem = true;
+
+    public InvertedIndex(Normalizer normalizer, Tokenizer tokenizer, WordValidator wordValidator, boolean doStem) {
+        this.normalizer = normalizer;
+        this.tokenizer = tokenizer;
+        this.wordValidator = wordValidator;
+        this.doStem = doStem;
     }
 
-    public void setDefaultFilters() {
-        tokenizer = new SplitTokenizer("[^\\da-zA-Z]+");
-        normalizer = new UpperCaseNormalizer();
-        doStem = true;
-        wordValidator = new WordValidator(true);
-    }
     private void addWordToEngine(String root, String fileName) {
         if (!engine.containsKey(root)) {
             engine.put(root, new HashSet<>());

@@ -1,26 +1,21 @@
 package filter.tokenizer;
 
+import lombok.RequiredArgsConstructor;
+
 import java.util.*;
 
+@RequiredArgsConstructor
 public class NGramTokenizer implements Tokenizer {
     private final int min;
-    private final String regex;
     private final int max;
-
-    public NGramTokenizer(int min, int max, String regex) {
-        this.max = max;
-        this.min = min;
-        this.regex = regex;
-    }
-
+    private final String regex;
 
     @Override
     public Set<String> tokenize(String line) {
         Set<String> split_tokens = new SplitTokenizer(regex).tokenize(line);
         Set<String> tokens = new HashSet<>();
-        for (int i = min; i <= max; i++) {
+        for (int i = min; i <= max; i++)
             tokens.addAll(n_Grams(i, split_tokens));
-        }
         return tokens;
     }
 
