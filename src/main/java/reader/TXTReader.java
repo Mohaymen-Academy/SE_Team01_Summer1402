@@ -1,16 +1,14 @@
 package reader;
 
+import lombok.RequiredArgsConstructor;
 import java.io.*;
 import java.util.*;
 
+
+@RequiredArgsConstructor
 public class TXTReader extends Reader {
 
     private final String filesPath;
-
-    public TXTReader(String filesPath) {
-        super();
-        this.filesPath = filesPath;
-    }
 
     private File[] getFiles() {
         File directoryPath = new File(filesPath);
@@ -46,9 +44,9 @@ public class TXTReader extends Reader {
             if (!fileIsValid(file.getName())) continue;
             StringBuilder fileWords = getFileLines(file);
             if (fileWords != null)
-                files_texts.put(file.getName(), fileWords);
+                filesTexts.put(file.getName(), fileWords);
         }
-        return getFilesText();
+        return this.getFilesTexts();
     }
 
 }

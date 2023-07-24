@@ -1,18 +1,16 @@
 package filter;
 
+import lombok.RequiredArgsConstructor;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+@RequiredArgsConstructor
 public class WordValidator {
     private final boolean calledForValidator;
 
     public WordValidator() {
         calledForValidator = false;
-    }
-
-    public WordValidator(boolean called) {
-        this.calledForValidator = called;
     }
 
     private final Set<String> stopWords =

@@ -1,5 +1,4 @@
 package searchMode.advancedSearch;
-
 import dataStructures.InvertedIndex;
 import dataStructures.ListCategory;
 import searchMode.Search;
@@ -12,7 +11,7 @@ public class AdvancedSearch extends Search {
     private final ListCategory listCategory;
 
     public AdvancedSearch(InvertedIndex invertedIndex, String query) {
-        super(invertedIndex, query);
+        super(query, invertedIndex);
         queryWords = new HashSet<>();
         listCategory = new ListCategory(getAllFiles(invertedIndex.getEngine()));
     }

@@ -1,18 +1,16 @@
 package reader;
 
+import lombok.Getter;
 import java.util.HashMap;
 import java.util.Map;
 
+@Getter
 public abstract class Reader {
 
-    protected final Map<String, StringBuilder> files_texts;
+    protected final Map<String, StringBuilder> filesTexts;
 
     public Reader() {
-        files_texts = new HashMap<>();
-    }
-
-    public Map<String, StringBuilder> getFilesText() {
-        return files_texts;
+        filesTexts = new HashMap<>();
     }
 
     public abstract Map<String, StringBuilder> getMapDocuments();

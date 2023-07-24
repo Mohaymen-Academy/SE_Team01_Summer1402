@@ -11,7 +11,7 @@ public class NormalSearch extends Search {
     private Set<String> queryWords;
 
     public NormalSearch(InvertedIndex invertedIndex, String query) {
-        super(invertedIndex, query);
+        super(query, invertedIndex);
     }
 
     @Override

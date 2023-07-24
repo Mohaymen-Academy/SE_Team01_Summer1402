@@ -2,43 +2,38 @@ package dataStructures;
 
 import filter.WordValidator;
 import filter.normalizer.Normalizer;
+import filter.normalizer.UpperCaseNormalizer;
 import filter.stemmer.Stemmer;
+import filter.tokenizer.SplitTokenizer;
 import filter.tokenizer.Tokenizer;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+@Builder @Getter @AllArgsConstructor
 public class InvertedIndex {
     private final Map<String, Set<String>> engine;
-    private final Normalizer normalizer;
-    private final Tokenizer tokenizer;
+    private Normalizer normalizer;
+    private Tokenizer tokenizer;
     private WordValidator wordValidator;
     private boolean doStem;
 
-    public InvertedIndex(Tokenizer tokenizer, Normalizer normalizer) {
+    public InvertedIndex() {
         this.engine = new HashMap<>();
-        this.tokenizer = tokenizer;
-        this.normalizer = normalizer;
+        setDefaultFilters();
     }
 
-    public void setDoStem(boolean doStem) {
-        this.doStem = doStem;
+    public void setDefaultFilters() {
+        tokenizer = new SplitTokenizer();
+        normalizer = new UpperCaseNormalizer();
+        doStem = true;
+        wordValidator = new WordValidator(true);
     }
-
-    public void setWordValidator(WordValidator validator) {
-        this.wordValidator = validator;
-    }
-
-    public WordValidator getWordValidator() {
-        return wordValidator;
-    }
-
-    public Normalizer getNormalizer() {
-        return normalizer;
-    }
-
     private void addWordToEngine(String root, String fileName) {
         if (!engine.containsKey(root)) {
             engine.put(root, new HashSet<>());
