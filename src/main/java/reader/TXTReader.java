@@ -1,6 +1,7 @@
 package reader;
 
 import lombok.RequiredArgsConstructor;
+
 import java.io.*;
 import java.util.*;
 
@@ -40,12 +41,13 @@ public class TXTReader extends Reader {
 
     @Override
     public Map<String, StringBuilder> getMapDocuments() {
-        for (File file : getFiles()) {
-            if (!fileIsValid(file.getName())) continue;
-            StringBuilder fileWords = getFileLines(file);
-            if (fileWords != null)
-                filesTexts.put(file.getName(), fileWords);
-        }
+        Arrays.stream(getFiles()).filter(file -> fileIsValid(file.getName())).map(
+                        file -> {
+                            StringBuilder fileWords = getFileLines(file);
+                            return (fileWords != null) ? new AbstractMap.SimpleEntry<>(file.getName(), fileWords) : null;
+                        }
+                ).filter(Objects::nonNull)
+                .forEach(x -> filesTexts.put(x.getKey(), x.getValue()));
         return this.getFilesTexts();
     }
 
