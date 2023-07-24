@@ -1,5 +1,6 @@
 import filter.WordValidator;
 import filter.normalizer.LoweCaseNormalizer;
+import filter.tokenizer.NGramTokenizer;
 import reader.TXTReader;
 import searchMode.Search;
 import filter.tokenizer.SplitTokenizer;
@@ -14,7 +15,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         DataManager fileManager = new DataManager
-                (new SplitTokenizer(), new LoweCaseNormalizer());
+                (new NGramTokenizer(3, 5, "[^\\da-zA-Z]+"), new LoweCaseNormalizer());
         fileManager.setValidator(new WordValidator(true));
         fileManager.setDoStem(true);
         fileManager.createDatabase(new TXTReader(path));

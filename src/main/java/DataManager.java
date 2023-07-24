@@ -2,7 +2,6 @@ import dataStructures.InvertedIndex;
 import filter.WordValidator;
 import filter.normalizer.Normalizer;
 import filter.normalizer.UpperCaseNormalizer;
-import filter.tokenizer.SplitTokenizer;
 import filter.tokenizer.Tokenizer;
 import reader.Reader;
 
@@ -14,21 +13,9 @@ public class DataManager {
 
     //if there was no specific tokenizer then we use the default splitTokenizer
     //if there was no specific normalizer we use the lowercase normalizer as a default normalizer
-    public DataManager() {
-        this.normalizer = new UpperCaseNormalizer();
-        this.invertedIndex = new InvertedIndex(new SplitTokenizer(), normalizer);
-        setDefaultFilters();
-    }
-
     public DataManager(Tokenizer tokenizer) {
         this.normalizer = new UpperCaseNormalizer();
         this.invertedIndex = new InvertedIndex(tokenizer, normalizer);
-        setDefaultFilters();
-    }
-
-    public DataManager(Normalizer normalizer) {
-        this.normalizer = normalizer;
-        this.invertedIndex = new InvertedIndex(new SplitTokenizer(), normalizer);
         setDefaultFilters();
     }
 
