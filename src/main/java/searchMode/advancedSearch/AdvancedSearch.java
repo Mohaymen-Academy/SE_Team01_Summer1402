@@ -25,40 +25,27 @@ public class AdvancedSearch extends Search {
 
 
     public void addToListCategory(String word, ListType type) {
+        word = invertedIndex.getNormalizer().normalize(word);
         if (!invertedIndex.getWordValidator().isAcceptable(word))
             return;
-        String stemmedWord = invertedIndex.getWordRoot(word);
-        Set<String> files = new HashSet<>();
+        String stemmedWord = invertedIndex.checkForStem(word);
+        Set<String> files;
         if (invertedIndex.getEngine().containsKey(stemmedWord)) {
             files = invertedIndex.getEngine().get(stemmedWord);
+            switch (type) {
+                case ESSENTIAL -> listCategory.addToEssentialFile(files);
+                case FORBIDDEN -> listCategory.addToForbiddenFile(files);
+                case OPTIONAL -> listCategory.addToOptionalFile(files);
+            }
         }
-        switch (type) {
-            case ESSENTIAL:
-                listCategory.addToEssentialFile(files);
-                break;
-            case FORBIDDEN:
-                listCategory.addToForbiddenFile(files);
-                break;
-            case OPTIONAL:
-                listCategory.addToOptionalFile(files);
-                break;
-        }
-
     }
 
     private void categorizeWords() {
         for (String word : queryWords) {
-            word = invertedIndex.getNormalizer().normalize(word);
             switch (word.charAt(0)) {
-                case '+':
-                    addToListCategory(word.substring(1), ListType.OPTIONAL);
-                    break;
-                case '-':
-                    addToListCategory(word.substring(1), ListType.FORBIDDEN);
-                    break;
-                default:
-                    addToListCategory(word, ListType.ESSENTIAL);
-                    break;
+                case '+' -> addToListCategory(word.substring(1), ListType.OPTIONAL);
+                case '-' -> addToListCategory(word.substring(1), ListType.FORBIDDEN);
+                default -> addToListCategory(word, ListType.ESSENTIAL);
             }
         }
     }
@@ -66,7 +53,7 @@ public class AdvancedSearch extends Search {
 
     @Override
     public Set<String> getAllDocuments() {
-        String regex = "(\\-|\\+)?[a-zA-Z]+";
+        String regex = "(\\-|\\+)?[\\da-zA-Z]+";
         Pattern p = Pattern.compile(regex);
         Matcher m = p.matcher(query);
         while (m.find()) {

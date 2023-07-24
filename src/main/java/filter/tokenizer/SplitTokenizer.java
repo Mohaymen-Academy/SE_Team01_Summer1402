@@ -10,7 +10,7 @@ public class SplitTokenizer implements Tokenizer {
      * it separates the sentences in non-alphabetic order
      */
     public SplitTokenizer() {
-        this.regex = "\\P{Alpha}+";
+        this.regex = "[^\\da-zA-Z]+";
     }
 
     public SplitTokenizer(String regex) {

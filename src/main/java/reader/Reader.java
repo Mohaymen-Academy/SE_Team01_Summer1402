@@ -3,6 +3,7 @@ package reader;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public abstract class Reader {
 
     protected final Map<String, StringBuilder> files_texts;
