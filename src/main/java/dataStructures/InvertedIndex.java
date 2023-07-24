@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Builder @Getter @AllArgsConstructor
 public class InvertedIndex {
@@ -47,20 +48,16 @@ public class InvertedIndex {
 
     private Set<String> manipulateFile(String fileText) {
         Set<String> tokenizedWords = new HashSet<>(tokenizer.tokenize(fileText));
-        Set<String> finalSetOfWords = new HashSet<>();
-        for (String word : tokenizedWords) {
-            word = normalizer.normalize(word);
-            if (wordValidator.isAcceptable(word))
-                finalSetOfWords.add(getWordRoot(word));
-        }
-        return finalSetOfWords;
+        return tokenizedWords.stream().
+                map(normalizer::normalize).
+                filter(wordValidator::isAcceptable).
+                map(this::getWordRoot).
+                collect(Collectors.toSet());
     }
 
 
     public void addFile(String title, StringBuilder fileText) {
-        for (String word : manipulateFile(fileText.toString())) {
-            addWordToEngine(word, title);
-        }
+        manipulateFile(fileText.toString()).forEach((word) -> addWordToEngine(word, title));
     }
 
     public Map<String, Set<String>> getEngine() {
