@@ -9,6 +9,7 @@ import filter.tokenizer.Tokenizer;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -42,8 +43,15 @@ public class InvertedIndex {
         engine.get(root).add(fileName);
     }
 
-    public String getWordRoot(String word) {
-        return doStem ? new Stemmer().getWordRoot(word) : word;
+    public String wordStemmer(String word) {
+        PorterStemmer ptStm = new PorterStemmer();
+        ptStm.setCurrent(word);
+        ptStm.stem();
+        return ptStm.getCurrent();
+    }
+
+    public String checkForStem(String word) {
+        return doStem ? wordStemmer(word) : word;
     }
 
     private Set<String> manipulateFile(String fileText) {
@@ -51,7 +59,7 @@ public class InvertedIndex {
         return tokenizedWords.stream().
                 map(normalizer::normalize).
                 filter(wordValidator::isAcceptable).
-                map(this::getWordRoot).
+                map(this::checkForStem).
                 collect(Collectors.toSet());
     }
 

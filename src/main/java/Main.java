@@ -1,5 +1,7 @@
 import dataStructures.InvertedIndex;
 import filter.WordValidator;
+import filter.normalizer.LoweCaseNormalizer;
+import filter.tokenizer.NGramTokenizer;
 import filter.normalizer.UpperCaseNormalizer;
 import reader.TXTReader;
 import searchMode.Search;
@@ -14,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         InvertedIndex invertedIndex = InvertedIndex.builder().
-                tokenizer(new SplitTokenizer()).
+                tokenizer(new NGramTokenizer(3, 5, "[^\\da-zA-Z]+").
                 normalizer(new UpperCaseNormalizer()).
                 doStem(true).
                 wordValidator(new WordValidator(true)).
