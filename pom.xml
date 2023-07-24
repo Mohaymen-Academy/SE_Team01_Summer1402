@@ -21,11 +21,7 @@
             <version>1.18.26</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.apache.lucene</groupId>-->
-<!--            <artifactId>lucene-core</artifactId>-->
-<!--            <version>9.5.0</version>-->
-<!--        </dependency>-->
+
         <dependency>
             <groupId>org.apache.lucene</groupId>
             <artifactId>lucene-analyzers-common</artifactId>
@@ -33,6 +29,18 @@
         </dependency>
 
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>14</source>
+                    <target>14</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 
 </project>

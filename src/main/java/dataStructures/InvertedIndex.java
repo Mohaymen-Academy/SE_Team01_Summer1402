@@ -3,7 +3,6 @@ package dataStructures;
 import filter.WordValidator;
 import filter.normalizer.Normalizer;
 import filter.normalizer.UpperCaseNormalizer;
-import filter.stemmer.Stemmer;
 import filter.tokenizer.SplitTokenizer;
 import filter.tokenizer.Tokenizer;
 import lombok.AllArgsConstructor;
@@ -31,7 +30,7 @@ public class InvertedIndex {
     }
 
     public void setDefaultFilters() {
-        tokenizer = new SplitTokenizer();
+        tokenizer = new SplitTokenizer("[^\\da-zA-Z]+");
         normalizer = new UpperCaseNormalizer();
         doStem = true;
         wordValidator = new WordValidator(true);
