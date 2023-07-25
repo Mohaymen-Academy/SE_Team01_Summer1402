@@ -29,28 +29,24 @@ public class AdvancedSearch extends Search {
             return;
         String stemmedWord = invertedIndex.checkForStem(word);
         Set<String> files;
-        if (invertedIndex.getEngine().containsKey(stemmedWord)) {
-            files = invertedIndex.getEngine().get(stemmedWord);
-            switch (type) {
-                case ESSENTIAL -> listCategory.addToEssentialFile(files);
-                case FORBIDDEN -> listCategory.addToForbiddenFile(files);
-                case OPTIONAL -> listCategory.addToOptionalFile(files);
-            }
+        files = getMapValue(invertedIndex.getEngine() , stemmedWord);
+        switch (type) {
+            case ESSENTIAL -> listCategory.addToEssentialFile(files);
+            case FORBIDDEN -> listCategory.addToForbiddenFile(files);
+            case OPTIONAL -> listCategory.addToOptionalFile(files);
         }
+    }
+
+    private Set<String> getMapValue(Map<String, Set<String>> map, String key) {
+        return map.containsKey(key) ? map.get(key) : new HashSet<>();
     }
 
     private void categorizeWords() {
         for (String word : queryWords) {
             switch (word.charAt(0)) {
-                case '+' -> {
-                    addToListCategory(word.substring(1), ListType.OPTIONAL);
-                    listCategory.setHasOptionalWords(true);
-                }
+                case '+' -> addToListCategory(word.substring(1), ListType.OPTIONAL);
                 case '-' -> addToListCategory(word.substring(1), ListType.FORBIDDEN);
-                default -> {
-                    addToListCategory(word, ListType.ESSENTIAL);
-                    listCategory.setHasEssentialWords(true);
-                }
+                default -> addToListCategory(word, ListType.ESSENTIAL);
             }
         }
     }

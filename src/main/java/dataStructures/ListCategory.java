@@ -25,6 +25,7 @@ public class ListCategory {
     }
 
     public void addToEssentialFile(Set<String> files) {
+        hasEssentialWords = true;
         if (isFirstTime) {
             essentialFiles.addAll(files);
             isFirstTime = false;
@@ -33,6 +34,7 @@ public class ListCategory {
     }
 
     public void addToOptionalFile(Set<String> files) {
+        hasOptionalWords = true;
         optionalFiles.addAll(files);
     }
 
