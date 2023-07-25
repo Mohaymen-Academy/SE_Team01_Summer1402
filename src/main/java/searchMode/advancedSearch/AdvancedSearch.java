@@ -16,9 +16,9 @@ public class AdvancedSearch extends Search {
         listCategory = new ListCategory(getAllFiles(invertedIndex.getEngine()));
     }
 
-    public Set<String> getAllFiles(Map<String, Set<String>> engine) {
+    public Set<String> getAllFiles(Map<String, Map<String, Integer>> engine) {
         Set<String> allFiles = new HashSet<>();
-        for (String word : engine.keySet()) allFiles.addAll(engine.get(word));
+        for (String word : engine.keySet()) allFiles.addAll(engine.get(word).keySet());
         return allFiles;
     }
 
@@ -28,8 +28,7 @@ public class AdvancedSearch extends Search {
         if (!invertedIndex.getWordValidator().isAcceptable(word))
             return;
         String stemmedWord = invertedIndex.checkForStem(word);
-        Set<String> files;
-        files = getMapValue(invertedIndex.getEngine() , stemmedWord);
+        Set<String> files = getMapValue(invertedIndex.getEngine() , stemmedWord);;
         switch (type) {
             case ESSENTIAL -> listCategory.addToEssentialFile(files);
             case FORBIDDEN -> listCategory.addToForbiddenFile(files);
@@ -37,8 +36,8 @@ public class AdvancedSearch extends Search {
         }
     }
 
-    private Set<String> getMapValue(Map<String, Set<String>> map, String key) {
-        return map.containsKey(key) ? map.get(key) : new HashSet<>();
+    private Set<String> getMapValue(Map<String, Map<String, Integer>> map, String key) {
+        return map.containsKey(key) ? map.get(key).keySet() : new HashSet<>();
     }
 
     private void categorizeWords() {

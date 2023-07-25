@@ -9,11 +9,11 @@ public class DataManager {
     private final InvertedIndex invertedIndex;
 
     public void createDatabase(Reader reader) {
-        Map<String, StringBuilder> file_texts = reader.getMapDocuments();
+        Map<String, String> file_texts = reader.getMapDocuments();
         fillInvertedIndex(file_texts);
     }
 
-    private void fillInvertedIndex(Map<String, StringBuilder> fileText) {
+    private void fillInvertedIndex(Map<String, String> fileText) {
         for (String title : fileText.keySet()) {
             invertedIndex.addFile(title, fileText.get(title));
         }

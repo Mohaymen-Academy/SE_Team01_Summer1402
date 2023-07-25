@@ -10,7 +10,7 @@ public class SplitTokenizer implements Tokenizer {
     }
 
     @Override
-    public Set<String> tokenize(String line) {
-        return new HashSet<>(Arrays.asList(line.trim().split(regex)));
+    public List<String> tokenize(String line) {
+        return new ArrayList<>(Arrays.asList(line.trim().split(regex)));
     }
 }

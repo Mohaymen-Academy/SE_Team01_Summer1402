@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 @Setter
 public class InvertedIndex {
 
-    private final Map<String, Set<String>> engine = new HashMap<>();
+    private final Map<String, Map<String, Integer>> engine = new HashMap<>();
     @Builder.Default
     private Normalizer normalizer = new UpperCaseNormalizer();
     @Builder.Default
@@ -40,9 +40,13 @@ public class InvertedIndex {
 
     private void addWordToEngine(String root, String fileName) {
         if (!engine.containsKey(root)) {
-            engine.put(root, new HashSet<>());
+            engine.put(root, new HashMap<>());
         }
-        engine.get(root).add(fileName);
+        Map<String, Integer> map = engine.remove(root);
+       // if (map == null) map = new HashMap<>();
+        if (map.containsKey(fileName)) map.replace(fileName, map.get(fileName) + 1);
+        else map.put(fileName, 1);
+        engine.put(root, map);
     }
 
     public String wordStemmer(String word) {
@@ -66,11 +70,11 @@ public class InvertedIndex {
     }
 
 
-    public void addFile(String title, StringBuilder fileText) {
-        manipulateFile(fileText.toString()).forEach((word) -> addWordToEngine(word, title));
+    public void addFile(String title, String fileText) {
+        manipulateFile(fileText).forEach((word) -> addWordToEngine(word, title));
     }
 
-    public Map<String, Set<String>> getEngine() {
+    public Map<String, Map<String, Integer>> getEngine() {
         return engine;
     }
 }

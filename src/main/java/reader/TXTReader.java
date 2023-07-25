@@ -3,6 +3,8 @@ package reader;
 import lombok.RequiredArgsConstructor;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -39,15 +41,26 @@ public class TXTReader extends Reader {
     }
 
     @Override
-    public Map<String, StringBuilder> getMapDocuments() {
-        Arrays.stream(getFiles()).filter(file -> fileIsValid(file.getName())).map(
-                        file -> {
-                            StringBuilder fileWords = getFileLines(file);
-                            return (fileWords != null) ? new AbstractMap.SimpleEntry<>(file.getName(), fileWords) : null;
-                        }
-                ).filter(Objects::nonNull)
-                .forEach(x -> filesTexts.put(x.getKey(), x.getValue()));
-        return this.getFilesTexts();
+    public Map<String, String> getMapDocuments() {
+//        Arrays.stream(getFiles()).filter(file -> fileIsValid(file.getName())).map(
+//                        file -> {
+//                            StringBuilder fileWords = getFileLines(file);
+//                            return (fileWords != null) ? new AbstractMap.SimpleEntry<>(file.getName(), fileWords) : null;
+//                        }
+//                ).filter(Objects::nonNull)
+//                .forEach(x -> filesTexts.put(x.getKey(), x.getValue()));
+        Map<String, String> documents = new HashMap<>();
+        try {
+            File sourceFolder = new File(filesPath);
+            for (File sourceFile : sourceFolder.listFiles()) {
+                String name = sourceFile.getName();
+                //System.out.println(name);
+                documents.put(name, Files.readString(Path.of(filesPath, name)));
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return documents;
     }
 
 }

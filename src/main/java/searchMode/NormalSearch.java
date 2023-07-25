@@ -28,7 +28,7 @@ public class NormalSearch extends Search {
             if (invertedIndex.getWordValidator().isAcceptable(word)) {
                 word = invertedIndex.checkForStem(word);
                 if (invertedIndex.getEngine().containsKey(word)) {
-                    files.addAll(invertedIndex.getEngine().get(word));
+                    files.addAll(invertedIndex.getEngine().get(word).keySet());
                 }
             }
         }

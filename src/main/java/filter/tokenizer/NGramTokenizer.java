@@ -11,16 +11,16 @@ public class NGramTokenizer implements Tokenizer {
     private final String regex;
 
     @Override
-    public Set<String> tokenize(String line) {
-        Set<String> split_tokens = new SplitTokenizer(regex).tokenize(line);
-        Set<String> tokens = new HashSet<>();
+    public List<String> tokenize(String line) {
+        List<String> split_tokens = new SplitTokenizer(regex).tokenize(line);
+        List<String> tokens = new ArrayList<>();
         for (int i = min; i <= max; i++)
             tokens.addAll(n_Grams(i, split_tokens));
         return tokens;
     }
 
-    private Set<String> n_Grams(int n, Set<String> split_tokens) {
-        Set<String> nLengthTokens = new HashSet<>();
+    private List<String> n_Grams(int n, List<String> split_tokens) {
+        List<String> nLengthTokens = new ArrayList<>();
         for (String token : split_tokens) {
             if (token.length() < n)
                 nLengthTokens.add(token);

@@ -13,6 +13,6 @@ public abstract class Reader {
         filesTexts = new HashMap<>();
     }
 
-    public abstract Map<String, StringBuilder> getMapDocuments();
+    public abstract Map<String, String> getMapDocuments();
 
 }
