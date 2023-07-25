@@ -1,7 +1,10 @@
-package searchMode.advancedSearch;
+package search.searchMode.advancedSearch;
 import dataStructures.InvertedIndex;
 import dataStructures.ListCategory;
-import searchMode.Search;
+import dataStructures.Score;
+import search.Sort;
+import search.searchMode.Search;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,14 +12,16 @@ import java.util.regex.Pattern;
 public class AdvancedSearch extends Search {
     private final Set<String> queryWords;
     private final ListCategory listCategory;
+    private Set<String> finalQueryWords;
 
     public AdvancedSearch(InvertedIndex invertedIndex, String query) {
         super(query, invertedIndex);
         queryWords = new HashSet<>();
         listCategory = new ListCategory(getAllFiles(invertedIndex.getEngine()));
+        finalQueryWords = new HashSet<>();
     }
 
-    public Set<String> getAllFiles(Map<String, Map<String, Integer>> engine) {
+    public Set<String> getAllFiles(Map<String, Map<String, Score>> engine) {
         Set<String> allFiles = new HashSet<>();
         for (String word : engine.keySet()) allFiles.addAll(engine.get(word).keySet());
         return allFiles;
@@ -28,7 +33,8 @@ public class AdvancedSearch extends Search {
         if (!invertedIndex.getWordValidator().isAcceptable(word))
             return;
         String stemmedWord = invertedIndex.checkForStem(word);
-        Set<String> files = getMapValue(invertedIndex.getEngine() , stemmedWord);;
+        Set<String> files = getMapValue(invertedIndex.getEngine() , stemmedWord);
+        finalQueryWords.add(stemmedWord);
         switch (type) {
             case ESSENTIAL -> listCategory.addToEssentialFile(files);
             case FORBIDDEN -> listCategory.addToForbiddenFile(files);
@@ -36,7 +42,7 @@ public class AdvancedSearch extends Search {
         }
     }
 
-    private Set<String> getMapValue(Map<String, Map<String, Integer>> map, String key) {
+    private Set<String> getMapValue(Map<String, Map<String, Score>> map, String key) {
         return map.containsKey(key) ? map.get(key).keySet() : new HashSet<>();
     }
 
@@ -60,6 +66,8 @@ public class AdvancedSearch extends Search {
             queryWords.add(m.group());
         }
         categorizeWords();
-        return listCategory.intersectFiles();
+        new Sort(finalQueryWords, invertedIndex, listCategory.intersectFiles()).sort();
+        return new HashSet<>();
+
     }
 }

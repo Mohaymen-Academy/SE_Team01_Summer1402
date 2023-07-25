@@ -1,4 +1,4 @@
-package searchMode.advancedSearch;
+package search.searchMode.advancedSearch;
 
 public enum ListType {
     ESSENTIAL,

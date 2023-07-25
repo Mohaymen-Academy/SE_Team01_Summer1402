@@ -1,11 +1,3 @@
-import dataStructures.InvertedIndex;
-import filter.tokenizer.NGramTokenizer;
-import org.tartarus.snowball.ext.PorterStemmer;
-import searchMode.Search;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -28,20 +20,28 @@ public class tmo {
 //           System.out.println(tt);
 //        }
 
-        List<String> myList = new ArrayList<>(Arrays.asList("Ahmad","Asghar","x","azz"));
-        List<String> result = new ArrayList<>();
+//        List<String> myList = new ArrayList<>(Arrays.asList("Ahmad","Asghar","x","azz"));
+//        List<String> result = new ArrayList<>();
+//
+//        for (String name : myList)
+//            if (name.toUpperCase().startsWith("A"))
+//                result.add(name);
+//
+//        result.sort(null);
+//
+//        for (String name : result)
+//            System.out.println(name);
+//
+//
+//        myList.stream().filter(x -> x.toUpperCase().startsWith("A")).
+//                        collect(Collectors.toList()).stream().sorted(String::compareTo).forEach(System.out::println);
 
-        for (String name : myList)
-            if (name.toUpperCase().startsWith("A"))
-                result.add(name);
-
-        result.sort(null);
-
-        for (String name : result)
-            System.out.println(name);
-
-
-        myList.stream().filter(x -> x.toUpperCase().startsWith("A")).
-                        collect(Collectors.toList()).stream().sorted(String::compareTo).forEach(System.out::println);
+        Map<String, Integer> map = new HashMap<>();
+        map.put("a", 23);
+        map.put("b", 12);
+        map.put("c", 20);
+        List<Map.Entry<String, Integer>> list = new ArrayList<>(map.entrySet());
+        list.sort(Map.Entry.comparingByValue());
+        list.forEach(System.out::println);
     }
 }

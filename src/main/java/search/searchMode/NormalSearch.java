@@ -1,4 +1,4 @@
-package searchMode;
+package search.searchMode;
 
 import dataStructures.InvertedIndex;
 

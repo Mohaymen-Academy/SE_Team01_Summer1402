@@ -10,10 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.tartarus.snowball.ext.PorterStemmer;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Builder
@@ -21,7 +18,7 @@ import java.util.stream.Collectors;
 @Setter
 public class InvertedIndex {
 
-    private final Map<String, Map<String, Integer>> engine = new HashMap<>();
+    private final Map<String, Map<String, Score>> engine = new HashMap<>();
     @Builder.Default
     private Normalizer normalizer = new UpperCaseNormalizer();
     @Builder.Default
@@ -38,14 +35,14 @@ public class InvertedIndex {
         this.doStem = doStem;
     }
 
-    private void addWordToEngine(String root, String fileName) {
+    private void addWordToEngine(String root, String fileName, long totalWordsNum) {
         if (!engine.containsKey(root)) {
             engine.put(root, new HashMap<>());
         }
-        Map<String, Integer> map = engine.remove(root);
+        Map<String, Score> map = engine.remove(root);
        // if (map == null) map = new HashMap<>();
-        if (map.containsKey(fileName)) map.replace(fileName, map.get(fileName) + 1);
-        else map.put(fileName, 1);
+        if (map.containsKey(fileName)) map.replace(fileName, map.get(fileName).add());
+        else map.put(fileName, new Score(totalWordsNum).add());
         engine.put(root, map);
     }
 
@@ -60,21 +57,23 @@ public class InvertedIndex {
         return doStem ? wordStemmer(word) : word;
     }
 
-    private Set<String> manipulateFile(String fileText) {
-        Set<String> tokenizedWords = new HashSet<>(tokenizer.tokenize(fileText));
+    private List<String> manipulateFile(String fileText) {
+        List<String> tokenizedWords = new ArrayList<>(tokenizer.tokenize(fileText));
         return tokenizedWords.stream().
                 map(normalizer::normalize).
                 filter(wordValidator::isAcceptable).
                 map(this::checkForStem).
-                collect(Collectors.toSet());
+                collect(Collectors.toList());
     }
 
 
     public void addFile(String title, String fileText) {
-        manipulateFile(fileText).forEach((word) -> addWordToEngine(word, title));
+        List<String> words = manipulateFile(fileText);
+        int size = manipulateFile(fileText).size();
+        words.forEach((word) -> addWordToEngine(word, title, size));
     }
 
-    public Map<String, Map<String, Integer>> getEngine() {
+    public Map<String, Map<String, Score>> getEngine() {
         return engine;
     }
 }

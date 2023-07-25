@@ -1,5 +1,6 @@
 package reader;
 
+import dataStructures.Document;
 import lombok.RequiredArgsConstructor;
 
 import java.io.*;
@@ -55,7 +56,8 @@ public class TXTReader extends Reader {
             for (File sourceFile : sourceFolder.listFiles()) {
                 String name = sourceFile.getName();
                 //System.out.println(name);
-                documents.put(name, Files.readString(Path.of(filesPath, name)));
+                String txt = Files.readString(Path.of(filesPath, name));
+                documents.put(name, txt);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

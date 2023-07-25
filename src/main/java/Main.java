@@ -1,10 +1,11 @@
+import dataStructures.Document;
 import dataStructures.InvertedIndex;
 import filter.WordValidator;
 import filter.tokenizer.NGramTokenizer;
 import filter.normalizer.UpperCaseNormalizer;
 import reader.TXTReader;
-import searchMode.Search;
-import searchMode.advancedSearch.AdvancedSearch;
+import search.searchMode.Search;
+import search.searchMode.advancedSearch.AdvancedSearch;
 import java.io.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -28,6 +29,7 @@ public class Main {
         String query = getQuery();
         Search search = new AdvancedSearch(invertedIndex, query);
         search.printDocuments(search.getAllDocuments());
+       // Document.docsWordsNum.forEach();
     }
 
     private static String getQuery() {
