@@ -1,10 +1,8 @@
 package dataStructures;
 
-import filter.WordValidator;
-import filter.normalizer.Normalizer;
-import filter.normalizer.UpperCaseNormalizer;
-import filter.tokenizer.SplitTokenizer;
-import filter.tokenizer.Tokenizer;
+import filter.*;
+import filter.normalizer.*;
+import filter.tokenizer.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,14 +25,8 @@ public class InvertedIndex {
     @Builder.Default
     private boolean doStem = true;
 
-    public InvertedIndex(Normalizer normalizer, Tokenizer tokenizer, WordValidator wordValidator, boolean doStem) {
-        this.normalizer = normalizer;
-        this.tokenizer = tokenizer;
-        this.wordValidator = wordValidator;
-        this.doStem = doStem;
-    }
-
     private void addWordToEngine(Map<String, Long> words, String title, long size) {
+
         for (Map.Entry<String, Long> en : words.entrySet()) {
             if (indexMap.containsKey(en.getKey()))
                 indexMap.get(en.getKey()).put(title, new Score(size, en.getValue()));
@@ -54,10 +46,10 @@ public class InvertedIndex {
     }
 
     public String checkForStem(String word) {
-        return doStem ? wordStemmer(word) : word;
+        return isDoStem() ? wordStemmer(word) : word;
     }
 
-    private Map<String, Long> filterContext(String title, String context) {
+    private Map<String, Long> filterContext(String context) {
         Map<String, Long> tokenizedWords = tokenizer.tokenize(context);
         Map<String, Long> result = new HashMap<>();
         String key;
@@ -75,8 +67,9 @@ public class InvertedIndex {
     }
 
     public void addNewContext(String title, String context) {
-        Map<String, Long> words = filterContext(title, context);
+        Map<String, Long> words = filterContext(context);
         long size = words.values().stream().mapToLong(Long::longValue).sum();
+
         addWordToEngine(words, title, size);
     }
 

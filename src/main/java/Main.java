@@ -2,6 +2,7 @@ import dataStructures.InvertedIndex;
 import filter.WordValidator;
 import filter.tokenizer.NGramTokenizer;
 import filter.normalizer.UpperCaseNormalizer;
+import filter.tokenizer.SplitTokenizer;
 import reader.TXTReader;
 import search.searchMode.Search;
 import search.searchMode.advancedSearch.AdvancedSearch;
@@ -19,9 +20,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
         startTime = System.currentTimeMillis();
         InvertedIndex invertedIndex = InvertedIndex.builder().
-                tokenizer(new NGramTokenizer(3, 5, "[^\\da-zA-Z]+")).
+                tokenizer(new SplitTokenizer("[^\\da-zA-Z]+")).
                 normalizer(new UpperCaseNormalizer()).
-                doStem(true).
+                doStem(false).
                 wordValidator(new WordValidator(true)).
                 build();
         DataManager dataManager = new DataManager(invertedIndex);
@@ -44,7 +45,7 @@ public class Main {
         if (documentTitles.isEmpty()) System.out.println("There is no document.");
         int index = 1;
         for (Map.Entry<String, Double> entry : documentTitles)
-            System.out.println((index++) +") "+ entry.getKey() + "\n the score is: " + entry.getValue());
+            System.out.println((index++) + ") " + entry.getKey() + "\n the score is: " + entry.getValue());
     }
 
 }
