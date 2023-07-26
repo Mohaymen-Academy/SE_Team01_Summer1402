@@ -12,7 +12,7 @@ public class ListClassifierTest {
     void set() {
         Set<String> set = new HashSet<>();
         for (int i = 0; i < 10; i++) {
-            String contextTitle = "context" + i;
+            String contextTitle = "file" + i;
             set.add(contextTitle);
         }
         listClassifier = new ListClassifier(set);
