@@ -20,7 +20,7 @@ public class Sorter {
     private void calculateFileScores() {
         for (String word : queryWords) {
             for (String fileName : finalFiles) {
-                Score score = invertedIndex.getEngine().get(word).get(fileName);
+                Score score = invertedIndex.getIndexMap().get(word).get(fileName);
                 if (score != null)
                     filesScores.replace(fileName, filesScores.get(fileName) + score.getScore());
             }

@@ -14,6 +14,6 @@ public class SplitTokenizer implements Tokenizer {
     @Override
     public Map<String, Long> tokenize(String line) {
         return Arrays.stream(line.trim().split(regex))
-                .collect( Collectors.groupingBy( Function.identity(), Collectors.counting() ));
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
     }
 }

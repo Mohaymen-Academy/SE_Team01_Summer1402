@@ -1,10 +1,8 @@
-import dataStructures.Document;
 import dataStructures.InvertedIndex;
 import filter.WordValidator;
 import filter.tokenizer.NGramTokenizer;
 import filter.normalizer.UpperCaseNormalizer;
 import reader.TXTReader;
-import search.searchMode.NormalSearch;
 import search.searchMode.Search;
 import search.searchMode.advancedSearch.AdvancedSearch;
 import java.io.*;
