@@ -1,3 +1,6 @@
+import filter.tokenizer.NGramTokenizer;
+import filter.tokenizer.SplitTokenizer;
+import filter.tokenizer.Tokenizer;
 import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.io.IOException;
@@ -6,40 +9,11 @@ import java.util.stream.Collectors;
 
 public class tmo {
     public static void main(String[] args) throws IOException {
-//        File file=new File("./textFiles/Clean Agile.txt");
-//        BufferedReader bf=new BufferedReader(new FileReader(file));
-//        String line;
-//        PorterStemmer stm=new PorterStemmer();
-//        stm.setCurrent("ert");
-//        stm.stem();
-//        System.out.println(stm.getCurrent());
-//        NGramTokenizer tokenizer=new NGramTokenizer(3,5,"[^\\da-zA-Z]+");
-//        Set<String> tt=new HashSet<>();
-//        while ((line=bf.readLine())!=null){
-//            System.out.println(line);
-//            tt=tokenizer.tokenize(line);
-//
-//           System.out.println(tt);
-//        }
-
-//        List<String> myList = new ArrayList<>(Arrays.asList("Ahmad","Asghar","x","azz"));
-//        List<String> result = new ArrayList<>();
-//
-//        for (String name : myList)
-//            if (name.toUpperCase().startsWith("A"))
-//                result.add(name);
-//
-//        result.sort(null);
-//
-//        for (String name : result)
-//            System.out.println(name);
-//
-//
-//        myList.stream().filter(x -> x.toUpperCase().startsWith("A")).
-//                        collect(Collectors.toList()).stream().sorted(String::compareTo).forEach(System.out::println);
-        PorterStemmer x=new PorterStemmer();
-        x.setCurrent("dogm");
-        x.stem();
-        System.out.println(x.getCurrent());
+        Tokenizer tokenizer = new NGramTokenizer(3, 5,"[\\s\\n\\-]+");
+        Map<String,Long>result=tokenizer.tokenize
+                ("sal203\n\n bc -skpqk-l23-wk wks sal203 ---  xs=dog/hotdog/hottdoggg");
+        for (Map.Entry<String, Long> en : result.entrySet()) {
+            System.out.println(en.getKey() + " " + en.getValue());
+        }
     }
 }
