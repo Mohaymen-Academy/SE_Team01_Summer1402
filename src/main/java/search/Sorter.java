@@ -20,21 +20,22 @@ public class Sorter {
     private void calculateFileScores() {
         for (String word : queryWords) {
             for (String fileName : finalFiles) {
-                Score score = invertedIndex.getIndexMap().get(word).get(fileName);
+                Score score = null;
+                if (invertedIndex.getIndexMap().containsKey(word)) {
+                    score = invertedIndex.getIndexMap().get(word).get(fileName);
+                }
                 if (score != null)
                     filesScores.replace(fileName, filesScores.get(fileName) + score.getScore());
             }
         }
     }
 
-    public List<String> sort() {
+    public List<Map.Entry<String, Double>> sort() {
         fillInitialMap();
         calculateFileScores();
-        List<Map.Entry<String, Double>> list = new ArrayList<>(filesScores.entrySet());
-        list.sort(Map.Entry.comparingByValue());
-        List<String> result = new LinkedList<>();
-        list.forEach(entry -> result.add(entry.getKey()));
-        return result;
+        List<Map.Entry<String, Double>> sorted_values = new ArrayList<>(filesScores.entrySet());
+        sorted_values.sort(Map.Entry.comparingByValue());
+        return sorted_values;
     }
 
 }

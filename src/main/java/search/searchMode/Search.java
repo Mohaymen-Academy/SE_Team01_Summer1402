@@ -6,6 +6,7 @@ import search.Sorter;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @RequiredArgsConstructor
@@ -14,7 +15,7 @@ public abstract class Search {
     protected final InvertedIndex invertedIndex;
     protected Set<String> finalQueryWords = new HashSet<>();
 
-    public List<String> sortResult(Set<String> finalFiles) {
+    public List<Map.Entry<String, Double>> sortResult(Set<String> finalFiles) {
         return new Sorter(finalQueryWords, invertedIndex, finalFiles).sort();
     }
 
