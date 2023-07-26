@@ -2,7 +2,6 @@ package search.searchMode.advancedSearch;
 import dataStructures.InvertedIndex;
 import dataStructures.ListCategory;
 import dataStructures.Score;
-import search.Sort;
 import search.searchMode.Search;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -11,7 +10,6 @@ import java.util.regex.Pattern;
 public class AdvancedSearch extends Search {
     private final Set<String> queryWords;
     private final ListCategory listCategory;
-    private Set<String> finalQueryWords;
 
     public AdvancedSearch(InvertedIndex invertedIndex, String query) {
         super(query, invertedIndex);
@@ -28,10 +26,8 @@ public class AdvancedSearch extends Search {
 
 
     public void addToListCategory(String word, ListType type) {
-        word = invertedIndex.getNormalizer().normalize(word);
-        if (!invertedIndex.getWordValidator().isAcceptable(word))
-            return;
-        String stemmedWord = invertedIndex.checkForStem(word);
+        String stemmedWord = filterWord(word);
+        if (word == null) return;
         Set<String> files = getMapValue(invertedIndex.getEngine() , stemmedWord);
         finalQueryWords.add(stemmedWord);
         switch (type) {
@@ -65,8 +61,7 @@ public class AdvancedSearch extends Search {
             queryWords.add(m.group());
         }
         categorizeWords();
-        new Sort(finalQueryWords, invertedIndex, listCategory.intersectFiles()).sort();
-        return new HashSet<>();
+        return listCategory.intersectFiles();
 
     }
 }

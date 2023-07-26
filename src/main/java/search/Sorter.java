@@ -7,7 +7,7 @@ import lombok.RequiredArgsConstructor;
 import java.util.*;
 
 @RequiredArgsConstructor
-public class Sort {
+public class Sorter {
     private final Set<String> queryWords;
     private final InvertedIndex invertedIndex;
     private final Set<String> finalFiles;
@@ -27,12 +27,14 @@ public class Sort {
         }
     }
 
-    public void sort() {
+    public List<String> sort() {
         fillInitialMap();
         calculateFileScores();
         List<Map.Entry<String, Double>> list = new ArrayList<>(filesScores.entrySet());
         list.sort(Map.Entry.comparingByValue());
-        list.forEach(System.out::println);
+        List<String> result = new LinkedList<>();
+        list.forEach(entry -> result.add(entry.getKey()));
+        return result;
     }
 
 }

@@ -37,12 +37,12 @@ public class InvertedIndex {
 
     private void addWordToEngine(Map<String, Long> words, String title, long size) {
         for (Map.Entry<String, Long> en : words.entrySet()) {
-            if (engine.containsKey(en.getKey())) {
+            if (engine.containsKey(en.getKey()))
                 engine.get(en.getKey()).put(title, new Score(size, en.getValue()));
-            } else {
-                Map<String, Score> new_map = new HashMap<>();
-                new_map.put(title, new Score(size, en.getValue()));
-                engine.put(en.getKey(), new_map);
+            else {
+                Map<String, Score> newMap = new HashMap<>();
+                newMap.put(title, new Score(size, en.getValue()));
+                engine.put(en.getKey(), newMap);
             }
         }
     }
@@ -65,11 +65,10 @@ public class InvertedIndex {
             key = normalizer.normalize(e.getKey());
             if (wordValidator.isAcceptable(key)) {
                 key = checkForStem(key);
-                if (result.containsKey(key)) {
+                if (result.containsKey(key))
                     result.replace(key, e.getValue() + result.get(key));
-                } else {
+                else
                     result.put(key, e.getValue());
-                }
             }
         }
         return result;
