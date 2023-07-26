@@ -4,6 +4,7 @@ import dataStructures.InvertedIndex;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class NormalSearch extends Search {
@@ -22,16 +23,15 @@ public class NormalSearch extends Search {
     }
 
     private Set<String> getNames() {
-        Set<String> files = new HashSet<>();
-        for (String word : queryWords) {
-            word = invertedIndex.getNormalizer().normalize(word);
-            if (invertedIndex.getWordValidator().isAcceptable(word)) {
-                word = invertedIndex.checkForStem(word);
-                if (invertedIndex.getEngine().containsKey(word)) {
-                    files.addAll(invertedIndex.getEngine().get(word).keySet());
-                }
-            }
-        }
-        return files;
+        Set<String> finalFiles = new HashSet<>();
+        queryWords.stream()
+                .map(this::filterWord)
+                .filter(Objects::nonNull)
+                .filter(invertedIndex.getIndexMap()::containsKey)
+                .forEach(word -> {
+                    finalQueryWords.add(word);
+                    finalFiles.addAll(invertedIndex.getIndexMap().get(word).keySet());
+                });
+        return finalFiles;
     }
 }

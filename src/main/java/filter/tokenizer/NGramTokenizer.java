@@ -10,15 +10,15 @@ public class NGramTokenizer implements Tokenizer {
     private final int max;
     private final String regex;
 
-    private Map<String, Long> tokenWords = new HashMap<>();
+    private final Map<String, Long> tokenWords = new HashMap<>();
 
 
     @Override
     public Map<String, Long> tokenize(String line) {
         tokenWords.clear();
-        Map<String, Long> split_tokens = new SplitTokenizer(regex).tokenize(line);
+        Map<String, Long> splitTokens = new SplitTokenizer(regex).tokenize(line);
         for (int i = min; i <= max; i++) {
-            for (Map.Entry<String, Long> entry : split_tokens.entrySet()) {
+            for (Map.Entry<String, Long> entry : splitTokens.entrySet()) {
                 n_Grams(i, entry.getKey(), entry.getValue());
             }
         }
@@ -30,16 +30,15 @@ public class NGramTokenizer implements Tokenizer {
         if (token.length() >= n) {
             for (int i = 0; i < token.length() - n + 1; i++) {
                 token = token.substring(i, i + n);
-                if (tokenWords.containsKey(token)) {
-                    tokenWords.replace(token, tokenWords.get(token) + occurrence);
-                } else
-                    tokenWords.put(token, occurrence);
+                addToTokenWords(token, occurrence);
             }
-        } else {
-            if (tokenWords.containsKey(token)) {
-                tokenWords.replace(token, tokenWords.get(token) + occurrence);
-            } else
-                tokenWords.put(token, occurrence);
-        }
+        } else addToTokenWords(token, occurrence);
+    }
+
+    private void addToTokenWords(String token, Long occurrence) {
+        if (tokenWords.containsKey(token))
+            tokenWords.replace(token, tokenWords.get(token) + occurrence);
+        else
+            tokenWords.put(token, occurrence);
     }
 }

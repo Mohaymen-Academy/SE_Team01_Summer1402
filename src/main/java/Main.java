@@ -1,10 +1,8 @@
-import dataStructures.Document;
 import dataStructures.InvertedIndex;
 import filter.WordValidator;
 import filter.tokenizer.NGramTokenizer;
 import filter.normalizer.UpperCaseNormalizer;
 import reader.TXTReader;
-import search.searchMode.NormalSearch;
 import search.searchMode.Search;
 import search.searchMode.advancedSearch.AdvancedSearch;
 import java.io.*;
@@ -29,7 +27,7 @@ public class Main {
         dataManager.createDatabase(new TXTReader(path));
         String query = getQuery();
         Search search = new AdvancedSearch(invertedIndex, query);
-        search.printDocuments(search.getAllDocuments());
+        printDocuments(search.sortResult(search.getAllDocuments()));
     }
 
     private static String getQuery() {
@@ -39,6 +37,11 @@ public class Main {
         System.out.println("Execution time is " + formatter.format((endTime - startTime) / 1000d) + " seconds");
         System.out.println("Enter query: ");
         return scanner.nextLine();
+    }
+
+    public static void printDocuments(List<String> documentTitles) {
+        if (documentTitles.isEmpty()) System.out.println("There is no document.");
+        documentTitles.forEach(System.out::println);
     }
 
 }

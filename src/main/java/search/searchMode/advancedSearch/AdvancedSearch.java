@@ -1,8 +1,7 @@
 package search.searchMode.advancedSearch;
 import dataStructures.InvertedIndex;
-import dataStructures.ListCategory;
+import dataStructures.ListClassifier;
 import dataStructures.Score;
-import search.Sort;
 import search.searchMode.Search;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -10,13 +9,12 @@ import java.util.regex.Pattern;
 
 public class AdvancedSearch extends Search {
     private final Set<String> queryWords;
-    private final ListCategory listCategory;
-    private Set<String> finalQueryWords;
+    private final ListClassifier listCategory;
 
     public AdvancedSearch(InvertedIndex invertedIndex, String query) {
         super(query, invertedIndex);
         queryWords = new HashSet<>();
-        listCategory = new ListCategory(getAllFiles(invertedIndex.getEngine()));
+        listCategory = new ListClassifier(getAllFiles(invertedIndex.getIndexMap()));
         finalQueryWords = new HashSet<>();
     }
 
@@ -28,16 +26,14 @@ public class AdvancedSearch extends Search {
 
 
     public void addToListCategory(String word, ListType type) {
-        word = invertedIndex.getNormalizer().normalize(word);
-        if (!invertedIndex.getWordValidator().isAcceptable(word))
-            return;
-        String stemmedWord = invertedIndex.checkForStem(word);
-        Set<String> files = getMapValue(invertedIndex.getEngine() , stemmedWord);
+        String stemmedWord = filterWord(word);
+        if (word == null) return;
+        Set<String> files = getMapValue(invertedIndex.getIndexMap() , stemmedWord);
         finalQueryWords.add(stemmedWord);
         switch (type) {
-            case ESSENTIAL -> listCategory.addToEssentialFile(files);
-            case FORBIDDEN -> listCategory.addToForbiddenFile(files);
-            case OPTIONAL -> listCategory.addToOptionalFile(files);
+            case ESSENTIAL -> listCategory.addToEssentialContexts(files);
+            case FORBIDDEN -> listCategory.addToForbiddenContexts(files);
+            case OPTIONAL -> listCategory.addToOptionalContexts(files);
         }
     }
 
@@ -65,8 +61,7 @@ public class AdvancedSearch extends Search {
             queryWords.add(m.group());
         }
         categorizeWords();
-        new Sort(finalQueryWords, invertedIndex, listCategory.intersectFiles()).sort();
-        return new HashSet<>();
+        return listCategory.intersectContexts();
 
     }
 }

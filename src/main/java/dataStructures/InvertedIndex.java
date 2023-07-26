@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.tartarus.snowball.ext.PorterStemmer;
-
 import java.util.*;
 
 @Builder
@@ -17,7 +16,7 @@ import java.util.*;
 @Setter
 public class InvertedIndex {
 
-    private final Map<String, Map<String, Score>> engine = new HashMap<>();
+    private final Map<String, Map<String, Score>> indexMap = new HashMap<>();
     @Builder.Default
     private Normalizer normalizer = new UpperCaseNormalizer();
     @Builder.Default
@@ -37,12 +36,12 @@ public class InvertedIndex {
 
     private void addWordToEngine(Map<String, Long> words, String title, long size) {
         for (Map.Entry<String, Long> en : words.entrySet()) {
-            if (engine.containsKey(en.getKey())) {
-                engine.get(en.getKey()).put(title, new Score(size, en.getValue()));
-            } else {
-                Map<String, Score> new_map = new HashMap<>();
-                new_map.put(title, new Score(size, en.getValue()));
-                engine.put(en.getKey(), new_map);
+            if (indexMap.containsKey(en.getKey()))
+                indexMap.get(en.getKey()).put(title, new Score(size, en.getValue()));
+            else {
+                Map<String, Score> newMap = new HashMap<>();
+                newMap.put(title, new Score(size, en.getValue()));
+                indexMap.put(en.getKey(), newMap);
             }
         }
     }
@@ -57,32 +56,30 @@ public class InvertedIndex {
         return doStem ? wordStemmer(word) : word;
     }
 
-    private Map<String, Long> manipulateFile(String fileText) {
-        Map<String, Long> tokenizedWords = tokenizer.tokenize(fileText);
+    private Map<String, Long> filterContext(String context) {
+        Map<String, Long> tokenizedWords = tokenizer.tokenize(context);
         Map<String, Long> result = new HashMap<>();
         String key;
         for (Map.Entry<String, Long> e : tokenizedWords.entrySet()) {
             key = normalizer.normalize(e.getKey());
             if (wordValidator.isAcceptable(key)) {
                 key = checkForStem(key);
-                if (result.containsKey(key)) {
+                if (result.containsKey(key))
                     result.replace(key, e.getValue() + result.get(key));
-                } else {
+                else
                     result.put(key, e.getValue());
-                }
             }
         }
         return result;
     }
 
-
-    public void addFile(String title, String fileText) {
-        Map<String, Long> words = manipulateFile(fileText);
+    public void addNewContext(String title, String context) {
+        Map<String, Long> words = filterContext(context);
         long size = words.values().stream().mapToLong(Long::longValue).sum();
         addWordToEngine(words, title, size);
     }
 
-    public Map<String, Map<String, Score>> getEngine() {
-        return engine;
+    public Map<String, Map<String, Score>> getIndexMap() {
+        return indexMap;
     }
 }
