@@ -18,23 +18,6 @@ public class TXTReader extends Reader {
         return directoryPath.listFiles();
     }
 
-    private StringBuilder getFileLines(File file) {
-        BufferedReader bufferedReader;
-        StringBuilder text = null;
-        try {
-            bufferedReader = new BufferedReader(new FileReader(file));
-            text = new StringBuilder();
-            String line;
-            while ((line = bufferedReader.readLine()) != null)
-                text.append("\n").append(line);
-        } catch (FileNotFoundException e) {
-            System.out.println("file not found.");
-        } catch (IOException e) {
-            System.out.println("invalid file");
-        }
-        return text;
-    }
-
     private boolean fileIsValid(String fileName) {
         String[] splitName = fileName.split("\\.");
         return splitName.length > 0 &&
@@ -43,21 +26,16 @@ public class TXTReader extends Reader {
 
     @Override
     public Map<String, String> getMapDocuments() {
-//        Arrays.stream(getFiles()).filter(file -> fileIsValid(file.getName())).map(
-//                        file -> {
-//                            StringBuilder fileWords = getFileLines(file);
-//                            return (fileWords != null) ? new AbstractMap.SimpleEntry<>(file.getName(), fileWords) : null;
-//                        }
-//                ).filter(Objects::nonNull)
-//                .forEach(x -> filesTexts.put(x.getKey(), x.getValue()));
         Map<String, String> documents = new HashMap<>();
         try {
-            File sourceFolder = new File(filesPath);
-            for (File sourceFile : sourceFolder.listFiles()) {
-                String name = sourceFile.getName();
-                //System.out.println(name);
-                String txt = Files.readString(Path.of(filesPath, name));
-                documents.put(name, txt);
+            String title, context;
+            for (File sourceFile : getFiles()) {
+                title = sourceFile.getName();
+                if (fileIsValid(title)) {
+                    title = sourceFile.getName();
+                    context = Files.readString(Path.of(filesPath, title));
+                    documents.put(title, context);
+                }
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());

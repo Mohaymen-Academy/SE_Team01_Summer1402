@@ -10,7 +10,6 @@ public class Document {
     private final long totalWordsNum;
     private long wordNum;
 
-
     public double getScore() {
         return Math.log((double) wordNum / totalWordsNum);
     }

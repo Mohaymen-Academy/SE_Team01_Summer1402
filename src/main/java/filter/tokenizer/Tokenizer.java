@@ -1,8 +1,7 @@
 package filter.tokenizer;
 
-import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 public interface Tokenizer {
-    List<String> tokenize(String line);
+    Map<String, Long> tokenize(String line);
 }

@@ -4,7 +4,6 @@ import dataStructures.ListCategory;
 import dataStructures.Score;
 import search.Sort;
 import search.searchMode.Search;
-
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

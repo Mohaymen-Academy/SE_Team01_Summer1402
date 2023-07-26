@@ -4,6 +4,7 @@ import filter.WordValidator;
 import filter.tokenizer.NGramTokenizer;
 import filter.normalizer.UpperCaseNormalizer;
 import reader.TXTReader;
+import search.searchMode.NormalSearch;
 import search.searchMode.Search;
 import search.searchMode.advancedSearch.AdvancedSearch;
 import java.io.*;
@@ -14,7 +15,7 @@ import java.util.*;
 public class Main {
 
     public static final String path = "./textFiles";
-    static long startTime;
+    static long startTime,endTime;
 
     public static void main(String[] args) throws IOException {
         startTime = System.currentTimeMillis();
@@ -29,16 +30,14 @@ public class Main {
         String query = getQuery();
         Search search = new AdvancedSearch(invertedIndex, query);
         search.printDocuments(search.getAllDocuments());
-       // Document.docsWordsNum.forEach();
     }
 
     private static String getQuery() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter query: ");
-        long endTime   = System.currentTimeMillis();
-        long totalTime = endTime - startTime;
+        endTime   = System.currentTimeMillis();
         NumberFormat formatter = new DecimalFormat("#0.00000");
-        System.out.print("Execution time is " + formatter.format((endTime - startTime) / 1000d) + " seconds");
+        System.out.println("Execution time is " + formatter.format((endTime - startTime) / 1000d) + " seconds");
+        System.out.println("Enter query: ");
         return scanner.nextLine();
     }
 

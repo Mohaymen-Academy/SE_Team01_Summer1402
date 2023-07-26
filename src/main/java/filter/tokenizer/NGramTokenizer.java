@@ -10,24 +10,36 @@ public class NGramTokenizer implements Tokenizer {
     private final int max;
     private final String regex;
 
-    @Override
-    public List<String> tokenize(String line) {
-        List<String> split_tokens = new SplitTokenizer(regex).tokenize(line);
-        List<String> tokens = new ArrayList<>();
-        for (int i = min; i <= max; i++)
-            tokens.addAll(n_Grams(i, split_tokens));
-        return tokens;
-    }
+    private Map<String, Long> tokenWords = new HashMap<>();
 
-    private List<String> n_Grams(int n, List<String> split_tokens) {
-        List<String> nLengthTokens = new ArrayList<>();
-        for (String token : split_tokens) {
-            if (token.length() < n)
-                nLengthTokens.add(token);
-            for (int i = 0; i < token.length() - n + 1; i++) {
-                nLengthTokens.add(token.substring(i, i + n));
+
+    @Override
+    public Map<String, Long> tokenize(String line) {
+        tokenWords.clear();
+        Map<String, Long> split_tokens = new SplitTokenizer(regex).tokenize(line);
+        for (int i = min; i <= max; i++) {
+            for (Map.Entry<String, Long> entry : split_tokens.entrySet()) {
+                n_Grams(i, entry.getKey(), entry.getValue());
             }
         }
-        return nLengthTokens;
+
+        return tokenWords;
+    }
+
+    private void n_Grams(int n, String token, Long occurrence) {
+        if (token.length() >= n) {
+            for (int i = 0; i < token.length() - n + 1; i++) {
+                token = token.substring(i, i + n);
+                if (tokenWords.containsKey(token)) {
+                    tokenWords.replace(token, tokenWords.get(token) + occurrence);
+                } else
+                    tokenWords.put(token, occurrence);
+            }
+        } else {
+            if (tokenWords.containsKey(token)) {
+                tokenWords.replace(token, tokenWords.get(token) + occurrence);
+            } else
+                tokenWords.put(token, occurrence);
+        }
     }
 }

@@ -11,7 +11,6 @@ import lombok.Setter;
 import org.tartarus.snowball.ext.PorterStemmer;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Builder
 @Getter
@@ -27,6 +26,7 @@ public class InvertedIndex {
     private WordValidator wordValidator = new WordValidator(true);
     @Builder.Default
     private boolean doStem = true;
+    private static PorterStemmer ptStm = new PorterStemmer();
 
     public InvertedIndex(Normalizer normalizer, Tokenizer tokenizer, WordValidator wordValidator, boolean doStem) {
         this.normalizer = normalizer;
@@ -35,19 +35,19 @@ public class InvertedIndex {
         this.doStem = doStem;
     }
 
-    private void addWordToEngine(String root, String fileName, long totalWordsNum) {
-        if (!engine.containsKey(root)) {
-            engine.put(root, new HashMap<>());
+    private void addWordToEngine(Map<String, Long> words, String title, long size) {
+        for (Map.Entry<String, Long> en : words.entrySet()) {
+            if (engine.containsKey(en.getKey())) {
+                engine.get(en.getKey()).put(title, new Score(size, en.getValue()));
+            } else {
+                Map<String, Score> new_map = new HashMap<>();
+                new_map.put(title, new Score(size, en.getValue()));
+                engine.put(en.getKey(), new_map);
+            }
         }
-        Map<String, Score> map = engine.remove(root);
-       // if (map == null) map = new HashMap<>();
-        if (map.containsKey(fileName)) map.replace(fileName, map.get(fileName).add());
-        else map.put(fileName, new Score(totalWordsNum).add());
-        engine.put(root, map);
     }
 
     public String wordStemmer(String word) {
-        PorterStemmer ptStm = new PorterStemmer();
         ptStm.setCurrent(word);
         ptStm.stem();
         return ptStm.getCurrent();
@@ -57,20 +57,29 @@ public class InvertedIndex {
         return doStem ? wordStemmer(word) : word;
     }
 
-    private List<String> manipulateFile(String fileText) {
-        List<String> tokenizedWords = new ArrayList<>(tokenizer.tokenize(fileText));
-        return tokenizedWords.stream().
-                map(normalizer::normalize).
-                filter(wordValidator::isAcceptable).
-                map(this::checkForStem).
-                collect(Collectors.toList());
+    private Map<String, Long> manipulateFile(String fileText) {
+        Map<String, Long> tokenizedWords = tokenizer.tokenize(fileText);
+        Map<String, Long> result = new HashMap<>();
+        String key;
+        for (Map.Entry<String, Long> e : tokenizedWords.entrySet()) {
+            key = normalizer.normalize(e.getKey());
+            if (wordValidator.isAcceptable(key)) {
+                key = checkForStem(key);
+                if (result.containsKey(key)) {
+                    result.replace(key, e.getValue() + result.get(key));
+                } else {
+                    result.put(key, e.getValue());
+                }
+            }
+        }
+        return result;
     }
 
 
     public void addFile(String title, String fileText) {
-        List<String> words = manipulateFile(fileText);
-        int size = manipulateFile(fileText).size();
-        words.forEach((word) -> addWordToEngine(word, title, size));
+        Map<String, Long> words = manipulateFile(fileText);
+        long size = words.values().stream().mapToLong(Long::longValue).sum();
+        addWordToEngine(words, title, size);
     }
 
     public Map<String, Map<String, Score>> getEngine() {

@@ -1,6 +1,8 @@
 package filter.tokenizer;
 
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class SplitTokenizer implements Tokenizer {
     private final String regex;
@@ -10,7 +12,8 @@ public class SplitTokenizer implements Tokenizer {
     }
 
     @Override
-    public List<String> tokenize(String line) {
-        return new ArrayList<>(Arrays.asList(line.trim().split(regex)));
+    public Map<String, Long> tokenize(String line) {
+        return Arrays.stream(line.trim().split(regex))
+                .collect( Collectors.groupingBy( Function.identity(), Collectors.counting() ));
     }
 }
