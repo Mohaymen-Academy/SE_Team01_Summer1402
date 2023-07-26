@@ -22,7 +22,6 @@ public class NGramTokenizer implements Tokenizer {
                 n_Grams(i, entry.getKey(), entry.getValue());
             }
         }
-
         return tokenWords;
     }
 

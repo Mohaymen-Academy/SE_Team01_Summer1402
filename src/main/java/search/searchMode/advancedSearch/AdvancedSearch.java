@@ -1,8 +1,10 @@
 package search.searchMode.advancedSearch;
+
 import dataStructures.InvertedIndex;
 import dataStructures.ListClassifier;
 import dataStructures.Score;
 import search.searchMode.Search;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -28,8 +30,9 @@ public class AdvancedSearch extends Search {
     public void addToListCategory(String word, ListType type) {
         String stemmedWord = filterWord(word);
         if (word == null) return;
-        Set<String> files = getMapValue(invertedIndex.getIndexMap() , stemmedWord);
-        finalQueryWords.add(stemmedWord);
+        Set<String> files = getMapValue(invertedIndex.getIndexMap(), stemmedWord);
+        if (type != ListType.FORBIDDEN)
+            finalQueryWords.add(stemmedWord);
         switch (type) {
             case ESSENTIAL -> listCategory.addToEssentialContexts(files);
             case FORBIDDEN -> listCategory.addToForbiddenContexts(files);

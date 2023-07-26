@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.tartarus.snowball.ext.PorterStemmer;
+
 import java.util.*;
 
 @Builder
@@ -25,7 +26,6 @@ public class InvertedIndex {
     private WordValidator wordValidator = new WordValidator(true);
     @Builder.Default
     private boolean doStem = true;
-    private static PorterStemmer ptStm = new PorterStemmer();
 
     public InvertedIndex(Normalizer normalizer, Tokenizer tokenizer, WordValidator wordValidator, boolean doStem) {
         this.normalizer = normalizer;
@@ -47,7 +47,8 @@ public class InvertedIndex {
     }
 
     public String wordStemmer(String word) {
-        ptStm.setCurrent(word);
+        PorterStemmer ptStm = new PorterStemmer();
+        ptStm.setCurrent(word.toLowerCase());
         ptStm.stem();
         return ptStm.getCurrent();
     }
@@ -56,14 +57,14 @@ public class InvertedIndex {
         return doStem ? wordStemmer(word) : word;
     }
 
-    private Map<String, Long> filterContext(String context) {
+    private Map<String, Long> filterContext(String title, String context) {
         Map<String, Long> tokenizedWords = tokenizer.tokenize(context);
         Map<String, Long> result = new HashMap<>();
         String key;
         for (Map.Entry<String, Long> e : tokenizedWords.entrySet()) {
-            key = normalizer.normalize(e.getKey());
+            key = e.getKey();
             if (wordValidator.isAcceptable(key)) {
-                key = checkForStem(key);
+                key = normalizer.normalize(checkForStem(key));
                 if (result.containsKey(key))
                     result.replace(key, e.getValue() + result.get(key));
                 else
@@ -74,7 +75,7 @@ public class InvertedIndex {
     }
 
     public void addNewContext(String title, String context) {
-        Map<String, Long> words = filterContext(context);
+        Map<String, Long> words = filterContext(title, context);
         long size = words.values().stream().mapToLong(Long::longValue).sum();
         addWordToEngine(words, title, size);
     }

@@ -19,10 +19,9 @@ public abstract class Search {
     }
 
     public String filterWord(String word) {
-        word = invertedIndex.getNormalizer().normalize(word);
         if (!invertedIndex.getWordValidator().isAcceptable(word))
             return null;
-        return invertedIndex.checkForStem(word);
+        return invertedIndex.getNormalizer().normalize(invertedIndex.checkForStem(word));
     }
 
     public abstract Set<String> getAllDocuments();
