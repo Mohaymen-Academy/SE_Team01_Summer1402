@@ -27,12 +27,13 @@ public class NGramTokenizer implements Tokenizer {
     }
 
     private void n_Grams(int n, String token, Long occurrence) {
-        if (token.length() >= n) {
+        addToTokenWords(token, occurrence);
+        if (token.length() > n) {
             for (int i = 0; i < token.length() - n + 1; i++) {
                 token = token.substring(i, i + n);
                 addToTokenWords(token, occurrence);
             }
-        } else addToTokenWords(token, occurrence);
+        }
     }
 
     private void addToTokenWords(String token, Long occurrence) {
