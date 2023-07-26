@@ -4,14 +4,11 @@ import filter.WordValidator;
 import filter.normalizer.LowerCaseNormalizer;
 import filter.tokenizer.SplitTokenizer;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import search.Sorter;
-
 import java.util.*;
-
 import static org.mockito.ArgumentMatchers.anyString;
 
 public class SortTest {

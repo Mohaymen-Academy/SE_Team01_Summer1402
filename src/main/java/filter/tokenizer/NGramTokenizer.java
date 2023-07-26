@@ -17,8 +17,9 @@ public class NGramTokenizer implements Tokenizer {
     public Map<String, Long> tokenize(String line) {
         tokenWords.clear();
         Map<String, Long> splitTokens = new SplitTokenizer(regex).tokenize(line);
-        for (int i = min; i <= max; i++) {
-            for (Map.Entry<String, Long> entry : splitTokens.entrySet()) {
+        for (Map.Entry<String, Long> entry : splitTokens.entrySet()) {
+            addToTokenWords(entry.getKey(), entry.getValue());
+            for (int i = min; i <= max; i++) {
                 n_Grams(i, entry.getKey(), entry.getValue());
             }
         }
@@ -26,11 +27,11 @@ public class NGramTokenizer implements Tokenizer {
     }
 
     private void n_Grams(int n, String token, Long occurrence) {
-        addToTokenWords(token, occurrence);
+        String str;
         if (token.length() > n) {
             for (int i = 0; i < token.length() - n + 1; i++) {
-                token = token.substring(i, i + n);
-                addToTokenWords(token, occurrence);
+                str = token.substring(i, i + n);
+                addToTokenWords(str, occurrence);
             }
         }
     }
