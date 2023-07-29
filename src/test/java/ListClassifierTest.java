@@ -9,7 +9,7 @@ public class ListClassifierTest {
     private ListClassifier listClassifier;
 
     @BeforeEach
-    void set() {
+    void setAllDocs() {
         Set<String> set = new HashSet<>();
         for (int i = 0; i < 10; i++) {
             String contextTitle = "file" + i;
@@ -27,13 +27,31 @@ public class ListClassifierTest {
     }
 
     @Test
-    public void adToEssentialContext_whileHasBeenCalledBefore() {
+    public void addToEssentialContext_whileHasBeenCalledBefore() {
         listClassifier.addToEssentialContexts(new HashSet<>(Arrays.asList("file1", "file2", "file3")));
         listClassifier.addToEssentialContexts(new HashSet<>(Arrays.asList("file1", "file3", "file5")));
         Set<String> result = listClassifier.getEssentialContexts();
         Set<String> expected = new HashSet<>(Arrays.asList("file1", "file3"));
         Assertions.assertEquals(expected, result);
     }
+    @Test
+    public void addToForbiddenContext_test() {
+        listClassifier.addToForbiddenContexts(new HashSet<>(Arrays.asList("file1", "file2", "file3")));
+        listClassifier.addToForbiddenContexts(new HashSet<>(Arrays.asList("file1", "file3", "file5")));
+        Set<String> result = listClassifier.getForbiddenContexts();
+        Set<String> expected = new HashSet<>(Arrays.asList("file1", "file2", "file3", "file5"));
+        Assertions.assertEquals(expected, result);
+    }
+    @Test
+    public void addToOptionalContext_test() {
+        listClassifier.addToOptionalContexts(new HashSet<>(Arrays.asList("file1", "file2", "file3")));
+        listClassifier.addToOptionalContexts(new HashSet<>(Arrays.asList("file1", "file3", "file5")));
+        Set<String> result = listClassifier.getOptionalContexts();
+        Set<String> expected = new HashSet<>(Arrays.asList("file1", "file2", "file3", "file5"));
+        Assertions.assertEquals(expected, result);
+        Assertions.assertTrue(listClassifier.isHasOptionalWords());
+    }
+
 
     @Test
     public void intersectContext_initialTest() {
@@ -63,4 +81,6 @@ public class ListClassifierTest {
         expected.retainAll(set);
         Assertions.assertEquals(expected, result);
     }
+
+
 }

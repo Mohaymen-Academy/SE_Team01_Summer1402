@@ -7,12 +7,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import search.searchMode.NormalSearch;
-import search.searchMode.Search;
-import search.searchMode.advancedSearch.AdvancedSearch;
-
+import search.NormalSearch;
+import search.Search;
+import search.advancedSearch.AdvancedSearch;
 import java.util.*;
-
 import static org.mockito.ArgumentMatchers.anyString;
 
 public class SearchTest {
@@ -21,7 +19,7 @@ public class SearchTest {
     String query;
 
     @BeforeEach
-    public void setContext() {
+    public void setIndexMap() {
         Map<String, Score> abcMap = new HashMap<>();
         abcMap.put("context1", new Score(7, 2));
         abcMap.put("context2", new Score(9, 3));
@@ -43,15 +41,13 @@ public class SearchTest {
     }
 
     @BeforeEach
-    void setUp() {
+    void setInvertedIndex() {
         invertedIndex = Mockito.mock(InvertedIndex.class);
         Mockito.when(invertedIndex.getWordValidator()).thenReturn(new WordValidator(true));
         Mockito.when(invertedIndex.getNormalizer()).thenReturn(new LowerCaseNormalizer());
         Mockito.when(invertedIndex.getTokenizer()).thenReturn(new SplitTokenizer("[\\s]+"));
         Mockito.when(invertedIndex.getIndexMap()).thenReturn(indexMap);
         Mockito.when(invertedIndex.checkForStem(anyString())).thenAnswer(invocationOnMock -> invocationOnMock.getArguments()[0]);
-
-
     }
 
     @Test
@@ -96,9 +92,9 @@ public class SearchTest {
     public void AdvancedSearch_all() {
         query = "-salam +abc bye";
         Search search = new AdvancedSearch(invertedIndex, query);
-        Set<String> result = search.getAllDocuments();
+        Set<String> actual = search.getAllDocuments();
         Set<String> expected = new HashSet<>(List.of("context2"));
-        Assertions.assertEquals(result, expected);
+        Assertions.assertEquals(actual, expected);
     }
 
 
