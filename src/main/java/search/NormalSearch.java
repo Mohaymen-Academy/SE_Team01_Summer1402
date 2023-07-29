@@ -1,4 +1,4 @@
-package search.searchMode;
+package search;
 
 import dataStructures.InvertedIndex;
 
@@ -19,13 +19,20 @@ public class NormalSearch extends Search {
     public Set<String> getAllDocuments() {
         String splitter = "[^\\da-zA-Z]+";
         queryWords = new HashSet<>(Arrays.asList(query.split(splitter)));
-        return getNames();
+        finalDocs = getNames();
+        return finalDocs;
     }
 
     private Set<String> getNames() {
         Set<String> finalFiles = new HashSet<>();
         queryWords.stream()
-                .map(this::filterWord)
+                .map(word1 -> {
+                    try {
+                        return filterWord(word1);
+                    } catch (Exception ignored) {
+                        return null;
+                    }
+                })
                 .filter(Objects::nonNull)
                 .filter(invertedIndex.getIndexMap()::containsKey)
                 .forEach(word -> {

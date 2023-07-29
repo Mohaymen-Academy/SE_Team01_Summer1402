@@ -1,17 +1,15 @@
-package search;
+package sort;
 
 import dataStructures.InvertedIndex;
 import dataStructures.Score;
-import lombok.RequiredArgsConstructor;
-
 import java.util.*;
 
-@RequiredArgsConstructor
-public class Sorter {
-    private final Set<String> queryWords;
-    private final InvertedIndex invertedIndex;
-    private final Set<String> finalFiles;
+public class IDFSorter extends Sorter {
     private final Map<String, Double> filesScores = new HashMap<>();
+
+    public IDFSorter(InvertedIndex invertedIndex) {
+        super(invertedIndex);
+    }
 
     private void fillInitialMap() {
         finalFiles.forEach(key -> filesScores.put(key, 0d));
@@ -30,6 +28,7 @@ public class Sorter {
         }
     }
 
+    @Override
     public List<Map.Entry<String, Double>> sort() {
         fillInitialMap();
         calculateFileScores();

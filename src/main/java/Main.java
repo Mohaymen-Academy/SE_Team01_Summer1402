@@ -1,11 +1,13 @@
 import dataStructures.InvertedIndex;
 import filter.WordValidator;
-import filter.tokenizer.NGramTokenizer;
 import filter.normalizer.UpperCaseNormalizer;
 import filter.tokenizer.SplitTokenizer;
+import reader.Reader;
 import reader.TXTReader;
-import search.searchMode.Search;
-import search.searchMode.advancedSearch.AdvancedSearch;
+import search.Search;
+import search.advancedSearch.AdvancedSearch;
+import sort.IDFSorter;
+import sort.Sorter;
 
 import java.io.*;
 import java.text.DecimalFormat;
@@ -25,11 +27,15 @@ public class Main {
                 doStem(false).
                 wordValidator(new WordValidator(true)).
                 build();
-        DataManager dataManager = new DataManager(invertedIndex);
-        dataManager.createDatabase(new TXTReader(path));
+        Reader reader = new TXTReader();
+        Map<String, String> contexts = reader.getMapDocuments(path);
+        for (String title : contexts.keySet())
+            invertedIndex.addNewContext(title, contexts.get(title));
         String query = getQuery();
         Search search = new AdvancedSearch(invertedIndex, query);
-        printDocuments(search.sortResult(search.getAllDocuments()));
+        search.getAllDocuments();
+        search.setSorter(new IDFSorter(invertedIndex));
+        printDocuments(search.sortResult());
     }
 
     private static String getQuery() {

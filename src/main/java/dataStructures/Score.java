@@ -1,9 +1,10 @@
 package dataStructures;
 
 import lombok.RequiredArgsConstructor;
-
+import lombok.ToString;
 import java.util.Objects;
 
+@ToString
 @RequiredArgsConstructor
 public class Score {
     private final long totalWordsCount;
@@ -26,11 +27,4 @@ public class Score {
         return Objects.hash(totalWordsCount, targetWordCount);
     }
 
-    @Override
-    public String toString() {
-        return "Score{" +
-                "totalWordsNum=" + totalWordsCount +
-                ", wordNum=" + targetWordCount +
-                '}';
-    }
 }

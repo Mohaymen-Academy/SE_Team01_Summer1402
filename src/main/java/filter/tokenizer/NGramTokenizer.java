@@ -1,7 +1,6 @@
 package filter.tokenizer;
 
 import lombok.RequiredArgsConstructor;
-
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -9,9 +8,7 @@ public class NGramTokenizer implements Tokenizer {
     private final int min;
     private final int max;
     private final String regex;
-
     private final Map<String, Long> tokenWords = new HashMap<>();
-
 
     @Override
     public Map<String, Long> tokenize(String line) {
