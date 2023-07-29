@@ -7,8 +7,6 @@ import reader.TXTReader;
 import search.Search;
 import search.advancedSearch.AdvancedSearch;
 import sort.IDFSorter;
-import sort.Sorter;
-
 import java.io.*;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;

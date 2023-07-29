@@ -1,12 +1,9 @@
 package search;
 
 import dataStructures.InvertedIndex;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import sort.IDFSorter;
 import sort.Sorter;
-
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +18,6 @@ public abstract class Search {
     protected Set<String> finalDocs;
     @Setter
     private Sorter sorter;
-
 
     public List<Map.Entry<String, Double>> sortResult() {
         sorter.setFinalFiles(finalDocs);

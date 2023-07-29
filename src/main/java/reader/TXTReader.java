@@ -39,5 +39,4 @@ public class TXTReader extends Reader {
         }
         return documents;
     }
-
 }

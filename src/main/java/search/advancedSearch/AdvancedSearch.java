@@ -4,7 +4,6 @@ import dataStructures.InvertedIndex;
 import dataStructures.ListClassifier;
 import dataStructures.Score;
 import search.Search;
-
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -26,9 +25,7 @@ public class AdvancedSearch extends Search {
         return allFiles;
     }
 
-
     public void addToListCategory(String word, ListType type) {
-
         String stemmedWord;
         try {
             stemmedWord = filterWord(word);
@@ -57,7 +54,6 @@ public class AdvancedSearch extends Search {
                 default -> addToListCategory(word, ListType.ESSENTIAL);
             }
     }
-
 
     @Override
     public Set<String> getAllDocuments() {
