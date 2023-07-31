@@ -14,6 +14,7 @@ public class main {
         userCommand.login("sanoooavi", "1380");
         userCommand.login("sanooavi", "1380");
         userCommand.change_bio("sanooavi", "salamsalam");
+        userCommand.delete_account("sanooavi");
 
         try {
             System.out.println("\n******************************Users Table*******************************");

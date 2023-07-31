@@ -24,6 +24,7 @@ public class UserCommand {
             String command = String.format("Insert into Users(phoneNumber,username,name,lastname,password,bio) " +
                     " values('%s','%s','%s','%s','%s','%s')", phoneNumber, username, name, lastname, password, bio);
             statement.execute(command);
+            System.out.println(username+" added to the database");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
