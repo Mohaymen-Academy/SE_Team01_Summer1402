@@ -1,11 +1,12 @@
+package database;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.Statement;
 
 public class Connector {
     private static final String url = "jdbc:postgresql://localhost:5432/Messenger";
     private static final String user = "postgres";
-    private static final String password = "san.mousavi";
+    private static final String password = "Sara5560734055";
     private static Connector connector;
     private static Connection connection;
 
