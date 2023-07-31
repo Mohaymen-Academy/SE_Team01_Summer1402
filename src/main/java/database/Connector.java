@@ -2,6 +2,7 @@ package database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 
 public class Connector {
     private static final String url = "jdbc:postgresql://localhost:5432/Messenger";
@@ -11,7 +12,6 @@ public class Connector {
     private static Connection connection;
 
     private Connector() {
-
         try {
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection(url, user, password);
@@ -20,10 +20,18 @@ public class Connector {
         }
     }
 
-    public static Connection getStatement() {
+    public static Connection getConnection() {
         if (connector == null)
             connector = new Connector();
         return connection;
+    }
+
+    public void closeConnection() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            System.out.println("could not close connection!");
+        }
     }
 
 }

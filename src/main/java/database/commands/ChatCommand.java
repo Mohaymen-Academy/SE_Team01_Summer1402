@@ -12,7 +12,7 @@ public class ChatCommand {
 
     public ChatCommand() {
         try {
-            statement =  Connector.getStatement().createStatement();
+            statement =  Connector.getConnection().createStatement();
         } catch (SQLException e) {
             System.out.println("could not create statement!");
         }

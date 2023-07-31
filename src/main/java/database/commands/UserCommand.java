@@ -12,12 +12,11 @@ public class UserCommand {
     private static Statement statement;
 
     public UserCommand() {
-        con = Connector.getStatement();
+        con = Connector.getConnection();
         try {
             statement = con.createStatement();
         } catch (SQLException e) {
             System.out.println("could not create the connection");
-            ;
         }
     }
 
@@ -25,7 +24,7 @@ public class UserCommand {
         try {
             if (check_if_signedUp(username, phoneNumber))
                 return;
-            String command = String.format("Insert into Users(phoneNumber,username,name,lastname,password,bio) " +
+            String command = String.format("Insert into entities(phoneNumber,username,name,lastname,password,bio) " +
                     " values('%s','%s','%s','%s','%s','%s')", phoneNumber, username, name, lastname, password, bio);
             statement.execute(command);
             System.out.println(username+" added to the database");

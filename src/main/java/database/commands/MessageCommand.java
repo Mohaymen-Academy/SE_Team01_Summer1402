@@ -13,7 +13,7 @@ public class MessageCommand {
 
     public MessageCommand() {
         try {
-            statement =  Connector.getStatement().createStatement();
+            statement =  Connector.getConnection().createStatement();
         } catch (SQLException e) {
             System.out.println("could not create statement!");
         }
@@ -65,5 +65,21 @@ public class MessageCommand {
     }
 
 
+    public int getRelationNum(int userID) throws SQLException {
+        String query = String.format("select distinct count(*) from participants where chat_id in" +
+                "(select chat_id from participants where user_id = '%s')" +
+                " and user_id != '%s'", userID, userID);
+        ResultSet resultSet = statement.executeQuery(query);
+        if (resultSet.next()) return resultSet.getInt("count");
+        else return 0;
+    }
+
+    public double getAVGMessages(int userID) throws SQLException {
+        String query = "select count(distinct sender) from messages)";
+        ResultSet resultSet = statement.executeQuery(query);
+        if (resultSet.next()) return
+                (double) getAllMessagesNum(userID) / resultSet.getInt("count");
+        else return 0;
+    }
 
 }
