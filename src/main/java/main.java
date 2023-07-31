@@ -1,3 +1,5 @@
+import database.commands.UserCommand;
+
 import java.sql.*;
 
 public class main {
