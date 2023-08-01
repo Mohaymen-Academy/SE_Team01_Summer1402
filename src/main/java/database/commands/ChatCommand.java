@@ -16,7 +16,7 @@ public class ChatCommand {
 
     public void addParticipants(int entityID1, int entityID2) throws SQLException {
         connector = Connector.getConnector();
-        String checkQuery = "select * from participants where entity_id1 = ? and entity_id2 = ?";
+        String checkQuery = "select * from participants where entity1_id = ? and entity2_id = ?";
         PreparedStatement preparedStatement = connector.getPreparedStatement(checkQuery);
         try {
             preparedStatement.setInt(1, entityID1);
@@ -37,7 +37,7 @@ public class ChatCommand {
         } catch (SQLException e) {
             System.out.println("could not set data in preparedStatement/ add participants");
         }
-        if (preparedStatement.executeUpdate(query) > 0) {
+        if (preparedStatement.executeUpdate() > 0) {
             System.out.println("new participant is added.");
         }
         else System.out.println("could not add this participant.");
@@ -47,7 +47,7 @@ public class ChatCommand {
     public void addLastSeenMessage(int entityID1, int entityID2, int messageID) throws SQLException {
         connector = Connector.getConnector();
         String query = "update participants set last_message_seen = ? " +
-                "where messages.entity1_id = ? and messages.entity2_id =";
+                "where entity1_id = ? and entity2_id = ?";
         PreparedStatement preparedStatement = connector.getPreparedStatement(query);
         try {
             preparedStatement.setInt(1, messageID);
@@ -56,7 +56,7 @@ public class ChatCommand {
         } catch (SQLException e) {
             System.out.println("could not set data in preparedStatement/ add last seen message");
         }
-        if (preparedStatement.executeUpdate(query) > 0)
+        if (preparedStatement.executeUpdate() > 0)
             System.out.println("last seen message is added");
         else System.out.println("could not set last seen message!");
         connector.closeConnection();

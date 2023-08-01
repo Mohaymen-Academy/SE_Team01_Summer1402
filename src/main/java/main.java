@@ -25,13 +25,14 @@ public class main {
 //        System.out.println(messageCommand.getRelationsNum(1));
 //        System.out.println(messageCommand.getAVGMessages(1));
 
-//        ChatCommand chatCommand = new ChatCommand();
+        ChatCommand chatCommand = new ChatCommand();
 //        chatCommand.addParticipants(1, 3);
 //        chatCommand.addParticipants(3, 1);
 //        chatCommand.addParticipants(1, 4);
 //        chatCommand.addParticipants(4, 1);
 //        chatCommand.addParticipants(1, 2);
 //        chatCommand.addParticipants(2, 1);
+//        chatCommand.addLastSeenMessage(1, 3, 2);
     }
 
 
