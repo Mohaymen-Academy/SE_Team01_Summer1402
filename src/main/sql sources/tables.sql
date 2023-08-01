@@ -1,8 +1,9 @@
 CREATE TYPE EntityType AS ENUM ('USER', 'GROUP', 'CHANNEL');
 
+drop table entities;
 CREATE TABLE entities(
 	id serial unique primary key,
-	entityName varchar(255) unique not null,
+	username varchar(255) unique not null,
 	entity_type EntityType NOT NULL,
 	name varchar(255) not null,
 	bio text,
@@ -24,14 +25,15 @@ create table participants(
 	last_message_seen integer,
  	primary key(entyty1_id, entyty2_id)
 );
-
+drop table messages
 CREATE TABLE messages(
 	message_id serial NOT NULL PRIMARY KEY,
 	entity_id integer NOT NULL,
 	sender_id integer NOT NULL,
 	full_date timestamp NOT NULL default now(),
-	message_context text,
-	message_link text,
-	message_type messageType NOT NULL
+	message_text text,
+	message_byte text,
+	file_extension text
 );
-
+select * from entities;
+select * from account;

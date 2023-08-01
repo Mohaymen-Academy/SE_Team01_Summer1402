@@ -2,17 +2,12 @@ package database.commands;
 
 import database.Connector;
 import database.Types;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public abstract class Update {
     protected static Statement statement;
-
-    public Update() {
-
-    }
 
     public void createEntity(String username, Types.EntityType entityType, String name, String bio, String pic_link) {
         try {

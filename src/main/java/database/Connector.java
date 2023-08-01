@@ -47,10 +47,6 @@ public class Connector {
         return connector;
     }
 
-    public Connection get_Connection() {
-        return connection;
-    }
-
     public PreparedStatement getPreparedStatement(String query) {
         try {
             return connection.prepareStatement(query);

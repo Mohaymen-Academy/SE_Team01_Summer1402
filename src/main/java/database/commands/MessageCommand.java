@@ -2,9 +2,12 @@ package database.commands;
 
 import database.Connector;
 import database.Types;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
+import java.util.Set;
 
 public class MessageCommand {
     private Connector connector;
@@ -102,21 +105,45 @@ public class MessageCommand {
 
     public int getRelationsNum(int userID) throws SQLException {
         connector = Connector.getConnector();
-        String query = "select distinct count(*) from participants where entity1_id in" +
-                "(select entity2_id from participants where entity1_id = ?)" +
-                " and entity1_id != ?";
+        String query = "select participants.entity2_id as user_id" +
+                "from participants " +
+                "inner join entities " +
+                "on entities.id=participants.entity2_id " +
+                "where participants.entity1_id=? and entities.entity_type=='USER'";
         PreparedStatement preparedStatement = connector.getPreparedStatement(query);
         try {
             preparedStatement.setInt(1, userID);
-            preparedStatement.setInt(2, userID);
         } catch (SQLException e) {
             System.out.println("could not set data in preparedStatement/ get relations num");
         }
         ResultSet resultSet = preparedStatement.executeQuery();
+        Set<Integer> people = new HashSet<>();
+        while (resultSet.next()) {
+            int number = resultSet.getInt("user_id");
+            people.add(number);
+        }
+        query = "select participants.entity1_id as id " +
+                "from participants" +
+                " inner join " +
+                "(select participants.entity2_id as group_id" +
+                "from participants " +
+                "inner join entities " +
+                "on entities.id=participants.entity2_id " +
+                "where participants.entity1_id=? and entities.entity_type!='USER') as x" +
+                "on participants.entity2_id=x.group_id";
+        preparedStatement = connector.getPreparedStatement(query);
+        try {
+            preparedStatement.setInt(1, userID);
+        } catch (SQLException e) {
+            System.out.println("could not set data in preparedStatement/ get relations num");
+        }
+        resultSet = preparedStatement.executeQuery();
+        while (resultSet.next()) {
+            int number = resultSet.getInt("id");
+            people.add(number);
+        }
         connector.closeConnection();
-        if (resultSet.next())
-            return resultSet.getInt("count");
-        else return 0;
+        return people.size();
     }
 
     public double getAVGMessages(int userID) throws SQLException {
@@ -127,5 +154,6 @@ public class MessageCommand {
                 (double) getAllMessagesNum(userID) / resultSet.getInt("count");
         else return 0;
     }
+    
 
 }

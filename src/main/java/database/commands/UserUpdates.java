@@ -8,9 +8,6 @@ import java.sql.SQLException;
 
 public class UserUpdates extends Update {
 
-    public UserUpdates() {
-        super();
-    }
 
     public void signUp(String username, Types.EntityType entityType, String name, String bio, String pic_link, String password, String phoneNumber, String lastname) {
         statement = Connector.getStatement();

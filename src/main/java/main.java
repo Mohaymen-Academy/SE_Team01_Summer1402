@@ -8,10 +8,12 @@ import java.sql.*;
 
 public class main {
     public static void main(String[] args) throws SQLException {
-//        Update uss=new UserUpdates();
-//
-//        UserUpdates us = new UserUpdates();
-//        us.signUp("aouldcott0", Types.EntityType.USER, "Wanstall", "Accountant I", "www.picture", "zC2@3q~Av", "06416856140", "Ouldcott");
+        Update uss=new UserUpdates();
+
+        UserUpdates us = new UserUpdates();
+        us.signUp("aouldcott0", Types.EntityType.USER, "Wanstall", "Accountant I", "www.picture", "zC2@3q~Av", "06416856140", "Ouldcott");
+        us.signUp("sana", Types.EntityType.USER, "Wanstall", "Accountant I", "www.picture2", "zC2@3q~Av", "06416856141", "Ouldcott");
+        ((UserUpdates) uss).signUp("sina", Types.EntityType.USER, "Wanstall", "Accountant I", "www.picture", "zC2@3q~Av", "06416856123", "Ouldcott");
 
          MessageCommand messageCommand = new MessageCommand();
 //         messageCommand.sendMessage(2,1,"salam", "picture1", ".jpg");
