@@ -75,7 +75,7 @@ public class MessageCommand {
         }
         ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
-            String messageContext = resultSet.getString("message_context");
+            String messageContext = resultSet.getString("message_text");
             String bytes = resultSet.getString("message_byte");
             String fileExtension = resultSet.getString("file_extension");
             System.out.println("message text: " + messageContext);
@@ -101,6 +101,7 @@ public class MessageCommand {
 
 
     public int getRelationsNum(int userID) throws SQLException {
+        connector = Connector.getConnector();
         String query = "select distinct count(*) from participants where entity1_id in" +
                 "(select entity2_id from participants where entity1_id = ?" +
                 " and entity1_id != ?";
@@ -120,7 +121,7 @@ public class MessageCommand {
 
     public double getAVGMessages(int userID) throws SQLException {
         connector = Connector.getConnector();
-        String query = "select count(distinct sender_id) from messages)";
+        String query = "select count(distinct sender_id) from messages";
         ResultSet resultSet = connector.getStatement().executeQuery(query);
         if (resultSet.next()) return
                 (double) getAllMessagesNum(userID) / resultSet.getInt("count");

@@ -70,7 +70,6 @@ public class Connector {
 
     public void closeConnection() {
         try {
-            statement.close();
             connection.close();
             connector = null;
         } catch (SQLException e) {
