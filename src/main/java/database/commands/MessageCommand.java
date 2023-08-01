@@ -150,10 +150,54 @@ public class MessageCommand {
         connector = Connector.getConnector();
         String query = "select count(distinct sender_id) from messages";
         ResultSet resultSet = connector.getStatement().executeQuery(query);
+        connector.closeConnection();
         if (resultSet.next()) return
                 (double) getAllMessagesNum(userID) / resultSet.getInt("count");
         else return 0;
     }
-    
 
+
+
+    public void getMessageSeenNum(int messageID) throws SQLException {
+        connector = Connector.getConnector();
+        String query = "select sender_id, entity_id, entity_type from messages " +
+                " inner join entities on messages.entity_id = entities.id where message_id = ?";
+        PreparedStatement preparedStatement = connector.getPreparedStatement(query);
+        try {
+            preparedStatement.setInt(1, messageID);
+        } catch (SQLException e) {
+            System.out.println("could not set data in preparedStatement/ get relations num");
+        }
+        ResultSet resultSet = preparedStatement.executeQuery();
+        if (resultSet.next()) {
+            int senderID = resultSet.getInt("sender_id");
+            int entityID = resultSet.getInt("entity_id");
+            Types.EntityType entityType = Types.EntityType.valueOf(resultSet.getString("entity_type"));
+            switch (entityType) {
+                case USER :
+                    query = "select count(last_message_seen) from participant " +
+                            "where entity1_id = ? and entity2_id = ? and last_message_seen >= ?)";
+                    preparedStatement = connector.getPreparedStatement(query);
+                    try {
+                        preparedStatement.setInt(1, entityID);
+                        preparedStatement.setInt(2, senderID);
+                        preparedStatement.setInt(3, messageID);
+                    } catch (SQLException e) {
+                        System.out.println("could not set data in preparedStatement/ get relations num");
+                    }
+                    break;
+                default:
+                    query = "select count(last_message_seen) from participant " +
+                            "where entity2_id = ? and last_message_seen >= ?";
+                    preparedStatement = connector.getPreparedStatement(query);
+                    try {
+                        preparedStatement.setInt(1, entityID);
+                        preparedStatement.setInt(2, messageID);
+                    } catch (SQLException e) {
+                        System.out.println("could not set data in preparedStatement/ get relations num");
+                    }
+                    break;
+            }
+        }
+    }
 }

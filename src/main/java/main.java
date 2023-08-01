@@ -24,7 +24,7 @@ public class main {
 //        messageCommand.deleteMessage(4);
 //        messageCommand.getAllMessages(1);
 //        System.out.println(messageCommand.getAllMessagesNum(1));
-//        System.out.println(messageCommand.getRelationsNum(1));
+        System.out.println(messageCommand.getRelationsNum(4));
 //        System.out.println(messageCommand.getAVGMessages(1));
 
         ChatCommand chatCommand = new ChatCommand();
