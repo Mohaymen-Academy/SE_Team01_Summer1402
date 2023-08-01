@@ -1,33 +1,65 @@
 package database.commands;
 
 import database.Connector;
+import database.Types;
 
-import java.sql.ResultSet;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class ChatCommand {
-    public static enum ChatType {PRIVATE_CHAT, GROUP, CHANNEL}
-    private Statement statement;
+    private Connector connector;
 
-    public ChatCommand() {
-        try {
-            statement =  Connector.getConnection().createStatement();
-        } catch (SQLException e) {
-            System.out.println("could not create statement!");
-        }
+    public void createChat(String entityName, Types.EntityType type, String name,
+                           String bio, String picture) {
+
     }
 
-    public String createChat(String link, ChatType chatType) throws SQLException {
-        String query = String.format("insert into chat(chat_link, chat_type)" +
-                " values('%s', '%s')", link, chatType);
-        String checkQuery = String.format("select chat_id from Chat where chat_link = '%s'", link);
-        ResultSet resultSet = statement.executeQuery(checkQuery);
-        if (resultSet != null && resultSet.next())
-            return "duplicate link!";
-        if (statement.executeUpdate(query) > 0)
-                return "chat created!";
-        else return "could not create chat!";
+    public void addParticipants(int entityID1, int entityID2) throws SQLException {
+        connector = Connector.getConnector();
+        String checkQuery = "select * from participants where entity_id1 = ? and entity_id2 = ?";
+        PreparedStatement preparedStatement = connector.getPreparedStatement(checkQuery);
+        try {
+            preparedStatement.setInt(1, entityID1);
+            preparedStatement.setInt(2, entityID2);
+        } catch (SQLException e) {
+            System.out.println("could not set data in preparedStatement/ add participants");
+        }
+        if (preparedStatement.executeQuery().next()) {
+            System.out.println("data is duplicate");
+            return;
+        }
+        String query = "insert into participants(entity1_id, entity2_id)" +
+                " values(?, ?)";
+        preparedStatement = connector.getPreparedStatement(query);
+        try {
+            preparedStatement.setInt(1, entityID1);
+            preparedStatement.setInt(2, entityID2);
+        } catch (SQLException e) {
+            System.out.println("could not set data in preparedStatement/ add participants");
+        }
+        if (preparedStatement.executeUpdate(query) > 0) {
+            System.out.println("new participant is added.");
+        }
+        else System.out.println("could not add this participant.");
+        connector.closeConnection();
+    }
+
+    public void addLastSeenMessage(int entityID1, int entityID2, int messageID) throws SQLException {
+        connector = Connector.getConnector();
+        String query = "update participants set last_message_seen = ? " +
+                "where messages.entity1_id = ? and messages.entity2_id =";
+        PreparedStatement preparedStatement = connector.getPreparedStatement(query);
+        try {
+            preparedStatement.setInt(1, messageID);
+            preparedStatement.setInt(2, entityID1);
+            preparedStatement.setInt(3, entityID2);
+        } catch (SQLException e) {
+            System.out.println("could not set data in preparedStatement/ add last seen message");
+        }
+        if (preparedStatement.executeUpdate(query) > 0)
+            System.out.println("last seen message is added");
+        else System.out.println("could not set last seen message!");
+        connector.closeConnection();
     }
 
 }

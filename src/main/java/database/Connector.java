@@ -4,11 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.*;
 
 public class Connector {
     private static final String url = "jdbc:postgresql://localhost:5432/Messenger";
     private static final String user = "postgres";
-    private static final String password = "san.mousavi";
+    private static final String password = "Sara5560734055";
     private static Connector connector;
     private static Connection connection;
     private static Statement statement;
@@ -41,10 +42,37 @@ public class Connector {
         return connection;
     }
 
+    public static Connector getConnector() {
+        if (connector == null) connector = new Connector();
+        return connector;
+    }
+
+    public Connection get_Connection() {
+        return connection;
+    }
+
+    public PreparedStatement getPreparedStatement(String query) {
+        try {
+            return connection.prepareStatement(query);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static void close() {
         try {
             statement.close();
             connection.close();
+        } catch (SQLException e) {
+            System.out.println("could not close connection!");
+        }
+    }
+
+    public void closeConnection() {
+        try {
+            statement.close();
+            connection.close();
+            connector = null;
         } catch (SQLException e) {
             System.out.println("could not close connection!");
         }

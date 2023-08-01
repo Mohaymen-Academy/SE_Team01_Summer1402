@@ -1,82 +1,127 @@
 package database.commands;
 
 import database.Connector;
-
+import database.Types;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class MessageCommand {
+    private Connector connector;
 
-    public static enum MessageType {TEXT, IMAGE, VIDEO, SOUND, FILE};
-    private Statement statement;
-
-    public MessageCommand() {
+    public void sendMessage(int entityID, int senderID,
+                            String messageText, String bytes,
+                            String fileExtension) throws SQLException {
+        connector = Connector.getConnector();
+        String query = "insert into messages(entity_id, sender_id, message_text, message_byte, file_extension)" +
+                " values(?, ?, ?, ?, ?)";
+        PreparedStatement preparedStatement = connector.getPreparedStatement(query);
         try {
-            statement =  Connector.getConnection().createStatement();
+            preparedStatement.setInt(1, entityID);
+            preparedStatement.setInt(2, senderID);
+            preparedStatement.setString(3, messageText);
+            preparedStatement.setString(4, bytes);
+            preparedStatement.setString(5, fileExtension);
         } catch (SQLException e) {
-            System.out.println("could not create statement!");
+            System.out.println("could not set data in preparedStatement/ send message");
         }
+        System.out.println(preparedStatement.toString());
+        if (preparedStatement.executeUpdate() > 0)
+            System.out.println("Message is sent");
+        else System.out.println("could not send message!");
+        connector.closeConnection();
     }
 
-    public String sendMessage(int chat_id, int sender,
-                              String messageContext, MessageType messageType) throws SQLException {
-        String query = String.format("insert into messages(chat_id, sender, message_context, message_type)" +
-                " values('%s', '%s', '%s', '%s')", chat_id, sender, messageContext, messageType);
-        if (statement.executeUpdate(query) > 0)
-            return "Message is sent.";
-        else return "Could not send message!";
+    public void editMessage(int messageID, String newText) throws SQLException {
+        connector = Connector.getConnector();
+        String query = "update messages set message_text = ? where messages.message_id = ? ";
+        PreparedStatement preparedStatement = connector.getPreparedStatement(query);
+        try {
+            preparedStatement.setString(1, newText);
+            preparedStatement.setInt(2, messageID);
+        } catch (SQLException e) {
+            System.out.println("could not set data in preparedStatement/ edit message");
+        }
+        if (preparedStatement.executeUpdate() > 0)
+            System.out.println("Message is edited");
+        else System.out.println("could not edit message!");
+        connector.closeConnection();
     }
 
-    public String editMessage(int messageID, String newMessage) throws SQLException {
-        String query = String.format("update messages" +
-                " set message_context = '%s'" +
-                " where messages.message_id = '%s'",newMessage, messageID);
-        if (statement.executeUpdate(query) > 0)
-            return "Message is edited.";
-        else return "Could not edit message!";
-    }
-
-    public String deleteMessage(int messageID) throws SQLException {
-        String query = String.format("delete from Messages" +
-                " where messages.message_id = '%s'", messageID);
-        if (statement.executeUpdate(query) > 0)
-            return "Message is deleted.";
-        else return "Could not delete message!";
+    public void deleteMessage(int messageID) throws SQLException {
+        connector = Connector.getConnector();
+        String query = "delete from Messages where messages.message_id = ?";
+        PreparedStatement preparedStatement = connector.getPreparedStatement(query);
+        try {
+            preparedStatement.setInt(1, messageID);
+        } catch (SQLException e) {
+            System.out.println("could not set data in preparedStatement/ delete message");
+        }
+        if (preparedStatement.executeUpdate() > 0)
+            System.out.println("Message is deleted");
+        else System.out.println("could not delete message!");
+        connector.closeConnection();
     }
 
     public void getAllMessages(int userID) throws SQLException {
-        String query = String.format("select message_context, message_type from messages\n" +
-                " where messages.sender = '%S'", userID);
-        ResultSet resultSet = statement.executeQuery(query);
+        connector = Connector.getConnector();
+        String query = "select message_text, message_byte, file_extension from messages" +
+                " where messages.sender_id = ?";
+        PreparedStatement preparedStatement = connector.getPreparedStatement(query);
+        try {
+            preparedStatement.setInt(1, userID);
+        } catch (SQLException e) {
+            System.out.println("could not set data in preparedStatement/ get all messages");
+        }
+        ResultSet resultSet = preparedStatement.executeQuery();
         while (resultSet.next()) {
             String messageContext = resultSet.getString("message_context");
-            MessageType type = MessageType.valueOf(resultSet.getString("message_type"));
-            System.out.println("message: " + messageContext + " | type: " + type);
+            String bytes = resultSet.getString("message_byte");
+            String fileExtension = resultSet.getString("file_extension");
+            System.out.println("message text: " + messageContext);
         }
+        connector.closeConnection();
     }
 
     public int getAllMessagesNum(int userID) throws SQLException {
-        String query = String.format("select count(*) from Messages" +
-                " where sender = '%s'", userID);
-        ResultSet resultSet = statement.executeQuery(query);
-        if (resultSet.next()) return resultSet.getInt("count");
+        connector = Connector.getConnector();
+        String query = "select count(*) from Messages where sender_id = ?";
+        PreparedStatement preparedStatement = connector.getPreparedStatement(query);
+        try {
+            preparedStatement.setInt(1, userID);
+        } catch (SQLException e) {
+            System.out.println("could not set data in preparedStatement/ get all messages num");
+        }
+        ResultSet resultSet = preparedStatement.executeQuery();
+        connector.closeConnection();
+        if (resultSet.next())
+            return resultSet.getInt("count");
         else return 0;
     }
 
 
-    public int getRelationNum(int userID) throws SQLException {
-        String query = String.format("select distinct count(*) from participants where chat_id in" +
-                "(select chat_id from participants where user_id = '%s')" +
-                " and user_id != '%s'", userID, userID);
-        ResultSet resultSet = statement.executeQuery(query);
-        if (resultSet.next()) return resultSet.getInt("count");
+    public int getRelationsNum(int userID) throws SQLException {
+        String query = "select distinct count(*) from participants where entity1_id in" +
+                "(select entity2_id from participants where entity1_id = ?" +
+                " and entity1_id != ?";
+        PreparedStatement preparedStatement = connector.getPreparedStatement(query);
+        try {
+            preparedStatement.setInt(1, userID);
+            preparedStatement.setInt(2, userID);
+        } catch (SQLException e) {
+            System.out.println("could not set data in preparedStatement/ get relations num");
+        }
+        ResultSet resultSet = preparedStatement.executeQuery();
+        connector.closeConnection();
+        if (resultSet.next())
+            return resultSet.getInt("count");
         else return 0;
     }
 
     public double getAVGMessages(int userID) throws SQLException {
-        String query = "select count(distinct sender) from messages)";
-        ResultSet resultSet = statement.executeQuery(query);
+        connector = Connector.getConnector();
+        String query = "select count(distinct sender_id) from messages)";
+        ResultSet resultSet = connector.getStatement().executeQuery(query);
         if (resultSet.next()) return
                 (double) getAllMessagesNum(userID) / resultSet.getInt("count");
         else return 0;
