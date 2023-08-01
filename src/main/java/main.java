@@ -1,4 +1,5 @@
 import database.Types;
+import database.commands.ChatCommand;
 import database.commands.MessageCommand;
 import database.commands.Update;
 import database.commands.UserUpdates;
@@ -21,8 +22,16 @@ public class main {
 //        messageCommand.deleteMessage(4);
 //        messageCommand.getAllMessages(1);
 //        System.out.println(messageCommand.getAllMessagesNum(1));
-        //System.out.println(messageCommand.getRelationsNum(1));
-        System.out.println(messageCommand.getAVGMessages(1));
+//        System.out.println(messageCommand.getRelationsNum(1));
+//        System.out.println(messageCommand.getAVGMessages(1));
+
+//        ChatCommand chatCommand = new ChatCommand();
+//        chatCommand.addParticipants(1, 3);
+//        chatCommand.addParticipants(3, 1);
+//        chatCommand.addParticipants(1, 4);
+//        chatCommand.addParticipants(4, 1);
+//        chatCommand.addParticipants(1, 2);
+//        chatCommand.addParticipants(2, 1);
     }
 
 

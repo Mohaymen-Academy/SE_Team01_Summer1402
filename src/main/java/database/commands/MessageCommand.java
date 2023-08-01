@@ -103,7 +103,7 @@ public class MessageCommand {
     public int getRelationsNum(int userID) throws SQLException {
         connector = Connector.getConnector();
         String query = "select distinct count(*) from participants where entity1_id in" +
-                "(select entity2_id from participants where entity1_id = ?" +
+                "(select entity2_id from participants where entity1_id = ?)" +
                 " and entity1_id != ?";
         PreparedStatement preparedStatement = connector.getPreparedStatement(query);
         try {
