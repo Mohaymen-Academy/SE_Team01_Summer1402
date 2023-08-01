@@ -8,10 +8,11 @@ drop function get_all_messages;
 drop function get_all_messages_num;
 CREATE TABLE messages(
 	message_id serial NOT NULL PRIMARY KEY,
-	chat_id integer NOT NULL,
-	sender integer NOT NULL,
+	entity_id integer NOT NULL,
+	sender_id integer NOT NULL,
 	full_date timestamp NOT NULL default now(),
 	message_context text,
+	message_link text,
 	message_type messageType NOT NULL
 );
 
@@ -69,12 +70,12 @@ Begin
 End;$$
 LANGUAGE plpgsql;
 
-select send_message(2,1,'salam','TEXT');
-select send_message(3,1,'salam,khubi?','TEXT');
-select send_message(1,4,'pic1','IMAGE');
-select edit_message(1,'hello');
-select send_message(2,1,'ch khbr','TEXT');
-select get_all_messages_num(1);
-select get_all_messages(1);
-select avg_messages(1);
+-- select send_message(2,1,'salam','TEXT');
+-- select send_message(3,1,'salam,khubi?','TEXT');
+-- select send_message(1,4,'pic1','IMAGE');
+-- select edit_message(1,'hello');
+-- select send_message(2,1,'ch khbr','TEXT');
+-- select get_all_messages_num(1);
+-- select get_all_messages(1);
+-- select avg_messages(1);
 select * from messages;
