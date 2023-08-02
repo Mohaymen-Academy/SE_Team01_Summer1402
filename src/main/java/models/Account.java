@@ -1,9 +1,6 @@
 package models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 
@@ -11,16 +8,17 @@ import java.io.Serializable;
 @Table(name = "Account")
 public class Account implements Serializable {
     @Id
+    @Column(nullable = false, length = 50)
     private String username;
 
-    @Column(name = "password")
+    @Column(nullable = false, name = "password",length = 255)
     private String password;
 
-    @Column(name = "phoneNumber")
+    @Column(nullable = false, unique = true, name = "phoneNumber", length = 13)
     private String phoneNumber;
 
-//    @OneToOne(mappedBy = "Account")
-//    private Profile profile;
+    @OneToOne(mappedBy = "Account")
+    private Profile profile;
 
     public Account() {
 
