@@ -1,3 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
 <!--
   ~ Hibernate, Relational Persistence for Idiomatic Java
   ~
@@ -24,7 +26,7 @@
         <property name="format_sql">true</property> <!-- Show SQL formatted -->
         <mapping class="models.Account"/>
         <mapping class="models.Profile"/>
-
+        <mapping class="models.Message"/>
 
     </session-factory>
 </hibernate-configuration>
