@@ -6,6 +6,7 @@ import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Root;
 import models.Message;
 import models.Participant;
+import models.Profile;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
@@ -33,20 +34,31 @@ public class MessageCommand {
     }
 
     public void sendMessage(Message message) {
-        Participant participant = new Participant(message.getSender(), message.getReceiver(), null);
+        persist(message);
+        Participant newParticipant = new Participant(message.getSender(), message.getReceiver(), null);
 
 
         //todo : fix this section
         Session session = sessionFactory.openSession();
         session.beginTransaction();
-        Participant participant1 = session.find(Participant.class, (Object) message.getSender().getID(),
-                (Map<String, Object>) new HashMap<>().put("profile2_id", message.getReceiver().getID()));
-        if (participant1 == null) persist(participant);
+
+
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Participant> cq = cb.createQuery(Participant.class);
+        Root<Participant> root = cq.from(Participant.class);
+        CriteriaQuery<Participant> all = cq.select(root).where(cb.equal(root.get("profile1"), message.getSender().getID()))
+                .where(cb.equal(root.get("profile2"), message.getReceiver().getID()));
+        List<Participant> participants = session.createQuery(all).getResultList();
+
         session.getTransaction().commit();
-        session.close();
 
+        if (participants.size() == 0)
+        {
+            session.beginTransaction();
+            session.persist(newParticipant);
+            session.getTransaction().commit();
+        }
 
-        persist(message);
     }
 
     public void editMessage(int messageID, String messageText) {
@@ -100,6 +112,6 @@ public class MessageCommand {
     }
 
 
-    
+
 
 }
