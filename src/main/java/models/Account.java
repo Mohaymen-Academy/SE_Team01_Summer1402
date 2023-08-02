@@ -17,7 +17,7 @@ public class Account implements Serializable {
     @Column(nullable = false, unique = true, name = "phoneNumber", length = 13)
     private String phoneNumber;
 
-    @OneToOne(mappedBy = "Account")
+    @OneToOne(mappedBy = "account")
     private Profile profile;
 
     public Account() {

@@ -5,13 +5,15 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.Set;
 
 @Entity
 @Table(name = "Profile")
 public class Profile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(name = "profile_id")
+    private Long profile_id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -20,7 +22,7 @@ public class Profile {
     private String bio;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "FK_username", referencedColumnName = "username")
+    @JoinColumn(name = "fk_username", referencedColumnName = "username")
     private Account account;
 
     @Column(name = "createdOn", nullable = false)
@@ -32,6 +34,16 @@ public class Profile {
 
     @Column(name = "ProfileType", nullable = false)
     private profileType profileType;
+
+    @OneToMany(mappedBy = "sender")
+    private Set<Message> sentMessages;
+
+    @OneToMany(mappedBy = "receiver")
+    private Set<Message> receivedMessages;
+
+    @OneToMany(mappedBy = "profile1")
+    private Set<Participant> connections;
+
 
     public Profile() {
 

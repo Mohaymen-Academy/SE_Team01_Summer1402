@@ -3,20 +3,23 @@ package models;
 import jakarta.persistence.*;
 
 @Entity
-@Table
+@Table(name = "Participant")
 public class Participant {
 
+    @Id
     @ManyToOne
-    @JoinColumn(name = "profile1_id", referencedColumnName = "id")
+    @JoinColumn(name = "profile1_id", referencedColumnName = "profile_id")
     private Profile profile1;
 
+    @Id
     @ManyToOne
-    @JoinColumn(name = "profile2_id", referencedColumnName = "id")
+    @JoinColumn(name = "profile2_id", referencedColumnName = "profile_id")
     private Profile profile2;
 
 
+    @Id
     @ManyToOne
-    @JoinColumn(name = "message_id", referencedColumnName = "ID")
+    @JoinColumn(name = "message_id", referencedColumnName = "message_id")
     private Message message;
 
     public Participant() {}

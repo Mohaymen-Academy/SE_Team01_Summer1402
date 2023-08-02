@@ -1,40 +1,48 @@
 package models;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.CreationTimestamp;
 
-import java.sql.Timestamp;
+import java.time.Instant;
 
 @Entity
-@Table(name = "MESSAGES")
+@Table(name = "Message")
 public class Message {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    private int sender;
-    private int receiver; // receiver could be a user or a group or a channel
+    @Column(name = "message_id")
+    private int message_id;
 
-    @Column(name = "FULL_DATE")
-    private Timestamp fullDate;
+    @ManyToOne
+    @JoinColumn(name = "fk_sender", referencedColumnName = "profile_id", nullable = false)
+    private Profile sender;
 
-    @Column(name = "MESSAGE_TEXT")
+    @ManyToOne
+    @JoinColumn(name = "fk_receiver", referencedColumnName = "profile_id", nullable = false)
+    private Profile receiver; // receiver could be a user or a group or a channel
+
+    @CreationTimestamp
+    @Column(name = "sent_at", nullable = false)
+    private Instant sent_at;
+
+    @Column(name = "Message_text")
     private String messageText;
-    private byte[] file;
 
-    @Column(name = "FILE_EXTENSION")
+    @Column(name = "fileContent")
+    private byte[] fileContent;
+
+    @Column(name = "file_extension")
     private String fileExtension;
 
-    public Message() {}
+    public Message() {
+    }
 
-    public Message(int id, int sender, int receiver,
-                   Timestamp fullDate, String messageText,
-                   byte[] file, String fileExtension) {
-        this.id = id;
+    public Message(Profile sender, Profile receiver, Instant sent_at, String messageText, byte[] fileContent, String fileExtension) {
         this.sender = sender;
         this.receiver = receiver;
-        this.fullDate = fullDate;
+        this.sent_at = sent_at;
         this.messageText = messageText;
-        this.file = file;
+        this.fileContent = fileContent;
         this.fileExtension = fileExtension;
     }
 }
