@@ -1,6 +1,7 @@
 import Types.profileType;
 import models.Account;
 import models.Message;
+import models.Participant;
 import models.Profile;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -25,6 +26,8 @@ public class Main {
 
         Message message = new Message(profile, profile2, Instant.now(), "hello", null, null);
 
+        Participant participant = new Participant(profile, profile2, null);
+
         Session session = sessionFactory.openSession();
 
 
@@ -36,6 +39,7 @@ public class Main {
         session.persist(account2);
         session.persist(profile2);
 
+        session.persist(participant);
 
         session.persist(message);
 

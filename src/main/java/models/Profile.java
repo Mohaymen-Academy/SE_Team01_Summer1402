@@ -56,4 +56,8 @@ public class Profile {
         this.image = image;
         this.profileType = profileType;
     }
+
+    public Long getID() {
+        return this.profile_id;
+    }
 }

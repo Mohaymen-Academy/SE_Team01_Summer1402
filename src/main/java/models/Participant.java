@@ -17,7 +17,6 @@ public class Participant {
     private Profile profile2;
 
 
-    @Id
     @ManyToOne
     @JoinColumn(name = "message_id", referencedColumnName = "message_id")
     private Message message;

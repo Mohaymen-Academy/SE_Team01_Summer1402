@@ -34,15 +34,28 @@ public class Message {
     @Column(name = "file_extension")
     private String fileExtension;
 
-    public Message() {
-    }
+    public Message() {}
 
-    public Message(Profile sender, Profile receiver, Instant sent_at, String messageText, byte[] fileContent, String fileExtension) {
+    public Message(Profile sender, Profile receiver,
+                   Instant sent_at, String messageText,
+                   byte[] fileContent, String fileExtension) {
         this.sender = sender;
         this.receiver = receiver;
         this.sent_at = sent_at;
         this.messageText = messageText;
         this.fileContent = fileContent;
         this.fileExtension = fileExtension;
+    }
+
+    public Profile getSender() {
+        return sender;
+    }
+
+    public Profile getReceiver() {
+        return receiver;
+    }
+
+    public void setMessageText(String messageText) {
+        this.messageText = messageText;
     }
 }
