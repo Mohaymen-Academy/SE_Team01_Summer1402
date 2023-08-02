@@ -27,6 +27,7 @@
         <mapping class="models.Account"/>
         <mapping class="models.Profile"/>
         <mapping class="models.Message"/>
+        <mapping class="models.Participant"/>
 
     </session-factory>
 </hibernate-configuration>

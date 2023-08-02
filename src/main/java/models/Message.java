@@ -24,9 +24,7 @@ public class Message {
     @Column(name = "FILE_EXTENSION")
     private String fileExtension;
 
-    public Message() {
-
-    }
+    public Message() {}
 
     public Message(int id, int sender, int receiver,
                    Timestamp fullDate, String messageText,
