@@ -5,14 +5,17 @@ import Types.profileType;
 import jakarta.persistence.Query;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import models.Message;
 import models.Participant;
 import models.Profile;
+import org.hibernate.Hibernate;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -33,9 +36,10 @@ public class MessageCommand {
         CriteriaBuilder cb = session.getCriteriaBuilder();
         CriteriaQuery<Participant> cq = cb.createQuery(Participant.class);
         Root<Participant> root = cq.from(Participant.class);
-        CriteriaQuery<Participant> all = cq.select(root)
-                .where(cb.equal(root.get("profile1"), sender_id))
-                .where(cb.equal(root.get("profile2"), receiver_id));
+        List<Predicate> predicates = new ArrayList<>();
+        predicates.add(cb.equal(root.get("profile1"), sender_id));
+        predicates.add(cb.equal(root.get("profile2"), receiver_id));
+        CriteriaQuery<Participant> all = cq.select(root).where(predicates.toArray(new Predicate[]{}));
         List<Participant> participants = session.createQuery(all).getResultList();
         session.close();
         return participants.size() != 0;
@@ -65,7 +69,7 @@ public class MessageCommand {
         if (!check_if_chat_exist(sender_id, receiver_id)) {
             Participant newParticipant1 = new Participant(message.getSender(), message.getReceiver(), null);
             //todo: null message for participant2?
-            Participant newParticipant2 = new Participant(message.getReceiver(), message.getSender(), message);
+            Participant newParticipant2 = new Participant(message.getReceiver(), message.getSender(), null);
             session.persist(newParticipant1);
             session.persist(newParticipant2);
         }
@@ -88,6 +92,28 @@ public class MessageCommand {
         Session session = sf.openSession();
         session.beginTransaction();
         Message message = session.find(Message.class, messageID);
+
+
+        Profile profile1 = session.get(Profile.class, message.getSender().getID());
+        profile1.getSentMessages().remove(message);
+        Profile profile2 = session.get(Profile.class, message.getReceiver().getID());
+        profile2.getReceivedMessages().remove(message);
+
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<Participant> cq = cb.createQuery(Participant.class);
+        Root<Participant> root = cq.from(Participant.class);
+        CriteriaQuery<Participant> all = cq.select(root).where(cb.equal(root.get("message"), messageID));
+        List<Participant> participants = session.createQuery(all).getResultList();
+        participants.forEach(p -> p.setMessage(null)); //todo : fix this part
+        participants.forEach(session::merge);
+
+
+//        session.remove(message);
+        session.merge(profile1);
+        session.merge(profile2);
+
+        session.getTransaction().commit();
+        session.beginTransaction();
         session.remove(message);
         session.getTransaction().commit();
         session.close();
@@ -95,14 +121,17 @@ public class MessageCommand {
 
     public double avgMessagesSentBy(long sender_id) {
         Session session = sf.openSession();
-        Query query = session.createQuery("select count(*) from Message where Message .sender =:sender_id", Message.class);
-        query.setParameter("sender_id", sender_id);
-        return (double) (getCountMessagesBy(sender_id) / query.getFirstResult());
+        session.beginTransaction();
+        session.getTransaction().commit();
+        Query query = session.createQuery("select count(distinct M.sender) from Message as M", Message.class);
+        int size =  Integer.parseInt(query.getResultList().get(0).toString());
+        return (double) (getCountMessagesBy(sender_id) / size);
     }
 
     public Set<Message> getAllMessages(long profile_id) {
         Session session = sf.openSession();
         Profile profile = session.get(Profile.class, profile_id);
+        Hibernate.initialize(profile.getSentMessages());
         Set<Message> messageSet = profile.getSentMessages();
         session.close();
         return messageSet;

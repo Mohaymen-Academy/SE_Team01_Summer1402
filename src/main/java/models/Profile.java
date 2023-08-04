@@ -49,6 +49,7 @@ public class Profile {
     @OneToMany(mappedBy = "sender")
     private Set<Message> sentMessages;
 
+    @Getter
     @OneToMany(mappedBy = "receiver")
     private Set<Message> receivedMessages;
 

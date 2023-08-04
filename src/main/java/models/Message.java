@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Fetch;
 
 import java.time.Instant;
 import java.util.Set;
@@ -32,6 +33,7 @@ public class Message {
     @Column(name = "sent_at", nullable = false)
     private Instant sent_at;
 
+    @Getter
     @Column(name = "Message_text")
     private String messageText;
 
