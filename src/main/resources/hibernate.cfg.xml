@@ -16,10 +16,10 @@
         <property name="connection.url">jdbc:postgresql://localhost:5432/Messenger</property> <!-- BD Mane -->
         <property name="connection.driver_class">org.postgresql.Driver</property> <!-- DB Driver -->
         <property name="connection.username">postgres</property> <!-- DB User -->
-        <property name="connection.password">Sara5560734055</property> <!-- DB Password -->
-        <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="connection.password">san.mousavi</property> <!-- DB Password -->
+        <property name="hibernate.hbm2ddl.auto">create</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-        <property name="hbm2ddl.auto">create-drop</property> <!-- create / create-drop / update -->
+        <property name="hbm2ddl.auto">create</property> <!-- create / create-drop / update -->
 
 <!--        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>-->
         <property name="show_sql">true</property> <!-- Show SQL in console -->

@@ -1,23 +1,30 @@
 package models;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.Instant;
+import java.util.Set;
 
+@ToString
 @Entity
 @Table(name = "Message")
 public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "message_id")
+    @Getter
     private int message_id;
 
-    @ManyToOne
+    @Getter
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_sender", referencedColumnName = "profile_id", nullable = false)
     private Profile sender;
 
-    @ManyToOne
+    @Getter
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "fk_receiver", referencedColumnName = "profile_id", nullable = false)
     private Profile receiver; // receiver could be a user or a group or a channel
 
@@ -34,7 +41,9 @@ public class Message {
     @Column(name = "file_extension")
     private String fileExtension;
 
-    public Message() {}
+
+    public Message() {
+    }
 
     public Message(Profile sender, Profile receiver,
                    Instant sent_at, String messageText,

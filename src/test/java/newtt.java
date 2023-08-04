@@ -1,4 +1,5 @@
 import models.Account;
+import models.Profile;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -26,7 +27,7 @@ public class newtt {
             tx = session.beginTransaction();
             Account account = new Account("sana", "1234", "+989124147656");
             session.persist(account);
-//            Profile profile = new Profile(profileName, bio, imageFile, ProfileType.Pv, account);
+//            Profile profile =new Profile()
 //            session.persist(profile);
 //            account.setProfile(profile);
 //            session.persist(account);

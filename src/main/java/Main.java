@@ -1,71 +1,24 @@
-import Types.profileType;
 import commands.MessageCommand;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
-import models.Account;
+import commands.UserCommands;
 import models.Message;
-import models.Participant;
-import models.Profile;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.cfg.Configuration;
 
 import java.time.Instant;
-import java.time.LocalTime;
-import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
+        UserCommands.signUp("sana", "sana", "working", "C:\\Users\\Asus\\Pictures\\Saved Pictures\\unnamed.jpg", "123456", "+989124147656");
+        UserCommands.signUp("sara", "sana", "nothing to say", "C:\\Users\\Asus\\Pictures\\Saved Pictures\\unnamed.jpg", "123456", "+989124147665");
+        UserCommands.signUp("maryam", "maryam", null, "C:\\Users\\Asus\\Pictures\\Saved Pictures\\unnamed.jpg", "123456", "+989124147623");
+        UserCommands.signUp("xxx", "somayye", null, "C:\\Users\\Asus\\Pictures\\Saved Pictures\\unnamed.jpg", "123456", "+989124147632");
+        UserCommands.signUp("boz", "boz", "studying", "C:\\Users\\Asus\\Pictures\\Saved Pictures\\unnamed.jpg", "123456", "+989124147629");
+        UserCommands.signUp("sag", "sag", "sleeping", "C:\\Users\\Asus\\Pictures\\Saved Pictures\\unnamed.jpg", "123456", "+989124147692");
 
-        Configuration config = new Configuration();
-        config.configure();
-        SessionFactory sessionFactory = config.buildSessionFactory();
-
-        Account account = new Account("a", "1234", "09121234567");
-        Profile profile = new Profile("a", "a", account, null, profileType.USER);
-
-        Account account2 = new Account("b", "1234", "09127654321");
-        Profile profile2 = new Profile("b", "b", account2, null, profileType.USER);
-
-//        Message message = new Message(profile, profile2, Instant.now(), "hello", null, null);
-
-//        Participant participant = new Participant(profile, profile2, null);
-
-        Session session = sessionFactory.openSession();
-
-//        CriteriaBuilder cb = session.getCriteriaBuilder();
-//        CriteriaQuery<Profile> cq = cb.createQuery(Profile.class);
-//        Root<Profile> root = cq.from(Profile.class);
-//        CriteriaQuery<Profile> all = cq.select(root).where(cb.equal(root.get("account"), "a"));
-//        List<Profile> profiles = session.createQuery(all).getResultList();
-//        profile = profiles.get(0);
-//        all = cq.select(root).where(cb.equal(root.get("account"), "a"));
-//        profiles = session.createQuery(all).getResultList();
-//        profile2 = profiles.get(0);
-
-        session.beginTransaction();
-
-
-        Message message = new Message(profile, profile2, Instant.now(), "hello", null, null);
-
-
-//        session.persist(profile);
-//        session.persist(account);
-
-//        session.persist(account2);
-//        session.persist(profile2);
-//
-//        session.persist(participant);
-//
-//        session.persist(message);
-
-
-        session.getTransaction().commit();
-
-
-        MessageCommand messageCommand = new MessageCommand();
-//        messageCommand.sendMessage(message);
+        //creating messages and chats
+        MessageCommand msgcommand = new MessageCommand();
+        msgcommand.sendMessage(1L, 2L, "salam chtori", null, null);
+        msgcommand.sendMessage(1L, 2L, "migma", null, null);
+       // msgcommand.getAllMessages(1);
+        msgcommand.getUsersInTouchWith(1);
     }
 }
