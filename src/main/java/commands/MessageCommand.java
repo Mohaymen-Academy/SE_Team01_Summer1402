@@ -64,6 +64,7 @@ public class MessageCommand {
         Message message = new Message(sender, receiver, Instant.now(), msg_text, fileContent, fileExtension);
         if (!check_if_chat_exist(sender_id, receiver_id)) {
             Participant newParticipant1 = new Participant(message.getSender(), message.getReceiver(), null);
+            //todo: null message for participant2?
             Participant newParticipant2 = new Participant(message.getReceiver(), message.getSender(), message);
             session.persist(newParticipant1);
             session.persist(newParticipant2);

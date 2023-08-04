@@ -54,14 +54,14 @@ public class UserCommands {
     }
 
     //to do not working
-    public static void change_biography(String username, String new_bio) {
+    public static void change_biography(int id, String new_bio) {
         Session session = sf.openSession();
         session.beginTransaction();
         //  Account account = session.find(Account.class, username);
-        Profile profile = session.find(Profile.class, username);
-        // profile.setBio(new_bio);
-//        session.update(profile);
-//        session.getTransaction().commit();
+        Profile profile = session.find(Profile.class, id);
+         profile.setBio(new_bio);
+        session.merge(profile);
+        session.getTransaction().commit();
         session.close();
     }
 

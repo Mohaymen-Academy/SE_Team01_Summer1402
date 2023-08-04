@@ -18,6 +18,7 @@ public class Main {
         MessageCommand msgcommand = new MessageCommand();
         msgcommand.sendMessage(1L, 2L, "salam chtori", null, null);
         msgcommand.sendMessage(1L, 2L, "migma", null, null);
+        UserCommands.change_biography(3, "working");
        // msgcommand.getAllMessages(1);
         msgcommand.getUsersInTouchWith(1);
     }
