@@ -46,20 +46,6 @@ public class MessageCommand {
     }
 
 
-//    public void sendMessage(Message message) {
-//        Session session = sf.openSession();
-//        session.beginTransaction();
-//        if (!check_if_chat_exist(message.getSender(), message.getReceiver())) {
-//            Participant newParticipant1 = new Participant(message.getSender(), message.getReceiver(), null);
-//            Participant newParticipant2 = new Participant(message.getReceiver(), message.getSender(), message);
-//            session.persist(newParticipant1);
-//            session.persist(newParticipant2);
-//        }
-//        session.persist(message);
-//        session.getTransaction().commit();
-//        session.close();
-//    }
-
     public void sendMessage(long sender_id, long receiver_id, String msg_text, byte[] fileContent, String fileExtension) {
         Session session = sf.openSession();
         session.beginTransaction();
@@ -92,28 +78,28 @@ public class MessageCommand {
         Session session = sf.openSession();
         session.beginTransaction();
         Message message = session.find(Message.class, messageID);
+//
+//
+//        Profile profile1 = session.get(Profile.class, message.getSender().getID());
+//        profile1.getSentMessages().remove(message);
+//        Profile profile2 = session.get(Profile.class, message.getReceiver().getID());
+//        profile2.getReceivedMessages().remove(message);
+//
+//        CriteriaBuilder cb = session.getCriteriaBuilder();
+//        CriteriaQuery<Participant> cq = cb.createQuery(Participant.class);
+//        Root<Participant> root = cq.from(Participant.class);
+//        CriteriaQuery<Participant> all = cq.select(root).where(cb.equal(root.get("message"), messageID));
+//        List<Participant> participants = session.createQuery(all).getResultList();
+//        participants.forEach(p -> p.setMessage(null)); //todo : fix this part
+//        participants.forEach(session::merge);
 
 
-        Profile profile1 = session.get(Profile.class, message.getSender().getID());
-        profile1.getSentMessages().remove(message);
-        Profile profile2 = session.get(Profile.class, message.getReceiver().getID());
-        profile2.getReceivedMessages().remove(message);
-
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<Participant> cq = cb.createQuery(Participant.class);
-        Root<Participant> root = cq.from(Participant.class);
-        CriteriaQuery<Participant> all = cq.select(root).where(cb.equal(root.get("message"), messageID));
-        List<Participant> participants = session.createQuery(all).getResultList();
-        participants.forEach(p -> p.setMessage(null)); //todo : fix this part
-        participants.forEach(session::merge);
-
-
-//        session.remove(message);
-        session.merge(profile1);
-        session.merge(profile2);
-
-        session.getTransaction().commit();
-        session.beginTransaction();
+////        session.remove(message);
+//        session.merge(profile1);
+//        session.merge(profile2);
+//
+//        session.getTransaction().commit();
+    //    session.beginTransaction();
         session.remove(message);
         session.getTransaction().commit();
         session.close();
@@ -136,18 +122,6 @@ public class MessageCommand {
         session.close();
         return messageSet;
 
-//        session.beginTransaction();
-//
-//        CriteriaBuilder cb = session.getCriteriaBuilder();
-//        CriteriaQuery<Message> cq = cb.createQuery(Message.class);
-//        Root<Message> root = cq.from(Message.class);
-//        CriteriaQuery<Message> all = cq.select(root).where(cb.equal(root.get("fk_sender"), sender));
-//        List<Message> messages = session.createQuery(all).getResultList();
-//
-//        session.getTransaction().commit();
-//        session.close();
-//
-//        messages.forEach(System.out::println);
     }
 
     public long getUsersInTouchWith(long profile_id) {
@@ -178,26 +152,13 @@ public class MessageCommand {
             query.setParameter("profType", profileType.USER);
         }
         List<Long> Ids = query.getResultList();
-       // long counter = 0;
         return Ids.stream().filter(x -> x > message_id).count();
-        // return counter;
+
     }
 
 
     public long getCountMessagesBy(long profile_id) {
         return getAllMessages(profile_id).size();
-//        Session session = sessionFactory.openSession();
-//        session.beginTransaction();
-//
-//        CriteriaBuilder cb = session.getCriteriaBuilder();
-//        CriteriaQuery<Long> cq = cb.createQuery(Long.class);
-//        Root<Message> root = cq.from(Message.class);
-//
-//        cq.select(cb.count(root));
-//        cq.where(cb.equal(root.get("fk_sender"), sender));
-//
-//        session.getTransaction().commit();
-//        session.close();
     }
 
 

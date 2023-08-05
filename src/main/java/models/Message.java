@@ -20,12 +20,12 @@ public class Message {
     private int message_id;
 
     @Getter
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "fk_sender", referencedColumnName = "profile_id", nullable = false)
     private Profile sender;
 
     @Getter
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne()
     @JoinColumn(name = "fk_receiver", referencedColumnName = "profile_id", nullable = false)
     private Profile receiver; // receiver could be a user or a group or a channel
 

@@ -9,14 +9,14 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import java.io.Serializable;
 import java.time.Instant;
 import java.util.Set;
 
 
-@ToString
 @Entity
 @Table(name = "Profile")
-public class Profile {
+public class Profile implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "profile_id")
@@ -30,7 +30,6 @@ public class Profile {
     private String bio;
 
     @OneToOne
-  //  @OnDelete(action = OnDeleteAction.CASCADE)
     @JoinColumn(name = "fk_username", referencedColumnName = "username")
     private Account account;
 
@@ -46,7 +45,7 @@ public class Profile {
     private profileType profileType;
 
     @Getter
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "sender",cascade = CascadeType.ALL)
     private Set<Message> sentMessages;
 
     @Getter
@@ -54,7 +53,7 @@ public class Profile {
     private Set<Message> receivedMessages;
 
     @Getter
-    @OneToMany(mappedBy = "profile1")
+    @OneToMany(mappedBy = "profile1",cascade = CascadeType.ALL)
     private Set<Participant> connections;
 
 
